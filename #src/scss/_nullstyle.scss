@@ -1,0 +1,160 @@
+* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+*,
+*:before,
+*:after {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+:focus,
+:active {
+	outline: none;
+}
+a:focus,
+a:active {
+	outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+	display: block;
+}
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+	font-size: 100%;
+	line-height: 1;
+	font-size: 14px;
+	-ms-text-size-adjust: 100%;
+	-moz-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	background-color: #f8f8f8;
+}
+input,
+button,
+textarea {
+	font-family: inherit;
+	background-color: transparent;
+}
+
+input::-ms-clear {
+	display: none;
+}
+button {
+	cursor: pointer;
+}
+button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
+}
+/* a.active.focus,
+a.active:focus,
+a.focus,
+a:active.focus,
+a:active:focus,
+a:focus,
+button.active.focus,
+button.active:focus,
+button.focus,
+button:active.focus,
+button:active:focus,
+button:focus,
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn:active:focus,
+.btn:focus {
+	outline: 0 !important;
+	outline-color: transparent !important;
+	outline-width: 0 !important;
+	outline-style: none !important;
+	box-shadow: 0 0 0 0 rgba(0, 123, 255, 0) !important;
+} */
+a,
+a:visited {
+	text-decoration: none !important;
+}
+a:hover {
+	text-decoration: none;
+}
+ul li {
+	list-style: none;
+}
+img {
+	vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: inherit;
+	font-weight: 400;
+}
+
+$xxl: 1366px;
+$xl: 1140px;
+$lg: 992px;
+$md: 768px;
+$sm: 576px;
+$mob: 480px;
+
+@mixin container() {
+	max-width: 1366px;
+	width: 100%;
+	margin: 0 auto;
+	@include media($xxl) {
+		max-width: $xxl;
+	}
+	@include media($xl) {
+		max-width: $xl;
+	}
+	@include media($lg) {
+		max-width: $lg;
+	}
+	@include media($md) {
+		max-width: $md;
+	}
+	@include media($sm) {
+		max-width: $sm;
+	}
+	@include media($mob) {
+		max-width: $mob;
+	}
+}
+
+@mixin media($size) {
+	@media (max-width: $size) {
+		@content;
+	}
+}
+/*--------------------*/
+
+/* icons */
+
+.fa-chevron-right:after {
+	content: "\f054";
+	font-family: "fa-regular-400";
+	color: #000;
+	margin: 2px 0 0 6px;
+}
+
+.icon-bars::before {
+	content: "\f0c9";
+	font-family: "fa-light-300";
+	color: #fff;
+	font-size: 25px;
+}
+
+
