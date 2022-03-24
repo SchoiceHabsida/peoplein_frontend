@@ -1,10 +1,10 @@
 
 @@include('bootstrap.bundle.min.js');
 
-
-const filterBtn = document.querySelectorAll('.btn')
-const filterValue = document.querySelectorAll('.dropdown-item')
-//Filter
+//FILTER
+//Filter -- вставляет выбранное значение action в кнопу фильтрации
+const filterBtn = document.querySelectorAll('.btn');
+const filterValue = document.querySelectorAll('.dropdown-item');
 for(let i = 0; i < filterValue.length; i++) {
 	filterValue[i].addEventListener('click', function(event) {
 		event.preventDefault()
@@ -26,10 +26,25 @@ for(let i = 0; i < filterValue.length; i++) {
 	})
 }
 
-
-
-const inputSearch = document.querySelector('.search-form__input');
+//INPUT
+//Input-search -- Очистка input при фокусе
+const inputSearch = document.querySelector('.section-content__input');
 inputSearch.addEventListener('click', function() {
 	console.log(inputSearch.value);
 	inputSearch.value = ''
 })
+
+
+
+//PAGINATION -- присвоение класса active
+
+let test = document.querySelectorAll('.page-item');
+let lastClicked = test[0]; 
+
+for( let i = 0; i < test.length; i++ ){
+  test[i].addEventListener('click', function(){
+    lastClicked.classList.remove('active');
+    this.classList.add('active');
+    lastClicked = this; 
+  });
+}

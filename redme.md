@@ -7,3 +7,36 @@
 
 # 4. node-modules устанавливать локально
 
+Классы основных блоков:
+========================
+Переключение языка
+EN -- .EN_btn
+KR -- .KR_btn
+========================
+Переключение ссылок в Navbar (под header)
+home -- .nav-home
+search -- .nav-search
+search -- .nav-result
+========================
+Navigation
+search -- .search
+favorites -- .favorites
+interviews -- .interviews
+========================
+Filter
+form -- .filter-form
+button -- .btn
+action -- .dropdown-item
+========================
+card
+block -- .section-card
+img -- .card__img
+nationality -- .card__nationality
+visa -- .card__visa
+age -- .card__age
+button1 -- .card__favorites
+button2 -- .card__interview
+
+=========================
+pagination
+links -- .page-link
