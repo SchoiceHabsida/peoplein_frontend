@@ -38,13 +38,44 @@ inputSearch.addEventListener('click', function() {
 
 //PAGINATION -- присвоение класса active
 
-let test = document.querySelectorAll('.page-item');
-let lastClicked = test[0]; 
+let page = document.querySelectorAll('.page-item');
+let lastPage = document.querySelector('.page-item.active')
 
-for( let i = 0; i < test.length; i++ ){
-  test[i].addEventListener('click', function(){
-    lastClicked.classList.remove('active');
+for( let i = 0; i < page.length; i++ ){
+  page[i].addEventListener('click', function(){
+    lastPage.classList.remove('active');
     this.classList.add('active');
-    lastClicked = this; 
+    lastPage = this; 
   });
 }
+
+
+//NAVIGATION -- присвоение класса active
+
+let link = document.querySelectorAll('.section-side__item');
+lastLink = document.querySelector('.section-side__item.active')
+
+for( let i = 0; i < link.length; i++ ){
+	link[i].addEventListener('click', function(){
+		lastLink.classList.remove('active');
+		this.classList.add('active');
+		lastLink = this; 
+	  });
+	
+  
+}
+
+//NAV присвоение класса active
+let item = document.querySelectorAll('.nav__item');
+let lastButton = document.querySelector('.nav__item.active')
+
+for( let i = 0; i < item.length; i++ ){
+	item[i].addEventListener('click', function(){
+		lastButton.classList.remove('active');
+		this.classList.add('active');
+		lastButton = this; 
+	  });
+}
+
+
+
