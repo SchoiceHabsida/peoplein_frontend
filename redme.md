@@ -7,28 +7,43 @@
 
 # 4. node-modules устанавливать локально
 
-Классы основных блоков:
+Классы основных блоков для событий
 ========================
 Переключение языка
 EN -- .EN_btn
 KR -- .KR_btn
 ========================
-Переключение ссылок в Navbar (под header)
+Переключение страниц в Navbar
+
 home -- .nav-home
 search -- .nav-search
-search -- .nav-result
+Result -- .nav-result
+Intreviews -- .nav-intreviews
 ========================
-Navigation
+Навигация сайдбара
+
 search -- .search
 favorites -- .favorites
 interviews -- .interviews
 ========================
-Filter
+Фильтр
+
 form -- .filter-form
 button -- .btn
 action -- .dropdown-item
 ========================
-card
+плажка в виде сердечка на карточке 
+
+::after -- .card-section
+
+==========================
+Форма из .section-content
+
+form -- .section-content__search
+button -- .section-content__btn
+=========================
+Карточка
+
 block -- .section-card
 img -- .card__img
 nationality -- .card__nationality
@@ -38,5 +53,13 @@ button1 -- .card__favorites
 button2 -- .card__interview
 
 =========================
-pagination
+Кнопки пагинации
+
 links -- .page-link
+
+=========================
+Профиль
+
+img -- section-profile__img img
+accordion text -- .msg p
+
