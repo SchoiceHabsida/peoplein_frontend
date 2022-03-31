@@ -75,6 +75,20 @@ for( let i = 0; i < item.length; i++ ){
 	  });
 }
 
+
+
+
+// добавить значок избранный в анкету .card-section
+// let cards = document.querySelectorAll('.section-card')
+
+// for(let i = 0; i < cards.length; i++) {
+// 	cards[i].addEventListener('click', function() {
+// 		this.classList.toggle('card-section');
+// 	})
+// }
+
+
+
 //INPUT
 let inputSearch = document.querySelector('.section-content__input');
 let inputLog = document.querySelector('.input-login');
@@ -92,12 +106,10 @@ clearValue(inputPass)
 
 
 
-
 //registration
 
 // let form  = document.querySelector('.reg-section__form');
 // let inputBtn = document.querySelector(".reg-section__btn");
-
 
 
 

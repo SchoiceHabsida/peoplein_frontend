@@ -37,14 +37,14 @@
 
 .wrapper {
     width: 100%;
-    min-height: 100%;
+    min-height: 1px;
     height: 1px;
 }
 .main {
     width: 100%;
     margin: 0 auto;
     background-color: var(--white);
-    // border: 1px solid #000;
+    min-height: 100%;
 }
 input[type="search"] {
     font-family: "roboto-r";
@@ -61,7 +61,7 @@ input[type="text"] {
     padding-left: 15px;
 }
 input:invalid {
-	border: 2px solid red;
+    border: 2px solid red;
 }
 //==========================
 /*header*/
@@ -308,13 +308,14 @@ input:invalid {
             line-height: 21px;
             color: var(--sideMuted);
             &:last-child {
+				height: 50px;
                 margin-bottom: 0;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 background-color: var(--sideHeader);
                 font-family: "Inter-r";
-                font-size: 16px;
+                font-size: 20px;
                 line-height: 24px;
                 color: var(--sideHeaderText);
             }
@@ -361,7 +362,6 @@ input:invalid {
 .section-content {
     width: 65.7%;
     border-radius: 4px;
-    // border: 1px solid #000;
     &__form {
         position: relative;
         &::before {
@@ -490,6 +490,7 @@ input:invalid {
                 font-size: 16px;
                 line-height: 19px;
                 color: var(--searchBtn);
+				cursor: pointer;
             }
         }
         ul li {
@@ -522,7 +523,7 @@ input:invalid {
 
 /*card -- section-profile*/
 .section-content {
-	margin-bottom: 50px;
+    margin-bottom: 200px;
     &__people {
         width: 100%;
     }
@@ -711,7 +712,6 @@ input:invalid {
     transition: 1s all ease 1s;
 }
 
-
 /*pagination*/
 .page-item.active .page-link {
     z-index: 3 !important;
@@ -719,7 +719,6 @@ input:invalid {
     background-color: var(--primaryColor) !important;
     border-color: var(--primaryColor) !important;
 }
-
 
 /*accordion*/
 .accordion {
