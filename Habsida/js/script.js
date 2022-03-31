@@ -32,14 +32,6 @@ for(let i = 0; i < filterValue.length; i++) {
 	})
 }
 
-//INPUT
-//Input-search -- Очистка input при фокусе
-const inputSearch = document.querySelector('.section-content__input');
-inputSearch.addEventListener('click', function() {
-	console.log(inputSearch.value);
-	inputSearch.value = ''
-})
-
 
 
 //PAGINATION -- присвоение класса active
@@ -59,7 +51,7 @@ for( let i = 0; i < page.length; i++ ){
 //NAVIGATION -- присвоение класса active
 
 let link = document.querySelectorAll('.section-side__item');
-lastLink = document.querySelector('.section-side__item.active')
+let lastLink = document.querySelector('.section-side__item.active')
 
 for( let i = 0; i < link.length; i++ ){
 	link[i].addEventListener('click', function(){
@@ -83,5 +75,68 @@ for( let i = 0; i < item.length; i++ ){
 	  });
 }
 
+//INPUT
+let inputSearch = document.querySelector('.section-content__input');
+let inputLog = document.querySelector('.input-login');
+let inputPass = document.querySelector('.input-password');
+
+function clearValue(elem) {
+	elem.addEventListener('click', function() {
+		elem.value = ''
+	})
+}
+
+clearValue(inputSearch)
+clearValue(inputLog)
+clearValue(inputPass)
 
 
+
+
+//registration
+
+// let form  = document.querySelector('.reg-section__form');
+// let inputBtn = document.querySelector(".reg-section__btn");
+
+
+
+
+//Валидация input
+// let elem = document.createElement('div');
+//     elem.id = 'allarm';
+//     elem.style.display = 'none';
+//     form.appendChild(elem);
+
+// 	inputLog.addEventListener('invalid', function(event){
+// 		event.preventDefault();
+// 		if ( ! event.target.validity.valid ) {
+// 			elem.textContent   = 'Looks like these are not your correct details. Please try again.';
+// 			elem.style.display = 'block';
+//             form.append(inputBtn);
+// 			inputLog.value = 'Input Error :('
+// 			inputPass.value = 'Input Error :('
+// 			inputLog.style.cssText = `
+//             font-family: 'Inter-r';
+//             font-size: 16px;
+//             line-height: 21px;
+//             color: #DC3545;
+// 			border: 1px solid red;
+//             `;
+// 			inputPass.style.cssText = `
+//             font-family: 'Inter-r';
+//             font-size: 16px;
+//             line-height: 21px;
+//             color: #DC3545;
+// 			border: 1px solid red;
+//             `;
+// 			inputLog.className    = 'invalid animated shake';
+// 		}
+// 	});
+
+// 	inputLog.addEventListener('input', function(event){
+// 		if ( 'block' === elem.style.display ) {
+// 			elem.style.display = 'none';
+// 			inputLog.style.cssText = '';
+// 			inputPass.style.cssText = '';
+// 		}
+// 	});
