@@ -1,5 +1,9 @@
+'use client';
+
 export default function Home() {
   return (
-    <div className="text-yellow-500">Home</div>
+    <div className="text-yellow-500">
+      Home
+    </div>
   )
 }
