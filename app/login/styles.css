@@ -1,0 +1,27 @@
+.login__header {
+    background-image: url('../../img/regBg.jpg');
+}
+
+.login__content {
+    height: calc(100vh - 80px);
+    background-image: url('../../img/registrationBg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login__label {
+    font-family: 'Inter';
+    font-weight: 700;
+}
+
+.w-420 {
+    width: 420px;
+}
+
+.login-link {
+    color: #ABB5BE;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+}

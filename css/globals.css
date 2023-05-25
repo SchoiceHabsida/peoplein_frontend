@@ -1,6 +1,24 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; 
+
+@layer base {
+  input{
+    border: 1px solid #CED4DA;
+    padding: 8px 16px;
+    border-radius: 4px;
+    width: 100%;
+    outline: none;
+  }
+
+  input::placeholder {
+    color: #ABB5BE;
+    font-size: 16px;
+  }
+  html {
+    font-family: 'Inter';
+  }
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -8,12 +26,28 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-Regular.woff") format("opentype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-Medium.woff") format("opentype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-Bold.woff") format("opentype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-SemiBold.woff") format("opentype");
+  font-weight: 700;
 }
 
 body {
@@ -22,4 +56,8 @@ body {
 
 * {
   box-sizing: inherit;
+}
+
+.bg-color-purple-primary {
+  background-color: #7749F8;
 }

@@ -12,6 +12,8 @@ yarn dev
 pnpm dev
 ```
 
+[Project UI Design](https://www.figma.com/file/cCif0Uw8ZUqx96FEtg7J2D/PeopleIn?type=design&node-id=0-1&t=7yB8t25M3dtjpvEA-0)
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
