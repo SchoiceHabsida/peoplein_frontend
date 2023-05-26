@@ -25,3 +25,7 @@
     font-size: 12px;
     line-height: 12px;
 }
+
+.login-error-text {
+    color: #DC3545;
+}

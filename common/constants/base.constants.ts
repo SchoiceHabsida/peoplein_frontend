@@ -1,0 +1,1 @@
+export const BASE_API = 'http://peoplein.ap-northeast-2.elasticbeanstalk.com/graphql'
