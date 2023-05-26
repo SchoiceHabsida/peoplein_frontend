@@ -1,13 +1,13 @@
 'use client';
 
-import Image from 'next/image';
 import './styles.css';
-import { TextFieldController } from '@/common/components/inputs/text-filed-controller';
-import { useForm } from 'react-hook-form';
-import { useAuth } from '@/common/components/auth';
+import Image from 'next/image';
 import { useEffect } from 'react';
-import { ROUTE_HOME } from '@/common/constants';
+import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { ROUTE_HOME } from '@/common/constants';
+import { useAuth } from '@/common/components/auth';
+import { TextFieldController } from '@/common/components/inputs/text-filed-controller';
 
 export default function Login() {
 

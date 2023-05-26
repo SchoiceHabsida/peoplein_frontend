@@ -1,0 +1,31 @@
+.navigation {
+    border: 1px solid #DEE2E6
+}
+
+.navigation .nav-title {
+    color: #ABB5BE;
+    /* letter-spacing: 0.08em; */
+}
+
+.nav-item {
+    color: #343A40;
+}
+
+.nav-item:hover {
+    cursor: pointer;
+}
+
+.navigation .nav-active {
+    color: white;
+    background-color: #7749F8;
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+.navigation .sign-out {
+    background: #EBE5FC;
+    color: #5227CC;
+    border: 1px solid #EBE5FC;
+    margin-left: -1px;
+    margin-right: -1px;
+}

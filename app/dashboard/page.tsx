@@ -1,7 +1,11 @@
+import { Card } from "../components/card/Card";
 
 export default function DashboardPage() {
-  return (<div className="text-yellow-500">
-    Dashboard
+  return (<div className="mt-5 flex gap-5 flex-wrap">
+    <Card />
+    <Card />
+    <Card />
+    <Card />
   </div>
   )
 }
