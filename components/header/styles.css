@@ -7,7 +7,7 @@
 
 .header__banner {
     height: 226px;
-    background-image: url('../../../public/headerBg.png');
+    background-image: url('../../public/headerBg.png');
     background-size: cover;
 }
 .text-40 {

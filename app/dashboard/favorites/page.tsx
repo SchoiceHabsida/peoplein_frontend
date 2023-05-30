@@ -1,6 +1,6 @@
 'use client'
 
-import { Card } from "@/app/components/card/Card"
+import { Card } from "@/components/card/Card"
 import { useEffect } from "react"
 
 

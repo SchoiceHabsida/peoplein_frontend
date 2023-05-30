@@ -27,7 +27,8 @@ const LOGIN_MUTATION = gql`
 const AuthContext = createContext({});
 
 const useAuthProvider = () => {
-  const { client, loading, error, data, refetch } = useQuery(ME_QUERY);
+
+  const { client, loading, error, data, refetch,  } = useQuery(ME_QUERY);
   const [loginMutation, { loading: mutationLoading }] = useMutation(LOGIN_MUTATION);
   const router = useRouter()
 
@@ -50,6 +51,7 @@ const useAuthProvider = () => {
 
   const logout = useCallback(() => {
     localStorage.removeItem('token');
+    setMockUser(null)
     // client.resetStore();
     router.push(ROUTE_LOGIN);
   }, [client, router]);

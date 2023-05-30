@@ -1,5 +1,3 @@
-"use client";
-
 import { FC, useCallback } from "react";
 import "./styles.css";
 import { usePathname } from "next/navigation";
@@ -15,7 +13,6 @@ import { useAuth } from "@/common/components/auth";
 export const Navigation: FC = () => {
   const currentUrl = usePathname();
   const router = useRouter();
-  console.log("path", currentUrl);
   const { logout } = useAuth() as any;
 
   const activePath = useCallback(

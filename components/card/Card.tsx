@@ -2,8 +2,10 @@ import Image from 'next/image';
 import { FC } from 'react';
 
 import './styles.css'
+import { IApplicant } from '@/common/components/models/applicants.model';
+import { calculateAge } from '@/common/components/utils/function';
 
-export const Card: FC = () => {
+export const Card: FC<IApplicant> = ({firstName, country, visa, dateOfBirth, }) => {
     return <div className="card rounded">
         <div className='flex info-container'>
             <div>
@@ -16,20 +18,20 @@ export const Card: FC = () => {
             <div className='mt-9'>
                 <div>
                     <div className="font-bold text-base info-title">Nationality:</div>
-                    <div>Canada</div>
+                    <div>{country}</div>
                 </div>
                 <div>
                     <div className="font-bold text-base info-title">Visa:</div>
-                    <div>F4</div>
+                    <div>{visa}</div>
                 </div>
                 <div>
                     <div className="font-bold text-base info-title">Age:</div>
-                    <div>40</div>
+                    <div>{calculateAge(dateOfBirth)}</div>
                 </div>
             </div>
         </div>
         <div>
-            <div className='person-name font-extrabold text-xl ml-6'>Roberto</div>
+            <div className='person-name font-extrabold text-xl ml-6'>{firstName}</div>
             <div className='text-base ml-6 mb-5'>Specialization</div>
         </div>
         <div className='p-4 bordered-top'>

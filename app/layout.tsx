@@ -8,6 +8,7 @@ import { ApolloProvider } from '@apollo/client/react';
 // import { createUploadLink } from 'apollo-upload-client'
 import { BASE_API } from '@/common/constants';
 import { createUploadLink } from 'apollo-upload-client';
+import { ApplicantsProvider } from '@/common/components/applicants'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -45,7 +46,9 @@ export default function RootLayout({
       >
         <ApolloProvider client={client}>
           <AuthProvider>
-            {children}
+            <ApplicantsProvider>
+              {children}
+            </ApplicantsProvider>
           </AuthProvider>
         </ApolloProvider>
       </body>

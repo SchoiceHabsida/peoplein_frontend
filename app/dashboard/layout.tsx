@@ -1,7 +1,7 @@
-import { Breadcrumb } from "../components/breadcrumb/Breadcrumb"
-import { Header } from "../components/header"
-import { Searchbar } from "../components/searchbar/Searchbar"
-import { Sidebar } from "../components/sidebar"
+import { Breadcrumb } from "../../components/breadcrumb/Breadcrumb"
+import { Header } from "../../components/header"
+import { Searchbar } from "../../components/searchbar/Searchbar"
+import { Sidebar } from "../../components/sidebar"
 
 export const metadata = {
   title: 'Dashboard | Peoplein',
