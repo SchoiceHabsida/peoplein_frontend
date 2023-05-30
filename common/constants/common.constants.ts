@@ -1,5 +1,11 @@
 export enum ApplicantQueryTypes {
-    getAllApplicantsPaged = 'getAllApplicantsPaged',
-    getAllFavouriteApplicants = 'getAllFavouriteApplicants',
-    getAllScheduledForInterview = 'getAllScheduledForInterview'
+    search = 'getAllApplicantsPaged',
+    favorites = 'getAllFavouriteApplicants',
+    interviews = 'getAllScheduledForInterview'
+}
+
+export enum ApplicantPageTypes {
+    search = 'search',
+    favorites = 'favorites',
+    interviews = 'interviews'
 }

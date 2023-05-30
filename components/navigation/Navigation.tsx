@@ -39,7 +39,6 @@ export const Navigation: FC = () => {
   ];
 
   const onNavigate = (path: string) => {
-    console.log(path);
     router.push(`${ROUTE_APPLICANTS}${path}`)
   };
 
