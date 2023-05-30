@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from "@/common/components/auth";
-import { ROUTE_LOGIN } from "@/common/constants";
+import { ROUTE_APPLICANTS, ROUTE_LOGIN, ROUTE_SEARCH } from "@/common/constants";
 import { useRouter } from 'next/navigation';
 import { useEffect } from "react";
 
@@ -11,9 +11,11 @@ export default function Home() {
   useEffect(() => {
     if(!user) {
       router.push(ROUTE_LOGIN);
+    } else {
+      router.push(`${ROUTE_APPLICANTS}/${ROUTE_SEARCH}`)
     }
   }, [user])
   return (
-    <div>Home</div>
+    <div></div>
   )
 }

@@ -50,8 +50,7 @@ const useAuthProvider = () => {
 
   const logout = useCallback(() => {
     localStorage.removeItem('token');
-    sessionStorage.removeItem('token');
-    client.resetStore();
+    // client.resetStore();
     router.push(ROUTE_LOGIN);
   }, [client, router]);
 
