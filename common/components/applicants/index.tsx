@@ -2,14 +2,14 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import { IPaginationParams, defaultPageCount } from '@/components/pagination';
-import { IApplicant, IPageable } from '../models/applicants.model';
+import { IPaginationParams } from '@/components/pagination';
+import { IApplicant, IFilters, IPageable } from '../models/applicants.model';
 import { ApplicantQueryTypes } from '@/common/constants/common.constants';
 
-const createApplicantQuery = (applicantQueryType: string) => {
+const createApplicantQuery = (applicantQueryType: string, input?: IFilters) => {
     return gql`
-    query GetApplicants ($pageNumber: Int!, $pageCount: Int!) {
-        ${applicantQueryType}(pageNumber: $pageNumber, pageCount: $pageCount) {
+    query GetApplicants ($pageNumber: Int!, $pageCount: Int!, ${input ? `$input: CriteriaInput!`: ''}) {
+        ${applicantQueryType}(pageNumber: $pageNumber, pageCount: $pageCount, ${input ? 'input: $input' : ''}) {
             content{
                 id
                 firstName
@@ -24,6 +24,7 @@ const createApplicantQuery = (applicantQueryType: string) => {
                     path
                     type
                 }
+                specialization
             }
         currentPage
         totalElements
@@ -37,21 +38,23 @@ const ApplicantsContext = createContext({});
 
 const useApplicantsProvider = () => {
 
-    const [applicantQueryType, setApplicantQueryType] = useState<ApplicantQueryTypes>(ApplicantQueryTypes.getAllApplicantsPaged)
-    const [pageNumber, setPageNumber] = useState<number>(0)
-    const { client, loading, error, data, refetch, } = useQuery<Record<ApplicantQueryTypes, IPageable<IApplicant>>, IPaginationParams>(createApplicantQuery(applicantQueryType), {
-        variables: {pageNumber: 0, pageCount: defaultPageCount}
+    const [applicantQueryType, setApplicantQueryType] = 
+    useState<{type: ApplicantQueryTypes, variables: IPaginationParams & {input?: IFilters}}>({type: ApplicantQueryTypes.search, variables: {pageNumber: 0}})
+    // const [variables, setVariables] = useState<IPaginationParams & {input?: IFilters}>({pageNumber: 0})
+    const { client, loading, error, data, refetch, } = 
+    useQuery<Record<ApplicantQueryTypes, IPageable<IApplicant>>, IPaginationParams & {input?: IFilters}>(createApplicantQuery(applicantQueryType.type, applicantQueryType.variables.input), {
+        variables: {...applicantQueryType.variables }
     });
     useEffect(() => {
-        refetch({pageNumber, pageCount: defaultPageCount})
-    },  [applicantQueryType, pageNumber])
+        refetch({ ...applicantQueryType.variables})
+    },  [applicantQueryType.variables])
     
     return {
         loading,
         error,
         data,
+        applicantQueryType,
         setApplicantQueryType,
-        setPageNumber
     };
 }
 

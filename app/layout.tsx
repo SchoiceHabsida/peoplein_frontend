@@ -1,14 +1,12 @@
 "use client"
 import { AuthProvider } from '@/common/components/auth'
-import '../css/globals.css'
 import { Inter } from 'next/font/google'
 import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context';
 import { ApolloProvider } from '@apollo/client/react';
-// import { createUploadLink } from 'apollo-upload-client'
 import { BASE_API } from '@/common/constants';
 import { createUploadLink } from 'apollo-upload-client';
-import { ApplicantsProvider } from '@/common/components/applicants'
+import '../css/globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -46,9 +44,7 @@ export default function RootLayout({
       >
         <ApolloProvider client={client}>
           <AuthProvider>
-            <ApplicantsProvider>
               {children}
-            </ApplicantsProvider>
           </AuthProvider>
         </ApolloProvider>
       </body>

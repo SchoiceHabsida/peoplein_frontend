@@ -5,7 +5,7 @@ import './styles.css'
 import { IApplicant } from '@/common/components/models/applicants.model';
 import { calculateAge } from '@/common/components/utils/function';
 
-export const Card: FC<IApplicant> = ({firstName, country, visa, dateOfBirth, }) => {
+export const Card: FC<IApplicant> = ({firstName, country, visa, dateOfBirth, specialization }) => {
     return <div className="card rounded">
         <div className='flex info-container'>
             <div>
@@ -31,8 +31,10 @@ export const Card: FC<IApplicant> = ({firstName, country, visa, dateOfBirth, }) 
             </div>
         </div>
         <div>
-            <div className='person-name font-extrabold text-xl ml-6'>{firstName}</div>
-            <div className='text-base ml-6 mb-5'>Specialization</div>
+            <div className='person-name font-extrabold text-xl ml-6 uppercase'>{firstName}</div>
+            <div className='text-base ml-6 mb-5'>{
+                specialization?.map((item, index) => <span key={index} className='capitalize'> {item.toLocaleLowerCase()} </span>)
+            }</div>
         </div>
         <div className='p-4 bordered-top'>
             Experience

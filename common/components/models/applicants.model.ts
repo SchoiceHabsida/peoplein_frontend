@@ -16,7 +16,8 @@ export interface IApplicant {
     languages: ILanguage[],
     skills: ISkills[],
     experience: IExperience[],
-    certificates: ICertificate[] 
+    certificates: ICertificate[],
+    specialization: string[]
 }
 
 export interface ICertificate {
@@ -55,3 +56,10 @@ export interface IPageable<T> {
     totalElements : number,
     content: T[]
 }
+
+export interface IFilters {
+    skillType?: SkillTypesEnum | 0,
+    skillName?: string | 0,
+    language?: string | 0,
+    experience?: number | 0
+} 
