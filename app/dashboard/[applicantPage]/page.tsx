@@ -11,33 +11,42 @@ export default function SearchPage({ params }: { params: { applicantPage: Applic
 
   const [pageNumber, setPageNumber] = useState(0);
   const [dataKey, setDataKey] = useState(ApplicantQueryTypes.search);
-  const { data, applicantQueryType, setApplicantQueryType } = useApplicants() as IApplicantProviderType;
+  const { data, applicantQueryType, setApplicantQueryType, refetch } = useApplicants() as IApplicantProviderType;
   const { input } = useContext(FilterContext) as IFilterContext;
 
   useEffect(() => {
-    const hasFilters = Object.values(input)?.some(value => value);
     if (Object.values(input)?.some(value => value)) {
-      setApplicantQueryType({ type: ApplicantQueryTypes.filter, variables: { pageNumber, pageCount: defaultPageCount, input: hasFilters ? input : undefined } });
+      setApplicantQueryType({
+        type: ApplicantQueryTypes.filter,
+        variables: { pageNumber, pageCount: defaultPageCount, input }
+      });
       setDataKey(ApplicantQueryTypes.filter);
     }
   }, [input])
 
   useEffect(() => {
-    setApplicantQueryType({ ...applicantQueryType, variables: { 
-      ...applicantQueryType?.variables, pageNumber: pageNumber
-    } })
+    setApplicantQueryType({
+      ...applicantQueryType, variables: {
+        ...applicantQueryType?.variables,
+         pageNumber: pageNumber
+      }
+    })
   }, [pageNumber])
 
   useEffect(() => {
     if (!Object.values(input)?.some(value => value)) {
-      setApplicantQueryType({ type: ApplicantQueryTypes[params.applicantPage], variables: { pageNumber, pageCount: defaultPageCount, } });
+      setApplicantQueryType({
+        type: ApplicantQueryTypes[params.applicantPage],
+        variables: { pageNumber, pageCount: defaultPageCount, }
+      });
       setDataKey(ApplicantQueryTypes[params.applicantPage])
     }
   }, [params.applicantPage, input])
 
   return (<div className="flex flex-col">
     <div className="mt-5 flex gap-5 flex-wrap">
-      {data?.[`${dataKey}`]?.content?.map(applicant => <Card key={applicant.id} {...applicant} />)}
+      {data?.[`${dataKey}`]?.content?.map(applicant => <Card 
+      key={applicant.id} {...applicant} refetch={() => refetch({...applicantQueryType.variables})} />)}
     </div>
     <div className="flex justify-center mt-4">
       <Pagination

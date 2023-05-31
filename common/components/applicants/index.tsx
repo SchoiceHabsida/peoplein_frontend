@@ -40,8 +40,7 @@ const useApplicantsProvider = () => {
 
     const [applicantQueryType, setApplicantQueryType] = 
     useState<{type: ApplicantQueryTypes, variables: IPaginationParams & {input?: IFilters}}>({type: ApplicantQueryTypes.search, variables: {pageNumber: 0}})
-    // const [variables, setVariables] = useState<IPaginationParams & {input?: IFilters}>({pageNumber: 0})
-    const { client, loading, error, data, refetch, } = 
+    const { client, loading, error, data, refetch } = 
     useQuery<Record<ApplicantQueryTypes, IPageable<IApplicant>>, IPaginationParams & {input?: IFilters}>(createApplicantQuery(applicantQueryType.type, applicantQueryType.variables.input), {
         variables: {...applicantQueryType.variables }
     });
@@ -55,6 +54,7 @@ const useApplicantsProvider = () => {
         data,
         applicantQueryType,
         setApplicantQueryType,
+        refetch
     };
 }
 
