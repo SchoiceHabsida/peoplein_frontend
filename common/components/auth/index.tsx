@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useCallback, useState } from 'react';
+import { createContext, useContext, useCallback, useState, useEffect } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { ROUTE_HOME, ROUTE_LOGIN } from "@/common/constants";
 import { useRouter } from 'next/navigation';
@@ -28,31 +28,34 @@ const AuthContext = createContext({});
 
 const useAuthProvider = () => {
 
-  const { client, loading, error, data, refetch,  } = useQuery(ME_QUERY);
+  const { client, loading, error, data: userData, refetch, } = useQuery<{ getCurrentUser: { id: string; username: string } }>(ME_QUERY);
   const [loginMutation, { loading: mutationLoading }] = useMutation(LOGIN_MUTATION);
   const router = useRouter()
 
-  const [mockUser, setMockUser] = useState<string | null>(null)
+  const [user, setUser] = useState<{ id: string; username: string } | null>(null)
   const [loginError, setLoginError] = useState<any>(null)
 
   const login = useCallback(({ username, password }: any) => {
-    
+
     loginMutation({ variables: { username, password } })
       .then(({ data }) => {
-        const storage =  localStorage;
+        setLoginError(null)
+        const storage = localStorage;
+        refetch();
         storage.setItem('token', data.login.token);
         router.push(ROUTE_HOME);
-        setMockUser('mockuser')
-        // refetch();
       }).catch(error => {
         setLoginError(error)
       });
   }, [loginMutation, refetch]);
 
+  useEffect(() => {
+    setUser(userData?.getCurrentUser || null)
+  }, [userData])
+
   const logout = useCallback(() => {
     localStorage.removeItem('token');
-    setMockUser(null)
-    // client.resetStore();
+    setUser(null)
     router.push(ROUTE_LOGIN);
   }, [client, router]);
 
@@ -60,11 +63,7 @@ const useAuthProvider = () => {
     loading: loading || mutationLoading,
     error,
     loginError,
-    user: mockUser,
-    // user: data && data.getCurrentUser && {
-    //   ...data.getCurrentUser,
-    //   role: data.getCurrentUser.roles[0].name
-    // },
+    user: user,
     login,
     logout
   };
@@ -80,8 +79,8 @@ function AuthProvider({ children }: any) {
     <AuthContext.Provider value={auth}>
       {
         typeof auth.user === 'undefined' && !auth.error
-        ?  <div>Loading...</div>
-        : children
+          ? <div>Loading...</div>
+          : children
       }
     </AuthContext.Provider>
   );
