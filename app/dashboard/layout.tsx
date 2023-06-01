@@ -1,9 +1,10 @@
 import { ApplicantsProvider } from "@/common/components/applicants"
 import { Breadcrumb } from "../../components/breadcrumb/Breadcrumb"
-import { Header } from "../../components/header"
 import { Searchbar } from "../../components/searchbar/Searchbar"
+import { SearchProvider } from "@/common/providers"
+import { FilterProvider } from "@/common/providers"
 import { Sidebar } from "../../components/sidebar"
-import { FilterProvider } from "@/common/providers/Filter.provider"
+import { Header } from "../../components/header"
 
 export const metadata = {
   title: 'Applicants | Peoplein',
@@ -18,20 +19,22 @@ export default function DashboardLayout({
   return (
     <div className="">
       <Header />
-      <FilterProvider>
-        <div className="content-x-space flex gap-9">
-          <div className="w-1/3">
-            <Sidebar />
+      <SearchProvider>
+        <FilterProvider>
+          <div className="content-x-space flex gap-9">
+            <div className="w-1/3">
+              <Sidebar />
+            </div>
+            <div className="w-2/3">
+              <div><Breadcrumb /></div>
+              <div><Searchbar /></div>
+              <ApplicantsProvider>
+                {children}
+              </ApplicantsProvider>
+            </div>
           </div>
-          <div className="w-2/3">
-            <div><Breadcrumb /></div>
-            <div><Searchbar /></div>
-            <ApplicantsProvider>
-              {children}
-            </ApplicantsProvider>
-          </div>
-        </div>
-      </FilterProvider>
+        </FilterProvider>
+      </SearchProvider>
     </div>
   )
 }

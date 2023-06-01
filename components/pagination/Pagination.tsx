@@ -3,7 +3,7 @@ import { FC } from "react";
 interface IPaginationProps {
     currentPage: number,
     totalElements: number,
-    totalPages: number,
+    totalPages?: number,
     onPage: (values: IPaginationParams) => void
 }
 
