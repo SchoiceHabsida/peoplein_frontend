@@ -57,6 +57,7 @@ const useAuthProvider = () => {
     localStorage.removeItem('token');
     setUser(null)
     router.push(ROUTE_LOGIN);
+    client.resetStore()
   }, [client, router]);
 
   return {
