@@ -17,34 +17,33 @@ const createMutation = (type: string) => {
   `
 }
 
-export const Card: FC<IApplicant & {refetch: () => void}> = ({refetch, id, firstName, country, visa, is_favorite, dateOfBirth, specialization }) => {
+export const Card: FC<IApplicant & { refetch: () => void }> = ({ refetch, id, firstName, country, profilePicture, visa, is_favorite, dateOfBirth, specialization }) => {
     const router = useRouter();
     const currentUrl = usePathname();
-    
-    const [ addFavorite, { loading: mutationLoading }] =
-     useMutation(createMutation(is_favorite ? 'deleteApplicantFromFavourites' :'addApplicantToFavourites'));
+
+    const [addFavorite, { loading: mutationLoading }] =
+        useMutation(createMutation(is_favorite ? 'deleteApplicantFromFavourites' : 'addApplicantToFavourites'));
 
     const updateFavorite = async () => {
         try {
             const response = await addFavorite({
-                variables: {id}   
+                variables: { id }
             })
-            if(response) {
+            if (response) {
                 refetch()
             }
-        } catch(error) {
+        } catch (error) {
             console.log(error);
-            
+
         }
     }
     return <div className="card rounded" onClick={() => router.push(currentUrl + '/' + id)}>
         <div className='flex info-container'>
             <div>
-                <Image src="/person.png"
+                <img src={profilePicture ? profilePicture?.path : '/Avatar-Image.png'}
                     width={205}
                     height={205}
-                    className='rounded'
-                    alt="person" />
+                    className='rounded' alt='person'></img>
             </div>
             <div className='mt-9'>
                 <div>
@@ -73,10 +72,10 @@ export const Card: FC<IApplicant & {refetch: () => void}> = ({refetch, id, first
         <div className='p-4 bordered-top'>
             Programming languages
         </div>
-        
+
         <div className={`p-4 bordered-top ${is_favorite ? '' : 'colored'}`} onClick={updateFavorite}>
-            {is_favorite ? '- Remove from Favorites' :'+ Add to Favorites'}
-            </div>
+            {is_favorite ? '- Remove from Favorites' : '+ Add to Favorites'}
+        </div>
         <div className='p-4 bordered-top colored'>+ Invite for Interview</div>
     </div>
 }
