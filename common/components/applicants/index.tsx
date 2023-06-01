@@ -2,13 +2,13 @@
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
-import { IPaginationParams } from '@/components/pagination';
+import { IPaginationParams, defaultPageCount } from '@/components/pagination';
 import { IApplicant, IFilters, IPageable } from '../models/applicants.model';
 import { ApplicantQueryTypes } from '@/common/constants/common.constants';
 
 const createApplicantQuery = (applicantQueryType: string, input?: IFilters) => {
     return gql`
-    query GetApplicants ($pageNumber: Int!, $pageCount: Int!, ${input ? `$input: CriteriaInput!`: ''}) {
+    query GetApplicants ($pageNumber: Int!, $pageCount: Int!, ${input ? `$input: CriteriaInput!` : ''}) {
         ${applicantQueryType}(pageNumber: $pageNumber, pageCount: $pageCount, ${input ? 'input: $input' : ''}) {
             content{
                 id
@@ -38,16 +38,17 @@ const ApplicantsContext = createContext({});
 
 const useApplicantsProvider = () => {
 
-    const [applicantQueryType, setApplicantQueryType] = 
-    useState<{type: ApplicantQueryTypes, variables: IPaginationParams & {input?: IFilters}}>({type: ApplicantQueryTypes.search, variables: {pageNumber: 0}})
-    const { client, loading, error, data, refetch } = 
-    useQuery<Record<ApplicantQueryTypes, IPageable<IApplicant>>, IPaginationParams & {input?: IFilters}>(createApplicantQuery(applicantQueryType.type, applicantQueryType.variables.input), {
-        variables: {...applicantQueryType.variables }
-    });
+    const [applicantQueryType, setApplicantQueryType] =
+        useState<{ type: ApplicantQueryTypes, variables: IPaginationParams & { input?: IFilters } }>({ type: ApplicantQueryTypes.search, variables: { pageNumber: 0, pageCount: defaultPageCount } })
+    const { client, loading, error, data, refetch } =
+        useQuery<Record<ApplicantQueryTypes, IPageable<IApplicant>>, IPaginationParams & { input?: IFilters }>(createApplicantQuery(applicantQueryType.type, applicantQueryType.variables.input), {
+            variables: { ...applicantQueryType.variables }
+        });
+
     useEffect(() => {
-        refetch({ ...applicantQueryType.variables})
-    },  [applicantQueryType.variables])
-    
+        refetch({ ...applicantQueryType.variables })
+    }, [applicantQueryType])
+
     return {
         loading,
         error,
@@ -69,9 +70,7 @@ function ApplicantsProvider({ children }: any) {
     return (
         <ApplicantsContext.Provider value={applicants}>
             {
-                applicants.loading
-                    ? <div>Loading...</div>
-                    : children
+                children
             }
         </ApplicantsContext.Provider>
     );

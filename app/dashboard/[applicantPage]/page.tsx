@@ -13,35 +13,32 @@ export default function SearchPage({ params }: { params: { applicantPage: Applic
   const [dataKey, setDataKey] = useState(ApplicantQueryTypes.search);
   const { data, applicantQueryType, setApplicantQueryType, refetch } = useApplicants() as IApplicantProviderType;
   const { input } = useContext(FilterContext) as IFilterContext;
+  
+  const filterData = () => {
+    const newData: any = input;
+    for(let key of Object.keys(input)) {
+      if(!newData[key]){
+        delete newData[key]
+      }
+    }
+    return newData
+  }
 
   useEffect(() => {
     if (Object.values(input)?.some(value => value)) {
       setApplicantQueryType({
         type: ApplicantQueryTypes.filter,
-        variables: { pageNumber, pageCount: defaultPageCount, input }
+        variables: { pageNumber, pageCount: defaultPageCount, input: filterData() }
       });
       setDataKey(ApplicantQueryTypes.filter);
-    }
-  }, [input])
-
-  useEffect(() => {
-    setApplicantQueryType({
-      ...applicantQueryType, variables: {
-        ...applicantQueryType?.variables,
-         pageNumber: pageNumber
-      }
-    })
-  }, [pageNumber])
-
-  useEffect(() => {
-    if (!Object.values(input)?.some(value => value)) {
+    } else {
       setApplicantQueryType({
         type: ApplicantQueryTypes[params.applicantPage],
         variables: { pageNumber, pageCount: defaultPageCount, }
       });
       setDataKey(ApplicantQueryTypes[params.applicantPage])
     }
-  }, [params.applicantPage, input])
+  }, [input, params.applicantPage, pageNumber])
 
   return (<div className="flex flex-col">
     <div className="mt-5 flex gap-5 flex-wrap">
@@ -52,7 +49,11 @@ export default function SearchPage({ params }: { params: { applicantPage: Applic
       <Pagination
         currentPage={data?.[`${dataKey}`]?.currentPage || 0}
         totalElements={data?.[`${dataKey}`]?.totalElements || 0}
-        onPage={(value: IPaginationParams) => setPageNumber(value.pageNumber)} totalPages={4} />
+        onPage={(value: IPaginationParams) => {
+          setPageNumber(value.pageNumber)
+        }
+
+        } totalPages={4} />
     </div>
   </div>
   )
