@@ -3,7 +3,7 @@
 import { IApplicant, IPageable } from "@/common/components/models/applicants.model";
 import { ISearchProvider, SearchContext } from "@/common/providers"
 import { Card } from "@/components/card/Card";
-import { IPaginationParams, Pagination } from "@/components/pagination";
+import { IPaginationParams, CustomPagination } from "@/components/pagination";
 import { gql, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react"
 
@@ -55,7 +55,7 @@ export default function Results() {
                 key={applicant.id} {...applicant} />)}
         </div>
         <div className="flex justify-center mt-4">
-            <Pagination
+            <CustomPagination
                 currentPage={data?.searchApplicantsByKeyword?.currentPage || 0}
                 totalElements={data?.searchApplicantsByKeyword?.totalElements || 0}
                 onPage={(value: IPaginationParams) => {

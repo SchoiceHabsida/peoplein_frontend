@@ -40,7 +40,7 @@ export const Searchbar: FC = () => {
                     >Search</button>
                 </div>
             </div>
-            <div className="search-results">6600+Results for "{keyword}"</div>
+            {/* <div className="search-results">6600+Results for "{keyword}"</div> */}
         </div>
     </div>
 }

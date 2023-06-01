@@ -1,4 +1,7 @@
 import { FC } from "react";
+import React from 'react';
+import Pagination from 'rc-pagination';
+import './styles.css'
 
 interface IPaginationProps {
     currentPage: number,
@@ -14,21 +17,13 @@ export interface IPaginationParams {
 
 export const defaultPageCount = 2;
 
-export const Pagination: FC<IPaginationProps> = ({ currentPage, totalElements, onPage }) => {
-
-    const renderButtons = (n: number) => {
-        const buttons = [];
-        for (let i = 0; i < n; i++) {
-            buttons.push(<button key={i}
-                onClick={() => onPage({ pageNumber: i })}
-                className={`btn btn-sm ${currentPage === i ? 'btn-active' : ''}`}>{i + 1}</button>);
-        }
-        return buttons;
-    };
+export const CustomPagination: FC<IPaginationProps> = ({ currentPage, totalElements, onPage }) => {
+    const onChange = (page: any) => {
+        onPage({ pageNumber: page - 1 })
+    }
 
     return <div>
-        <div className="btn-group">
-            {renderButtons(Math.ceil(totalElements / defaultPageCount))}
-        </div>
+        <Pagination defaultCurrent={currentPage + 1} total={totalElements || 1} pageSize={defaultPageCount} style={{ margin: '100px' }}
+            onChange={onChange} nextIcon="Next" prevIcon="Prev" />
     </div>
 }
