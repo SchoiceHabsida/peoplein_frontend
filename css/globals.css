@@ -50,6 +50,18 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Regular.ttf") format("opentype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Bold.ttf") format("opentype");
+  font-weight: 600;
+}
+
 body {
   box-sizing: border-box;
 }

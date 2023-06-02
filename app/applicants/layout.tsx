@@ -11,7 +11,7 @@ export const metadata = {
   description: 'Hire motivated foreign developers',
 }
 
-export default function DashboardLayout({
+export default function ApplicantsLayout({
   children,
 }: {
   children: React.ReactNode

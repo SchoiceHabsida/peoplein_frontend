@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useCallback, useState, useEffect } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import { ROUTE_HOME, ROUTE_LOGIN } from "@/common/constants";
+import { ROUTE_ADMIN, ROUTE_DASHBOARD, ROUTE_HOME, ROUTE_LOGIN } from "@/common/constants";
 import { useRouter } from 'next/navigation';
 
 const ME_QUERY = gql`
@@ -35,7 +35,7 @@ const useAuthProvider = () => {
   const [user, setUser] = useState<{ id: string; username: string } | null>(null)
   const [loginError, setLoginError] = useState<any>(null)
 
-  const login = useCallback(({ username, password }: any) => {
+  const login = useCallback(({ username, password, is_admin }: {username: string; password: string; is_admin?: boolean}) => {
 
     loginMutation({ variables: { username, password } })
       .then(({ data }) => {
@@ -43,7 +43,7 @@ const useAuthProvider = () => {
         const storage = localStorage;
         refetch();
         storage.setItem('token', data.login.token);
-        router.push(ROUTE_HOME);
+        router.push(`${is_admin ? `${ROUTE_ADMIN}/${ROUTE_DASHBOARD}` : ROUTE_HOME}`);
       }).catch(error => {
         setLoginError(error)
       });

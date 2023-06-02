@@ -6,7 +6,7 @@ import { FC } from "react";
 import './styles.css';
 import Link from "next/link";
 
-export const Breadcrumb: FC = () => {
+export const Breadcrumb: FC<{with_bg: boolean}> = ({with_bg = true}) => {
     const currentUrl = usePathname();
     const currentRotes = currentUrl.split('/');
 
@@ -30,7 +30,7 @@ export const Breadcrumb: FC = () => {
         return routes;
     }
 
-    return <div className="breadcrumb rounded flex items-center text-base font-medium">
+    return <div className={`${with_bg? 'breadcrumb-bg': ''} breadcrumb rounded flex items-center text-base font-medium`}>
         <div className="routes ml-3">
             {createRoutes()}
         </div>
