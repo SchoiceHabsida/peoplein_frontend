@@ -74,6 +74,10 @@ body {
   background-color: #7749F8;
 }
 
+.text-purple-primary {
+  color: #7749F8;
+}
+
 .content-x-space {
   margin: 0 165px;
 }
