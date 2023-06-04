@@ -1,10 +1,10 @@
 'use client'
 
-import { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect } from "react";
 import './styles.css';
 import { SearchIcon } from "@/common/icons/SearchIcon";
 import { useRouter, usePathname } from "next/navigation";
-import { ROUTE_APPLICANTS, ROUTE_RESULTS } from "@/common/constants";
+import { ROUTE_RESULTS } from "@/common/constants";
 import { ISearchProvider, SearchContext } from "@/common/providers";
 
 export const Searchbar: FC = () => {
@@ -34,7 +34,7 @@ export const Searchbar: FC = () => {
                 </div>
                 <div>
                     <button
-                        className="search-btn rounded"
+                        className="search-btn rounded cursor-pointer"
                         disabled={!keyword.length}
                         onClick={onSearch}
                     >Search</button>

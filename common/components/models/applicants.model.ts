@@ -18,7 +18,9 @@ export interface IApplicant {
     experience: IExperience[],
     certificates: ICertificate[],
     specialization: string[],
-    is_favorite: boolean
+    is_favorite: boolean,
+    is_scheduled_for_interview: boolean,
+
 }
 
 export interface ICertificate {
