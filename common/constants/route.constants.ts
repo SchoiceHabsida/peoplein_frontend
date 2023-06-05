@@ -7,4 +7,6 @@ export const ROUTE_FAVORITES = '/favorites';
 export const ROUTE_INTERVIEWS = '/interviews';
 export const ROUTE_RESULTS = '/results';
 export const ROUTE_DASHBOARD = '/dashboard';
+export const ROUTE_PEOPLE = '/people';
+export const ROUTE_COMPANIES = '/companies';
 

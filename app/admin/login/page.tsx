@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/common/components/auth";
 import { TextFieldController } from "@/common/components/inputs/text-filed-controller";
-import { ROUTE_ADMIN, ROUTE_DASHBOARD } from "@/common/constants";
+import { ROUTE_ADMIN, ROUTE_DASHBOARD, ROUTE_PEOPLE } from "@/common/constants";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -17,7 +17,7 @@ export default function AdminLogin() {
     
     useEffect(() => {
         if (user) {
-            router.push(`${ROUTE_ADMIN}/${ROUTE_DASHBOARD}`)
+            router.push(`${ROUTE_ADMIN}/${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}`)
         }
     }, [user, router]);
     return (<div className="admin__login w-full flex justify-center items-center">
