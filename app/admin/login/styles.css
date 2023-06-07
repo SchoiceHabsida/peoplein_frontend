@@ -2,13 +2,22 @@
     height: calc(100vh - 100px);
 }
 
+.admin__login input::placeholder {
+    color: #ABB5BE;
+    font-size: 16px;
+  }
+
 .admin__login input {
     background: #FFFFFF;
     border: 1px solid #EAEAEA;
     border-radius: 10px;
     height: 60px;
     font-size: 18px;
+    padding: 8px 16px;
+    width: 100%;
+    outline: none;
 }
+
 .w-395 {
     width: 395px;
 }

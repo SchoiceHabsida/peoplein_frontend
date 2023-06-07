@@ -55,7 +55,7 @@ const useAuthProvider = () => {
 
   const logout = useCallback((is_admin?: boolean) => {
     localStorage.removeItem('token');
-    setUser(null)
+    setUser(null);
     router.push(is_admin ? `${ROUTE_ADMIN}${ROUTE_LOGIN}` : ROUTE_LOGIN);
     client.resetStore()
   }, [client, router]);

@@ -1,5 +1,6 @@
 'use client'
 
+import { DialogWrapper } from "@/common/components/dialog-wrapper/DialogWrapper";
 import { Checkbox } from "@/common/components/inputs/checkbox";
 import { DownIcon } from "@/common/icons/DownIcon";
 import { EyeIcon } from "@/common/icons/EyeIcon";
@@ -7,6 +8,10 @@ import { AdminFilters } from "@/components/admin-filters";
 import { Breadcrumb } from "@/components/breadcrumb/Breadcrumb";
 import { ContentHeader } from "@/components/content-header";
 import { CustomPagination } from "@/components/pagination";
+import { useState } from "react";
+import './styles.css';
+import { SettingsIcon } from "@/common/icons/SettingsIcon";
+import { ArrowRight } from "@/common/icons/ArrowRight";
 
 export default function People() {
     const styles = {
@@ -37,7 +42,37 @@ export default function People() {
             }
         }
     }
+    const [dialogOpen, setDialogOpen] = useState(true);
+
     return <div className="people flex flex-col justify-between h-full">
+        {dialogOpen && <div className="absolute">
+            <DialogWrapper onClose={() => setDialogOpen(false)}>
+                <div>
+                    <div className="flex">
+                        <div>
+                            <img src={'/Avatar-Image.png'}
+                                width={205}
+                                height={205}
+                                className='rounded' alt='person'></img>
+                        </div>
+                        <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6">
+                            <div className="w-60 h-10 bg-white flex justify-between items-center px-4 rounded font-medium">
+                                <span>Status</span>
+                                <button><SettingsIcon></SettingsIcon></button>
+                            </div>
+                            <div className="w-60 h-10 bg-white flex justify-between items-center px-4 rounded font-medium">
+                                <span>CV</span>
+                                <button><SettingsIcon></SettingsIcon></button>
+                            </div>
+                            <div className="w-60 h-10 bg-white flex justify-between items-center px-4 rounded font-medium">
+                                <span>Edit account</span>
+                                <button><ArrowRight></ArrowRight></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </DialogWrapper>
+        </div>}
         <div>
             <ContentHeader label="People list">
                 <Breadcrumb with_bg={false} />
@@ -48,7 +83,7 @@ export default function People() {
                     <thead>
                         <tr>
                             <th style={styles.tableStyles.header}>
-                                <Checkbox onChange={() => {}}/>
+                                <Checkbox onChange={() => { }} />
                             </th>
                             <th>
                                 <div className="flex gap-1 cursor-pointer">
@@ -91,7 +126,7 @@ export default function People() {
                                 </div>
                             </th>
                             <th>
-                                <div style={{...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeHeader}}>Status</div>
+                                <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeHeader }}>Status</div>
                             </th>
                             <th style={styles.tableStyles.header}>
 
@@ -101,7 +136,7 @@ export default function People() {
                     <tbody>
                         <tr className="cursor-pointer">
                             <th>
-                                <Checkbox onChange={() => {}}/>
+                                <Checkbox onChange={() => { }} />
                             </th>
                             <td>
                                 <div className="flex items-center space-x-3">
@@ -119,17 +154,17 @@ export default function People() {
                             </td>
                             <td>2022.11.20</td>
                             <td>
-                                <div style={{...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent}}>
+                                <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
                                     Hired
                                 </div>
-                                </td>
+                            </td>
                             <td>
                                 <button className="btn btn-ghost btn-xs"><EyeIcon /></button>
                             </td>
                         </tr>
                         <tr>
                             <th style={styles.tableStyles.tableBorder}>
-                                <Checkbox onChange={() => {}}/>
+                                <Checkbox onChange={() => { }} />
                             </th>
                             <td style={styles.tableStyles.tableBorder}>
                                 <div className="flex items-center space-x-3">
@@ -145,12 +180,12 @@ export default function People() {
                             <td style={styles.tableStyles.tableBorder}>Purple</td>
                             <td style={styles.tableStyles.tableBorder}>2022.11.20</td>
                             <td style={styles.tableStyles.tableBorder}>
-                                <div style={{...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent}}>
+                                <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
                                     Hired
                                 </div>
                             </td>
                             <td style={styles.tableStyles.tableBorder}>
-                                <button className="btn btn-ghost btn-xs"><EyeIcon /></button>
+                                <button onClick={() => setDialogOpen(true)} className="btn btn-ghost btn-xs"><EyeIcon /></button>
                             </td>
                         </tr>
 

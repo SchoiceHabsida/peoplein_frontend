@@ -59,7 +59,7 @@ export const Navigation: FC = () => {
         </div>
       ))}
 
-      <div className="nav-item text-sm sign-out py-2 px-4 font-semibold" onClick={logout}>
+      <div className="nav-item text-sm sign-out py-2 px-4 font-semibold" onClick={() => logout()}>
         Sign Out
       </div>
     </div>

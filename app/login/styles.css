@@ -9,6 +9,19 @@
     background-size: cover;
 }
 
+.login input{
+    border: 1px solid #CED4DA;
+    padding: 8px 16px;
+    border-radius: 4px;
+    width: 100%;
+    outline: none;
+  }
+
+.login input::placeholder {
+    color: #ABB5BE;
+    font-size: 16px;
+  }
+
 .login__label {
     font-family: 'Inter';
     font-weight: 700;
