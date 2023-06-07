@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useCallback, useState, useEffect } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
-import { ROUTE_ADMIN, ROUTE_DASHBOARD, ROUTE_HOME, ROUTE_LOGIN } from "@/common/constants";
+import { ROUTE_ADMIN, ROUTE_DASHBOARD, ROUTE_HOME, ROUTE_LOGIN, ROUTE_PEOPLE } from "@/common/constants";
 import { useRouter } from 'next/navigation';
 
 const ME_QUERY = gql`
@@ -43,7 +43,7 @@ const useAuthProvider = () => {
         const storage = localStorage;
         refetch();
         storage.setItem('token', data.login.token);
-        router.push(`${is_admin ? `${ROUTE_ADMIN}/${ROUTE_DASHBOARD}` : ROUTE_HOME}`);
+        router.push(`${is_admin ? `${ROUTE_ADMIN}/${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}` : ROUTE_HOME}`);
       }).catch(error => {
         setLoginError(error)
       });
@@ -53,10 +53,10 @@ const useAuthProvider = () => {
     setUser(userData?.getCurrentUser || null)
   }, [userData])
 
-  const logout = useCallback(() => {
+  const logout = useCallback((is_admin?: boolean) => {
     localStorage.removeItem('token');
     setUser(null)
-    router.push(ROUTE_LOGIN);
+    router.push(is_admin ? `${ROUTE_ADMIN}${ROUTE_LOGIN}` : ROUTE_LOGIN);
     client.resetStore()
   }, [client, router]);
 

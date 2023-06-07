@@ -1,21 +1,20 @@
 'use client'
-import { ROUTE_ADD, ROUTE_ADMIN, ROUTE_COMPANIES, ROUTE_DASHBOARD, ROUTE_PEOPLE } from "@/common/constants"
-import { AvatarPlusIcon } from "@/common/icons/AvatarPlusIcon"
-import { SettingsIcon } from "@/common/icons/SettingsIcon"
-import { useRouter } from "next/navigation"
 import { FC, useState } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/common/components/auth"
+import { AvatarIcon } from "@/common/icons/AvatarIcon"
+import { ROUTE_CHANGE_PASSWORD } from "@/common/constants"
 
 const styles = {
     actionContent: {
-        marginTop: '22px',
-        marginRight: '30px',
-        marginLeft: '30px',
+        marginRight: '36px',
     },
     addAction: {
         width: '211px',
         height: '55px',
-        background: '#1A1A1A',
+        background: '#FEFEFE',
         borderRadius: '4px',
+        color: "#101828"
     },
     addIcon: {
         background: '#EFEFEF'
@@ -30,7 +29,7 @@ const styles = {
         borderRadius: '4px'
     }
 }
-export const SidebarActions = () => {
+export const AdminUserMenu = () => {
     const [open, setOpen] = useState(false)
 
     return <div className="flex items-center gap-6" style={styles.actionContent}>
@@ -41,18 +40,15 @@ export const SidebarActions = () => {
                 style={styles.addAction}>
                 <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center"
                     style={styles.addIcon} >
-                    <AvatarPlusIcon />
+                    <AvatarIcon />
                 </div>
-                <span>Add</span>
+                <span >Admin</span>
             </button>
             {
-                open && <div className="absolute top-0 ">
+                open && <div className="absolute top-0 -left-3">
                     <AddEntity onClose={() => setOpen(false)} />
                 </div>
             }
-        </div>
-        <div>
-            <button><SettingsIcon /></button>
         </div>
     </div>
 }
@@ -60,16 +56,22 @@ export const SidebarActions = () => {
 const AddEntity: FC<{ onClose: () => void }> = ({ onClose }) => {
 
     const router = useRouter();
+    const { logout } = useAuth() as any;
 
     const navigate = (path: string) => {
         onClose();
-        router.push(`${ROUTE_ADMIN}${ROUTE_DASHBOARD}/${path}/${ROUTE_ADD}`);
+        // router.push(`${ROUTE_ADMIN}${path}`);
     }
 
     return <div className="w-60 bg-white rounded " style={styles.actionMenu}>
         <div className="mt-1">
-            <button onClick={() => navigate(ROUTE_PEOPLE)} className="h-10 w-full flex items-center mb-1 mx-4">People</button>
-            <button onClick={() => navigate(ROUTE_COMPANIES)} className="h-10 w-full font-semibold flex items-center px-4" style={styles.companyColor}>Company</button>
+            <button
+                onClick={() => navigate(ROUTE_CHANGE_PASSWORD)}
+                className="h-10 w-full flex items-center mb-1 mx-4">Change Password</button>
+            <button
+                onClick={() => {logout(true); onClose()}}
+                className="h-10 w-full font-semibold flex items-center px-4"
+                style={styles.companyColor}>Log out</button>
         </div>
     </div>
 }
