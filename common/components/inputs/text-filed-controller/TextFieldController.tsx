@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import { Controller } from "react-hook-form";
 import { Control } from "react-hook-form/dist/types/form";
 
@@ -20,10 +20,13 @@ export const TextFieldController: FC<TextFieldControllerProps> = ({
     <Controller
       name={name}
       control={control}
-      render={({ field: { ...fieldProps }}) => (
-        <input {...{ ...props, ...fieldProps }}
-          className="input border-none outline-none border-r-4 py-2 px-4"
-        />
+      render={({ field: { ...fieldProps } }) => (
+        <Fragment>
+          {label && <label className="font-medium  inline-block" style={{marginBottom: '6px'}}>{label}</label>}
+          <input {...{ ...props, ...fieldProps }}
+            className="border-none outline-none border-r-4 py-2 px-4"
+          />
+        </Fragment>
       )}
     />
   );
