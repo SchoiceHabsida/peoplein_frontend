@@ -11,11 +11,7 @@ import { CustomPagination } from "@/components/pagination";
 import { useState } from "react";
 
 import './styles.css';
-import { ArrowRight } from "@/common/icons/ArrowRight";
-import { AdminCvActions } from "@/components/admin-cv-actions/AdminCvActions";
-import {
-    ActionButtonWrapper, AdminStatusActions
-} from "@/components/admin-status-actions/AdminStatusActions";
+import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
 
 export default function People() {
     const styles = {
@@ -51,24 +47,7 @@ export default function People() {
     return <div className="people flex flex-col justify-between h-full">
         {dialogOpen && <div className="absolute">
             <DialogWrapper onClose={() => setDialogOpen(false)}>
-                <div>
-                    <div className="flex">
-                        <div>
-                            <img src={'/Avatar-Image.png'}
-                                width={205}
-                                height={205}
-                                className='rounded' alt='person'></img>
-                        </div>
-                        <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6">
-                            <AdminStatusActions />
-                            <AdminCvActions />
-                            <ActionButtonWrapper
-                                onCLick={() => console.log('navigate edit')}
-                                label={'Edit account'}
-                                icon={<ArrowRight></ArrowRight>} />
-                        </div>
-                    </div>
-                </div>
+                <ApplicantDetails/>
             </DialogWrapper>
         </div>}
         <div>
