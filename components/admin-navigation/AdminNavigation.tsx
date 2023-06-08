@@ -40,7 +40,7 @@ export const AdminNavigation: FC = () => {
         <nav className="ml-6 pb-4" style={styles.divider}>
             <ul>
                 {navItems.map(item => <li className="h-10" key={item.path}
-                    style={routes[routes.length - 1] === item.path ? styles.activeLink : {}} >
+                    style={routes.includes(item.path) ? styles.activeLink : {}} >
                     <Link
                         href={`${ROUTE_ADMIN}${ROUTE_DASHBOARD}/${item.path}`}
                         className="leading-10 inline-block ml-4 w-full">{item.label}</Link>

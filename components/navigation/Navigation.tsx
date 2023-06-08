@@ -18,7 +18,7 @@ export const Navigation: FC = () => {
   const activePath = useCallback(
     (path: string) => {
       const routes = currentUrl?.split("/");
-      return path === `/${routes?.[routes?.length - 1]}`;
+      return routes.includes(`/${path}`);
     },
     [currentUrl]
   );

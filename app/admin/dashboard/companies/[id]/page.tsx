@@ -4,7 +4,7 @@ import { Breadcrumb } from "@/components/breadcrumb/Breadcrumb";
 import { ContentHeader } from "@/components/content-header";
 
 import '../add/styles.css'
-import { ApplicantForm } from "../ApplicantForm";
+import { CompanyForm } from "../CompanyForm";
 import { useEffect } from "react";
 
 export default function EditApplicant({ params }: { params: { id: string } }) {
@@ -17,6 +17,6 @@ export default function EditApplicant({ params }: { params: { id: string } }) {
             <Breadcrumb with_bg={false} />
         </ContentHeader>
 
-        <ApplicantForm/>
+        <CompanyForm/>
     </div>
 }

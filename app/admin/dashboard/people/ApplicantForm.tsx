@@ -24,7 +24,8 @@ export const ApplicantForm = () => {
                 </div>
                 <div className="user-logo h-full flex-grow"></div>
             </div>
-            <div className="flex flex-col gap-4">
+
+            <div className="flex flex-col gap-4 mt-2">
                 <div className="w-1/2 flex gap-4 items-end">
                     <div className="w-1/2">
                         <TextFieldController
