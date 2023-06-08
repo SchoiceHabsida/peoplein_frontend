@@ -11,7 +11,7 @@ import { CustomPagination } from "@/components/pagination";
 import { useState } from "react";
 
 import './styles.css';
-import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
+import { CompanyDetails } from "@/components/company-details/CompanyDetails";
 
 export default function Companies() {
     const styles = {
@@ -47,7 +47,7 @@ export default function Companies() {
     return <div className="people flex flex-col justify-between h-full">
         {dialogOpen && <div className="absolute">
             <DialogWrapper onClose={() => setDialogOpen(false)}>
-                <ApplicantDetails/>
+                <CompanyDetails/>
             </DialogWrapper>
         </div>}
         <div>

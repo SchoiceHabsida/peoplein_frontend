@@ -13,10 +13,9 @@ export default function EditApplicant({ params }: { params: { id: string } }) {
         
     }, [params.id])
     return <div className="people">
-        <ContentHeader label="Edit User">
+        <ContentHeader label="Edit Company">
             <Breadcrumb with_bg={false} />
         </ContentHeader>
-
         <CompanyForm/>
     </div>
 }
