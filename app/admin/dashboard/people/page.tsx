@@ -42,7 +42,7 @@ export default function People() {
             }
         }
     }
-    const [dialogOpen, setDialogOpen] = useState(true);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     return <div className="people flex flex-col justify-between h-full">
         {dialogOpen && <div className="absolute">

@@ -1,10 +1,17 @@
+'use client'
 import { ArrowRight } from "@/common/icons/ArrowRight"
 import { AdminCvActions } from "../admin-cv-actions/AdminCvActions"
 import { ActionButtonWrapper, AdminStatusActions } from "../admin-status-actions/AdminStatusActions"
 
 import './styles.css';
+import { usePathname, useRouter } from "next/navigation";
 
 export const ApplicantDetails = () => {
+
+    const mock_id = '1';
+    const path = usePathname();
+    const router = useRouter();
+    
     return <div className="flex flex-col gap-6 applicant-details">
         <div className="flex">
             <div>
@@ -17,7 +24,7 @@ export const ApplicantDetails = () => {
                 <AdminStatusActions />
                 <AdminCvActions />
                 <ActionButtonWrapper
-                    onCLick={() => console.log('navigate edit')}
+                    onCLick={() => router.push(`${path}/${mock_id}`)}
                     label={'Edit account'}
                     icon={<ArrowRight></ArrowRight>} />
             </div>
