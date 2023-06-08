@@ -13,7 +13,7 @@ interface IInputDropdownProps {
     label: string;
 }
 
-export const InputDropdown: FC<IInputDropdownProps> = ({ onChange, options, multiple = true, styles, onClose, label }) => {
+export const InputDropdown: FC<IInputDropdownProps> = ({ onChange, options, styles, onClose, label }) => {
 
     const [values, setValues] = useState<IAdminFilter[]>([]);
 

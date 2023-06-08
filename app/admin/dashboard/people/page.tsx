@@ -9,9 +9,13 @@ import { Breadcrumb } from "@/components/breadcrumb/Breadcrumb";
 import { ContentHeader } from "@/components/content-header";
 import { CustomPagination } from "@/components/pagination";
 import { useState } from "react";
+
 import './styles.css';
-import { SettingsIcon } from "@/common/icons/SettingsIcon";
 import { ArrowRight } from "@/common/icons/ArrowRight";
+import { AdminCvActions } from "@/components/admin-cv-actions/AdminCvActions";
+import {
+    ActionButtonWrapper, AdminStatusActions
+} from "@/components/admin-status-actions/AdminStatusActions";
 
 export default function People() {
     const styles = {
@@ -56,18 +60,12 @@ export default function People() {
                                 className='rounded' alt='person'></img>
                         </div>
                         <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6">
-                            <div className="w-60 h-10 bg-white flex justify-between items-center px-4 rounded font-medium">
-                                <span>Status</span>
-                                <button><SettingsIcon></SettingsIcon></button>
-                            </div>
-                            <div className="w-60 h-10 bg-white flex justify-between items-center px-4 rounded font-medium">
-                                <span>CV</span>
-                                <button><SettingsIcon></SettingsIcon></button>
-                            </div>
-                            <div className="w-60 h-10 bg-white flex justify-between items-center px-4 rounded font-medium">
-                                <span>Edit account</span>
-                                <button><ArrowRight></ArrowRight></button>
-                            </div>
+                            <AdminStatusActions />
+                            <AdminCvActions />
+                            <ActionButtonWrapper
+                                onCLick={() => console.log('navigate edit')}
+                                label={'Edit account'}
+                                icon={<ArrowRight></ArrowRight>} />
                         </div>
                     </div>
                 </div>

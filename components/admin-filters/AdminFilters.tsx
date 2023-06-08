@@ -13,7 +13,7 @@ export const AdminFilters = () => {
                 <div className="h-full flex items-center">
                     <SearchIcon></SearchIcon>
                 </div>
-                <input placeholder="Search by name or company" className="search-input"></input>
+                <input placeholder="Search by name or company" className="search-input rounded ml-2"></input>
             </div>
 
             <div className="flex items-center justify-between gap-3">
