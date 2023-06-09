@@ -7,7 +7,8 @@ interface IPaginationProps {
     currentPage: number,
     totalElements: number,
     totalPages?: number,
-    onPage: (values: IPaginationParams) => void
+    onPage: (values: IPaginationParams) => void,
+    pageCount?: number
 }
 
 export interface IPaginationParams {
@@ -17,13 +18,19 @@ export interface IPaginationParams {
 
 export const defaultPageCount = 2;
 
-export const CustomPagination: FC<IPaginationProps> = ({ currentPage, totalElements, onPage }) => {
+export const CustomPagination: FC<IPaginationProps> = ({ currentPage,
+    totalElements,
+    pageCount,
+    onPage }) => {
     const onChange = (page: any) => {
-        onPage({ pageNumber: page - 1 })
+        onPage({ pageNumber: page - 1, pageCount: pageCount })
     }
 
     return <div>
-        <Pagination defaultCurrent={currentPage + 1} total={totalElements || 1} pageSize={defaultPageCount} style={{ margin: '100px' }}
+        <Pagination
+            defaultCurrent={currentPage + 1}
+            total={totalElements || 1}
+            pageSize={pageCount || defaultPageCount} style={{ margin: '100px' }}
             onChange={onChange} nextIcon="Next" prevIcon="Prev" />
     </div>
 }

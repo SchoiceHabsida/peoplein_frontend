@@ -6,7 +6,7 @@ import './styles.css';
 import { calculateAge } from '@/common/components/utils/function';
 import { IApplicant } from '@/common/components/models/applicants.model';
 
-const GET_APPLICANT_BY_ID = gql`
+export const GET_APPLICANT_BY_ID = gql`
     query getApplicant ($id: ID!) {
         getApplicantById (id: $id) {
             id

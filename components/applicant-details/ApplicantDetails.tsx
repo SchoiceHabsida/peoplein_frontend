@@ -5,10 +5,18 @@ import { ActionButtonWrapper, AdminStatusActions } from "../admin-status-actions
 
 import './styles.css';
 import { usePathname, useRouter } from "next/navigation";
+import { FC, useEffect } from "react";
+import { useQuery } from "@apollo/client";
+import { IApplicant } from "@/common/components/models/applicants.model";
+import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
 
-export const ApplicantDetails = () => {
+export const ApplicantDetails: FC<{applicantId: string}> = ({applicantId}) => {
+    const { data, loading } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID, { variables: { id: applicantId } })
 
-    const mock_id = '1';
+    useEffect(() => {
+        console.log(applicantId);
+    }, [applicantId])
+    
     const path = usePathname();
     const router = useRouter();
     
@@ -24,7 +32,7 @@ export const ApplicantDetails = () => {
                 <AdminStatusActions />
                 <AdminCvActions />
                 <ActionButtonWrapper
-                    onCLick={() => router.push(`${path}/${mock_id}`)}
+                    onCLick={() => router.push(`${path}/${applicantId}`)}
                     label={'Edit account'}
                     icon={<ArrowRight></ArrowRight>} />
             </div>
@@ -32,7 +40,7 @@ export const ApplicantDetails = () => {
         <div className="flex gap-2">
             <div className="w-2/3">
                 <div className="mb-14">
-                    <div className="applicant-name">Darlene Robertson</div>
+                    <div className="applicant-name">{data?.getApplicantById.firstName} {data?.getApplicantById.lastName}</div>
                     <div>Specialization</div>
                 </div>
                 <div>

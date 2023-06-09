@@ -7,13 +7,45 @@ import { EyeIcon } from "@/common/icons/EyeIcon";
 import { AdminFilters } from "@/components/admin-filters";
 import { Breadcrumb } from "@/components/breadcrumb/Breadcrumb";
 import { ContentHeader } from "@/components/content-header";
-import { CustomPagination } from "@/components/pagination";
-import { useState } from "react";
+import { CustomPagination, IPaginationParams } from "@/components/pagination";
+import { useEffect, useState } from "react";
 
-import './styles.css';
 import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
+import { gql, useQuery } from "@apollo/client";
+import './styles.css';
+import { IApplicant, IPageable } from "@/common/components/models/applicants.model";
+
+const APPLICANT_QUERY = gql`
+    query GetApplicants ($pageNumber: Int!, $pageCount: Int!) {
+        getAllApplicantsPaged (pageNumber: $pageNumber, pageCount: $pageCount) {
+            content{
+                id
+                firstName
+                lastName
+                country
+                gender
+                visa
+                dateOfBirth
+                yearsOfExperience,
+                profilePicture {
+                    id
+                    path
+                    type
+                }
+                specialization
+            }
+        currentPage
+        totalElements
+        totalPages
+      }
+    }
+  `
+
 
 export default function People() {
+    const { data, loading, error, refetch } =
+        useQuery<Record<'getAllApplicantsPaged', IPageable<IApplicant>>>
+            (APPLICANT_QUERY, { variables: { pageNumber: 0, pageCount: 10 } });
     const styles = {
         tableStyles: {
             header: {
@@ -43,11 +75,16 @@ export default function People() {
         }
     }
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [openedId, setOpenedId] = useState('')
+
+    const onPage = (values: IPaginationParams) => {
+        refetch(values)
+    }
 
     return <div className="people flex flex-col justify-between h-full">
         {dialogOpen && <div className="absolute">
             <DialogWrapper onClose={() => setDialogOpen(false)}>
-                <ApplicantDetails/>
+                <ApplicantDetails applicantId={openedId} />
             </DialogWrapper>
         </div>}
         <div>
@@ -111,67 +148,49 @@ export default function People() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="cursor-pointer">
-                            <th>
-                                <Checkbox onChange={() => { }} />
-                            </th>
-                            <td>
-                                <div className="flex items-center space-x-3">
-                                    <div>
-                                        <div className="font-bold">Darlene Robertson</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                Lorem
-                            </td>
-                            <td>Canada</td>
-                            <td>
-                                F4
-                            </td>
-                            <td>2022.11.20</td>
-                            <td>
-                                <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
-                                    Hired
-                                </div>
-                            </td>
-                            <td>
-                                <button className="btn btn-ghost btn-xs"><EyeIcon /></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th style={styles.tableStyles.tableBorder}>
-                                <Checkbox onChange={() => { }} />
-                            </th>
-                            <td style={styles.tableStyles.tableBorder}>
-                                <div className="flex items-center space-x-3">
-                                    <div>
-                                        <div className="font-bold">Hart Hagerty</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style={styles.tableStyles.tableBorder}>
-                                Zemlak
-                            </td>
-                            <td style={styles.tableStyles.tableBorder}>Purple</td>
-                            <td style={styles.tableStyles.tableBorder}>Purple</td>
-                            <td style={styles.tableStyles.tableBorder}>2022.11.20</td>
-                            <td style={styles.tableStyles.tableBorder}>
-                                <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
-                                    Hired
-                                </div>
-                            </td>
-                            <td style={styles.tableStyles.tableBorder}>
-                                <button onClick={() => setDialogOpen(true)} className="btn btn-ghost btn-xs"><EyeIcon /></button>
-                            </td>
-                        </tr>
-
+                        {(data?.getAllApplicantsPaged.content && data?.getAllApplicantsPaged?.content.length) ?
+                            data.getAllApplicantsPaged?.content
+                                .map(applicant => <tr key={applicant.id} className="cursor-pointer">
+                                    <th>
+                                        <Checkbox onChange={() => { }} />
+                                    </th>
+                                    <td>
+                                        <div className="flex items-center space-x-3">
+                                            <div>
+                                                <div className="font-bold">{applicant.firstName} {applicant.lastName}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {applicant.specialization?.map((item, idx) => <span key={idx}> {item}</span>)}
+                                    </td>
+                                    <td>{applicant.country}</td>
+                                    <td>
+                                        {applicant.visa}
+                                    </td>
+                                    <td>-</td>
+                                    <td>
+                                        <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
+                                            -
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button
+                                            className="btn btn-ghost btn-xs"
+                                            onClick={() => { setOpenedId(applicant.id); setDialogOpen(true) }}><EyeIcon /></button>
+                                    </td>
+                                </tr>) :
+                            <tr className="w-full px-2 text-gray-400 text-center flex"><td className="w-full">No data found</td></tr>}
                     </tbody>
                 </table>
             </div>
         </div>
         <div className="w-full text-center table-pagination">
-            <CustomPagination totalElements={8} currentPage={0} onPage={() => console.log}></CustomPagination>
+            <CustomPagination
+                totalElements={data?.getAllApplicantsPaged.totalElements || 1}
+                currentPage={data?.getAllApplicantsPaged.currentPage || 0}
+                pageCount={10}
+                onPage={onPage} />
         </div>
     </div>
 }
