@@ -1,5 +1,5 @@
 export interface IApplicant {
-    id: any,
+    id?: any,
     firstName: string,
     lastName: string,
     country: string,
@@ -18,25 +18,26 @@ export interface IApplicant {
     experience: IExperience[],
     certificates: ICertificate[],
     specialization: string[],
-    is_favorite: boolean,
-    is_scheduled_for_interview: boolean,
-
+    is_favorite?: boolean,
+    is_scheduled_for_interview?: boolean,
+    description?: string,
+    email?: string,
 }
 
 export interface ICertificate {
-    id: number,
+    id?: number,
     certificateName: string,
-    acquisitionDate: string,
-    expiryDate: string
+    acquisitionDate?: string,
+    expiryDate?: string
 }
 
 export interface IExperience {
-    id: string,
+    id?: string,
     company: string,
     startOfWork: string,
-    endOfWOrk: string,
-    details: string,
-    yearsWorked: number
+    endOfWOrk?: string,
+    details?: string,
+    yearsWorked?: number
 }
 
 export interface ILanguage {

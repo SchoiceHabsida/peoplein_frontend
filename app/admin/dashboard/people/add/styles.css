@@ -76,3 +76,15 @@ input {
     color: white;
     
 }
+
+.add-btn {
+    border-radius: 4px;
+    background-color: #222222;
+    color: white;
+}
+
+.remove-btn {
+    border-radius: 4px;
+    background: #F5F5F5;
+    color: rgb(238, 49, 49);
+}
