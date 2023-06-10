@@ -27,8 +27,8 @@ export default function DashboardLayout({
             <div style={styles.sidebarWrapper}>
               <AdminSidebar/>
             </div>
-            <div className="grow">
-            {children}
+            <div className="grow h-full overflow-y-auto">
+              {children}
             </div>
           </div>
     </div>
