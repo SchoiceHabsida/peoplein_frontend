@@ -9,10 +9,8 @@ export default function Admin() {
   const { user } = useAuth() as any;
   const router = useRouter();
   useEffect(() => {
-    router.push(`${ROUTE_ADMIN}/${ROUTE_LOGIN}`);
-
     if (!user) {
-      router.push(ROUTE_LOGIN);
+      router.push(`${ROUTE_ADMIN}/${ROUTE_LOGIN}`);
     } else {
       router.push(`${ROUTE_ADMIN}/${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}`)
     }
