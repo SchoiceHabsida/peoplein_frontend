@@ -11,12 +11,10 @@ interface IDatePickerProps {
 }
 
 export const CustomDatePicker: FC<IDatePickerProps> = ({
-    value: defaultValue,
+    value,
     onChange,
     label
 }) => {
-
-    const [date, setDate] = useState(defaultValue);
 
     const handleDateSelect = (values: any) => {
         onChange(values)
@@ -35,12 +33,8 @@ export const CustomDatePicker: FC<IDatePickerProps> = ({
         
     }
 
-    useEffect(() => {
-        setDate(defaultValue)
-    }, [defaultValue])
-
     return <div>
         <label className="font-medium inline-block" style={{marginBottom: '6px'}}>{label}</label>
-        <DatePicker selected={date} onChange={handleDateChange} onSelect={handleDateSelect} />
+        <DatePicker selected={value ? new Date(value) : value} onChange={handleDateChange} onSelect={handleDateSelect} />
     </div>
 }

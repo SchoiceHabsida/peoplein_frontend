@@ -1,9 +1,9 @@
 'use client'
 import { TextFieldController } from "@/common/components/inputs/text-filed-controller";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { UploadIcon } from "@/common/icons/UploadIcon";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { ROUTE_ADMIN, ROUTE_DASHBOARD, ROUTE_PEOPLE } from "@/common/constants";
 import { CustomDatePicker } from "@/common/components/inputs/date-picker/DatePicker";
@@ -12,14 +12,20 @@ import { IApplicant, ILanguage, ISkills } from "@/common/components/models/appli
 import { CustomSelect } from "@/common/components/inputs/custom-select";
 import { genders, specialization, visaTypes } from "@/common/constants/applicant.constants";
 import './add/styles.css'
+import { FC, useEffect } from "react";
+import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
+import { removeTypename } from "@/common/components/utils/function";
 
-const ADD_APPLICANT_MUTATION = gql`
-  mutation ($input: ApplicantInput) {
-    createApplicant(input: $input,) {
-      id
+
+const createMumationByType = (type: string, id?: string) => {
+    return gql`
+    mutation ($input: ApplicantInput, ${id ? '$id: ID!' : ''}) {
+      ${type}(input: $input,  ${id ? 'id: $id' : ''}) {
+        id
+      }
     }
-  }
-`;
+  `;
+}
 
 const LANGUAGES_QUERY = gql`
     query languages {
@@ -38,13 +44,18 @@ const SKILLS_QUERY = gql`
     }
 `
 
-export const ApplicantForm = () => {
+export const ApplicantForm: FC<{ id?: string }> = () => {
+    const { id } = useParams();
     const router = useRouter();
-    const [applicantMutation, { loading: mutationLoading }] = useMutation(ADD_APPLICANT_MUTATION);
+    const [applicantMutation, { loading: mutationLoading }] = useMutation(createMumationByType(id ? 'updateApplicantById' : 'createApplicant', id));
     const { data: languages } = useQuery<Record<'getAllLanguages', ILanguage[]>>(LANGUAGES_QUERY)
     const { data: skills } = useQuery<Record<'getAllSkills', ISkills[]>>(SKILLS_QUERY)
+    const { data: applicant } = useQuery<Record<'getApplicantById', IApplicant>>(GET_APPLICANT_BY_ID, {
+        variables: { id: id },
+        skip: !id
+    })
 
-    const { control, handleSubmit, register, setValue, getValues, watch } = useForm<IApplicant>({
+    const { control, handleSubmit, register, setValue, getValues, watch, reset } = useForm<IApplicant>({
         defaultValues: {
             firstName: '',
             lastName: '',
@@ -67,13 +78,23 @@ export const ApplicantForm = () => {
 
 
     const onSubmit = (values: any) => {
-        delete values.experience[0].endOfWOrk
+        delete values.experience[0].endOfWOrk;
+        delete values.experience[0].id;
+        delete values.certificates[0].id;
+        delete values.id;
+        delete values.profilePicture;
         console.log(values);
-
-        applicantMutation({ variables: { input: values } })
+        applicantMutation({ variables: { input: removeTypename({ ...values }), id: id } })
             .then(res => router.push(`${ROUTE_ADMIN}${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}`))
             .catch(error => console.log(error))
     }
+
+    useEffect(() => {
+        if (applicant?.getApplicantById && id) {
+            console.log('set values');
+                reset(applicant.getApplicantById)
+        }
+    }, [applicant])
 
     return <div className="flex flex-col">
         <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper mb-2">
@@ -109,12 +130,14 @@ export const ApplicantForm = () => {
                     </div>
 
                     <div className="w-full flex items-center gap-4">
-                        <div className="w-1/2">
+
+                        {/* <div className="w-1/2">
                             <CustomDatePicker
                                 label={'Birthday'}
                                 onChange={(date) => setValue('dateOfBirth', date)}
                                 value={watch().dateOfBirth} />
-                        </div>
+                        </div> */}
+
                         <div className="w-1/2">
                             <TextFieldController
                                 name="country"
@@ -129,7 +152,7 @@ export const ApplicantForm = () => {
                         <div className="w-1/2">
                             <CustomSelect
                                 label={'Gender'}
-                                value={genders.find(visa => visa.value === watch().gender) || ''}
+                                value={genders.find(geder => geder.value === watch().gender) || ''}
                                 options={genders}
                                 onChange={(values) =>
                                     setValue('gender', values.value)} />
@@ -137,6 +160,7 @@ export const ApplicantForm = () => {
                         <div className="w-1/2">
                             <TextFieldController
                                 name="email"
+
                                 control={control}
                                 placeholder="Email"
                                 label="Email address"

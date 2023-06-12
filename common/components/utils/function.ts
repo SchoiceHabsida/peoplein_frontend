@@ -10,3 +10,23 @@ export const calculateAge = (birthdate: string): number | string => {
         return age;
     } else return ''
 }
+
+export function removeTypename(obj: any): any {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+
+    if (Array.isArray(obj)) {
+        return obj.map((item) => removeTypename(item));
+    }
+
+    const newObj: any = {};
+
+    for (const key in obj) {
+        if (key !== '__typename') {
+            newObj[key] = removeTypename(obj[key]);
+        }
+    }
+
+    return newObj;
+}

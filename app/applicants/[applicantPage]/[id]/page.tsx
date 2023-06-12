@@ -1,6 +1,5 @@
 'use client'
 import { useQuery, gql } from '@apollo/client';
-import { useEffect } from 'react';
 import Image from 'next/image';
 import './styles.css';
 import { calculateAge } from '@/common/components/utils/function';
@@ -10,40 +9,42 @@ export const GET_APPLICANT_BY_ID = gql`
     query getApplicant ($id: ID!) {
         getApplicantById (id: $id) {
             id
-                firstName
-                lastName
-                country
-                gender
-                visa
-                dateOfBirth
-                yearsOfExperience,
-                profilePicture {
-                    id
-                    path
-                    type
-                }
-                specialization
-                degree
-                resumeGoogleDrivePath
-                skills {
-                    skillName
-                    skillType
-                }
-                experience {
-                    company
-                    startOfWork
-                    startOfWork
-                    details
-                    yearsWorked
-                }
-                certificates {
-                    certificateName
-                    acquisitionDate
-                    expiryDate
-                }
-                languages {
-                    languageName
-                }
+            profilePicture {
+                id
+                path
+                type
+            }
+            firstName
+            lastName
+            country
+            gender
+            visa
+            specialization
+            dateOfBirth
+            degree
+            yearsOfExperience
+            resumeGoogleDrivePath
+            languages {
+                languageName
+            }
+            skills {
+                skillName
+                skillType
+            }
+            experience {
+                id
+                company
+                startOfWork
+                endOfWork
+                details
+                yearsWorked
+            }
+            certificates {
+                id
+                certificateName
+                acquisitionDate
+                expiryDate
+            }
         }
     }
 `
@@ -82,7 +83,7 @@ export default function Profile({ params }: { params: { id: string } }) {
                     </div>
                     <div className='w-1/3'>
                         <div className="font-bold text-base info-title">Age:</div>
-                        <div>{calculateAge(data?.getApplicantById?.dateOfBirth || '')}</div>
+                        <div>{calculateAge(data?.getApplicantById?.dateOfBirth || '' as any)}</div>
                     </div>
                 </div>
             </div>

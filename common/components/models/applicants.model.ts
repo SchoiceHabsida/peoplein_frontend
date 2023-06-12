@@ -5,7 +5,7 @@ export interface IApplicant {
     country: string,
     gender: string,
     visa: string,
-    dateOfBirth: string,
+    dateOfBirth?: string | Date,
     profilePicture?: {
         path: string,
         type: string

@@ -23,7 +23,7 @@ export const CustomSelect: FC<ICustomSelectProps> = ({
     multiple,
     options,
     label }) => {
-
+        
     const [selected, setSelected] = useState(value);
 
     useEffect(() => {
@@ -33,6 +33,8 @@ export const CustomSelect: FC<ICustomSelectProps> = ({
     return <div>
         <label className="font-medium inline-block" style={{ marginBottom: '6px' }}>{label}</label>
         <Select
+            instanceId={'instanceId'}
+            value={selected}
             defaultValue={selected}
             onChange={onChange}
             isMulti={multiple}

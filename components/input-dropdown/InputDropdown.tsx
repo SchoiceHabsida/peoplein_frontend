@@ -19,6 +19,8 @@ export const InputDropdown: FC<IInputDropdownProps> = ({ onChange, options, styl
 
     const checkForSelected = (value: string): boolean => values.some(item => item.value === value);
 
+    const onApply = () => {}
+
     return <div onClick={(e: any) => {e.stopPropagation(); e.preventDefault}} className="dropdown text-gray" style={styles}>
         <div className="dropdown__content">
             <div className="filter-header">{label}</div>
@@ -38,7 +40,7 @@ export const InputDropdown: FC<IInputDropdownProps> = ({ onChange, options, styl
             </ul>
             <div className="actions flex w-full justify-end p-2 gap-2">
                 <button className="px-4 py-2 text-gray cancel-btn rounded" onClick={onClose}>Cancel</button>
-                <button className="px-4 py-2 text-white apply-btn rounded" onClick={onClose}>Apply</button>
+                <button className="px-4 py-2 text-white apply-btn rounded" onClick={onApply}>Apply</button>
             </div>
         </div>
     </div>

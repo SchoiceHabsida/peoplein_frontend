@@ -86,7 +86,7 @@ export const Card: FC<IApplicant & { refetch: () => void }> = ({
                 </div>
                 <div>
                     <div className="font-bold text-base info-title">Age:</div>
-                    <div>{calculateAge(dateOfBirth)}</div>
+                    <div>{calculateAge(dateOfBirth as any)}</div>
                 </div>
             </div>
         </div>

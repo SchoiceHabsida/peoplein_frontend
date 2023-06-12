@@ -6,7 +6,7 @@ import { FC } from "react";
 import './styles.css';
 import Link from "next/link";
 
-export const Breadcrumb: FC<{with_bg: boolean}> = ({with_bg = true}) => {
+export const Breadcrumb: FC<{with_bg?: boolean}> = ({with_bg = true}) => {
     const currentUrl = usePathname();
     const currentRotes = currentUrl.split('/');
 

@@ -17,6 +17,6 @@ export default function EditApplicant({ params }: { params: { id: string } }) {
             <Breadcrumb with_bg={false} />
         </ContentHeader>
 
-        <ApplicantForm/>
+        <ApplicantForm id={params.id}/>
     </div>
 }
