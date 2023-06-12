@@ -17,7 +17,7 @@ import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page"
 import { removeTypename } from "@/common/components/utils/function";
 
 
-const createMumationByType = (type: string, id?: string) => {
+const createMutationByType = (type: string, id?: string) => {
     return gql`
     mutation ($input: ApplicantInput, ${id ? '$id: ID!' : ''}) {
       ${type}(input: $input,  ${id ? 'id: $id' : ''}) {
@@ -47,7 +47,7 @@ const SKILLS_QUERY = gql`
 export const ApplicantForm: FC<{ id?: string }> = () => {
     const { id } = useParams();
     const router = useRouter();
-    const [applicantMutation, { loading: mutationLoading }] = useMutation(createMumationByType(id ? 'updateApplicantById' : 'createApplicant', id));
+    const [applicantMutation, { loading: mutationLoading }] = useMutation(createMutationByType(id ? 'updateApplicantById' : 'createApplicant', id));
     const { data: languages } = useQuery<Record<'getAllLanguages', ILanguage[]>>(LANGUAGES_QUERY)
     const { data: skills } = useQuery<Record<'getAllSkills', ISkills[]>>(SKILLS_QUERY)
     const { data: applicant } = useQuery<Record<'getApplicantById', IApplicant>>(GET_APPLICANT_BY_ID, {
