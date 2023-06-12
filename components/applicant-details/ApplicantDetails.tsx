@@ -10,16 +10,16 @@ import { useQuery } from "@apollo/client";
 import { IApplicant } from "@/common/components/models/applicants.model";
 import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
 
-export const ApplicantDetails: FC<{applicantId: string}> = ({applicantId}) => {
+export const ApplicantDetails: FC<{ applicantId: string }> = ({ applicantId }) => {
     const { data, loading } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID, { variables: { id: applicantId } })
 
     useEffect(() => {
         console.log(applicantId);
     }, [applicantId])
-    
+
     const path = usePathname();
     const router = useRouter();
-    
+
     return <div className="flex flex-col gap-6 applicant-details">
         <div className="flex">
             <div>
@@ -41,19 +41,32 @@ export const ApplicantDetails: FC<{applicantId: string}> = ({applicantId}) => {
             <div className="w-2/3">
                 <div className="mb-14">
                     <div className="applicant-name">{data?.getApplicantById.firstName} {data?.getApplicantById.lastName}</div>
-                    <div>Specialization</div>
+                    <div>
+                        {data?.getApplicantById.specialization?.map((spc, index) => (<span key={index}>{spc}</span>))}
+                    </div>
                 </div>
                 <div>
                     <div className="sub-title">Description:</div>
 
                     <div className="section">About</div>
-                    <div className="sub-title-1 mb-6">Degree: B.C Tech(Hons: )</div>
-                    <div className="mb-6">
+                    <div className="sub-title-1 mb-6">Degree: {data?.getApplicantById?.degree}</div>
+                    {/* <div className="mb-6">
                         <div>+ 2021 DEC UTAC SPOT AWARD</div>
                         <div>+ 2021 DEC UTAC SPOT AWARD</div>
                         <div>+ 2021 DEC UTAC SPOT AWARD</div>
-                    </div>
-                    <div className="sub-title-1">Experience in Singapore Semiconductor Industry:</div>
+                    </div> */}
+                    {
+                        data?.getApplicantById.experience?.map((experience, index) => {
+                            return <div key={index}>
+                                <div className="sub-title-1">{experience.company}</div>
+                                <div className="mb-6">{experience.yearsWorked} + years</div>
+
+                                <div className="section mb-6">Background Details</div>
+                                <div>{experience.details}</div>
+                            </div>
+                        })
+                    }
+                    {/* <div className="sub-title-1">Experience in Singapore Semiconductor Industry:</div>
                     <div className="mb-6">6 + years</div>
                     <div className="sub-title-1">Domain Knowledge:</div>
                     <div className="mb-6">
@@ -61,44 +74,37 @@ export const ApplicantDetails: FC<{applicantId: string}> = ({applicantId}) => {
                         * Final Test
                         * Wafer Sort
                         * Assembly
-                    </div>
-                    <div className="sub-title-1">Experience in Software Development:</div>
+                    </div> */}
+                    {/* <div className="sub-title-1">Experience in Software Development:</div>
                     <div className="mb-6">8 + years</div>
 
                     <div className="section mb-6">Background Details</div>
 
                     <div className="sub-title-1">Position:</div>
-                    <div>My latest position is Software Engineer in UTAC(Singapore).</div>
+                    <div>My latest position is Software Engineer in UTAC(Singapore).</div> */}
 
-                    <div className="sub-title-1">Microsoft Certificates:</div>
+                    <div className="sub-title-1">Certificates:</div>
                     <div className="mb-6">
-                        <div>- Microsoft Certified Technology Specialist(MCTS)</div>
-                        <div >- Microsoft Certified Professional Developer(MCPD) for .Net Framework 2.0, 3.5, 4.0 +</div>
+                        {data?.getApplicantById.certificates.map((certificate, index) => <div key={index}> - {certificate.certificateName}</div>)}
                     </div>
-                    
-                    <div className="sub-title-1">Experience in Semiconductor Industry:</div>
+
+                    {/* <div className="sub-title-1">Experience in Semiconductor Industry:</div>
                     <div className="mb-6">6 + years Experience in Semiconductor Industry with MSLP Domain knowledge.</div>
-                    
+
                     <div className="sub-title-1">Experience in Software Development:</div>
-                    <div className="mb-6">8 + years experience in Software development with full SDLC(Waterfall model, Agile).</div>
-                    
+                    <div className="mb-6">8 + years experience in Software development with full SDLC(Waterfall model, Agile).</div> */}
+
                     <div className="sub-title-1">Skills:</div>
                     <div className="mb-6">
-                        <div>- Multi tiers architecture,</div>
-                        <div>- CAB Framework,</div>
-                        <div>- ASP.Net</div>
-                        <div>- C#.NET, VB.Net,</div>
-                        <div>- HTML, CSS, XML, JavaScript, Crystal Report, AJAX, LINQ, Active Reports.</div>
+                        {data?.getApplicantById?.skills?.map((skill, index) => <div key={index}> - {skill.skillName}</div>)}
                     </div>
 
                     <div className="sub-title-1">Others:</div>
                     <div className="mb-6">
-                        Excellent communication skills and time management skills.
-                        I’m Enthusiastic, self - motivated and * very fast learner *.
-                        Able to work under pressure and tide schedules, plus highly responsible.
+                        {data?.getApplicantById?.description}
                     </div>
 
-                    Best Regards <br/>
+                    Best Regards <br />
                     PM
                 </div>
             </div>
@@ -106,20 +112,20 @@ export const ApplicantDetails: FC<{applicantId: string}> = ({applicantId}) => {
                 <div className="sub-title">
                     Nationality:
                 </div>
-                <div className="mb-6">Canada</div>
+                <div className="mb-6">{data?.getApplicantById.country}</div>
                 <div className="sub-title">
                     Visa:
                 </div>
-                <div className="mb-6">F4</div>
+                <div className="mb-6">{data?.getApplicantById.visa}</div>
                 <div className="sub-title">
                     Email:
                 </div>
-                <div className="mb-6">main@mail.com</div>
-                <div className="sub-title">
+                <div className="mb-6">{data?.getApplicantById.email}</div>
+                {/* <div className="sub-title">
                     In favorites:
                 </div>
                 <div>1) Company A</div>
-                <div>2) Comapny B</div>
+                <div>2) Comapny B</div> */}
             </div>
         </div>
     </div>

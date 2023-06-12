@@ -1,17 +1,17 @@
 'use client'
 import { TextFieldController } from "@/common/components/inputs/text-filed-controller";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UploadIcon } from "@/common/icons/UploadIcon";
 import { useFieldArray, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import { ROUTE_ADMIN, ROUTE_DASHBOARD, ROUTE_PEOPLE } from "@/common/constants";
 import { CustomDatePicker } from "@/common/components/inputs/date-picker/DatePicker";
 import { ImageUploader } from "@/components/image-uploader/ImageUploader";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { useRouter } from "next/navigation";
-import './add/styles.css'
-import { IApplicant, ICertificate, IExperience, ILanguage, ISkills } from "@/common/components/models/applicants.model";
+import { IApplicant, ILanguage, ISkills } from "@/common/components/models/applicants.model";
 import { CustomSelect } from "@/common/components/inputs/custom-select";
 import { genders, specialization, visaTypes } from "@/common/constants/applicant.constants";
+import './add/styles.css'
 
 const ADD_APPLICANT_MUTATION = gql`
   mutation ($input: ApplicantInput) {
@@ -313,7 +313,7 @@ export const ApplicantForm = () => {
                 </div>
             </div>
             <div className="form-actions w-full flex items-center mt-8 gap-4 justify-center">
-                <button className="form-btn form-btn--1">Cancel</button>
+                <button type="button" onClick={() => router.back()} className="form-btn form-btn--1">Cancel</button>
                 <button type="submit" className="form-btn form-btn--2" disabled={mutationLoading}>Save</button>
             </div>
         </form>
