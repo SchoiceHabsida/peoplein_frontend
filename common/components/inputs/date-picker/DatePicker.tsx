@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -21,20 +21,29 @@ export const CustomDatePicker: FC<IDatePickerProps> = ({
     }
 
     const handleDateChange = (values: any, event: any) => {
-        if(values === null) {
+        if (values === null) {
             onChange(undefined);
         }
 
         const date = new Date(event.target.value);
-        
-        if(!isNaN(date.getTime()) && event.target.value?.length > 6){
+
+        if (!isNaN(date.getTime()) && event.target.value?.length > 6) {
             onChange(date)
         }
-        
+
     }
 
     return <div>
-        <label className="font-medium inline-block" style={{marginBottom: '6px'}}>{label}</label>
-        <DatePicker selected={value ? new Date(value) : value} onChange={handleDateChange} onSelect={handleDateSelect} />
+        <label className="font-medium inline-block" style={{ marginBottom: '6px' }}>{label}</label>
+        <DatePicker selected={checkForDate(value)} onChange={handleDateChange} onSelect={handleDateSelect} />
     </div>
+}
+
+export const checkForDate = (d: any) => {
+    const date = new Date(d);
+    if (!isNaN(date.getTime())) {
+        return date
+    } else {
+        return undefined
+    }
 }

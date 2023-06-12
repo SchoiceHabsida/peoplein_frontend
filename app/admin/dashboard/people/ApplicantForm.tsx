@@ -78,9 +78,9 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
 
 
     const onSubmit = (values: any) => {
-        delete values.experience[0].endOfWOrk;
-        delete values.experience[0].id;
-        delete values.certificates[0].id;
+        delete values.experience[0]?.endOfWOrk;
+        delete values.experience[0]?.id;
+        delete values.certificates[0]?.id;
         delete values.id;
         delete values.profilePicture;
         console.log(values);
@@ -91,7 +91,6 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
 
     useEffect(() => {
         if (applicant?.getApplicantById && id) {
-            console.log('set values');
                 reset(applicant.getApplicantById)
         }
     }, [applicant])
@@ -131,12 +130,12 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
 
                     <div className="w-full flex items-center gap-4">
 
-                        {/* <div className="w-1/2">
+                        <div className="w-1/2">
                             <CustomDatePicker
                                 label={'Birthday'}
                                 onChange={(date) => setValue('dateOfBirth', date)}
                                 value={watch().dateOfBirth} />
-                        </div> */}
+                        </div>
 
                         <div className="w-1/2">
                             <TextFieldController
