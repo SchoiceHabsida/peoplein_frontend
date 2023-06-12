@@ -4,8 +4,9 @@ import { ActionButtonWrapper } from "../admin-status-actions/AdminStatusActions"
 
 import './styles.css';
 import { usePathname, useRouter } from "next/navigation";
+import { FC } from "react";
 
-export const CompanyDetails = () => {
+export const CompanyDetails: FC<{id: string}> = ({id}) => {
 
     const mock_id = '1';
     const path = usePathname();

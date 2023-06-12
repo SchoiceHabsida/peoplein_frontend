@@ -7,13 +7,38 @@ import { EyeIcon } from "@/common/icons/EyeIcon";
 import { AdminFilters } from "@/components/admin-filters";
 import { Breadcrumb } from "@/components/breadcrumb/Breadcrumb";
 import { ContentHeader } from "@/components/content-header";
-import { CustomPagination } from "@/components/pagination";
+import { CustomPagination, IPaginationParams } from "@/components/pagination";
 import { useState } from "react";
 
 import './styles.css';
 import { CompanyDetails } from "@/components/company-details/CompanyDetails";
+import { gql, useQuery } from "@apollo/client";
+import { IPageable } from "@/common/components/models/applicants.model";
+import { ICompany } from "@/common/components/models/companies.model";
+
+const Companies_QUERY = gql`
+    query GetAllCompanies ($pageNumber: Int!, $pageCount: Int!) {
+        getAllCompaniesPaged (pageNumber: $pageNumber, pageCount: $pageCount) {
+            content{
+                id
+                address
+                hrManager
+                name
+                phoneNumber
+            }
+        currentPage
+        totalElements
+        totalPages
+      }
+    }
+  `
+
 
 export default function Companies() {
+    const [openedId, setOpenedId] = useState('')
+    const { data, loading, error, refetch } =
+        useQuery<Record<'getAllCompaniesPaged', IPageable<ICompany>>>
+            (Companies_QUERY, { variables: { pageNumber: 0, pageCount: 10 } });
     const styles = {
         tableStyles: {
             header: {
@@ -44,10 +69,14 @@ export default function Companies() {
     }
     const [dialogOpen, setDialogOpen] = useState(false);
 
+    const onPage = (values: IPaginationParams) => {
+        refetch(values)
+    }
+
     return <div className="people flex flex-col justify-between h-full">
         {dialogOpen && <div className="absolute">
             <DialogWrapper onClose={() => setDialogOpen(false)}>
-                <CompanyDetails/>
+                <CompanyDetails id={openedId}/>
             </DialogWrapper>
         </div>}
         <div>
@@ -81,6 +110,14 @@ export default function Companies() {
                             <th>
                                 <div className="flex gap-1 cursor-pointer">
                                     <span>
+                                        Phone number
+                                    </span>
+                                    <DownIcon />
+                                </div>
+                            </th>
+                            <th>
+                                <div className="flex gap-1 cursor-pointer">
+                                    <span>
                                         Skills
                                     </span>
                                     <DownIcon />
@@ -100,56 +137,44 @@ export default function Companies() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="cursor-pointer">
-                            <th>
-                                <Checkbox onChange={() => { }} />
-                            </th>
-                            <td>
-                                <div className="flex items-center space-x-3">
-                                    <div>
-                                        <div className="font-bold">Company 1</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                0101010101
-                            </td>
-                            <td>Java, JS, React</td>
-                            <td>2022.11.20</td>
-                            <td>
-                                <button className="btn btn-ghost btn-xs"><EyeIcon /></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th style={styles.tableStyles.tableBorder}>
-                                <Checkbox onChange={() => { }} />
-                            </th>
-                            <td style={styles.tableStyles.tableBorder}>
-                                <div className="flex items-center space-x-3">
-                                    <div>
-                                        <div className="font-bold">Company 1</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td style={styles.tableStyles.tableBorder}>
-                            0101010101
-                            </td>
-                            <td style={styles.tableStyles.tableBorder}>Java, JS, React</td>
-                            <td style={styles.tableStyles.tableBorder}>
-                                2022.11.20
-                            </td>
-                            
-                            <td style={styles.tableStyles.tableBorder}>
-                                <button onClick={() => setDialogOpen(true)} className="btn btn-ghost btn-xs"><EyeIcon /></button>
-                            </td>
-                        </tr>
+                        {
+                            data?.getAllCompaniesPaged.content.map((company, index) => {
+                                return <tr className="cursor-pointer" key={index}>
+                                    <th>
+                                        <Checkbox onChange={() => { }} />
+                                    </th>
+                                    <td>
+                                        <div className="flex items-center space-x-3">
+                                            <div>
+                                                <div className="font-bold">{company.name}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                    <td>{company.phoneNumber}</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>
+                                    <button
+                                            className="btn btn-ghost btn-xs"
+                                            onClick={() => { setOpenedId(company.id as any); setDialogOpen(true) }}><EyeIcon /></button>
+                                    </td>
+                                </tr>
+                            })
+                        }
 
                     </tbody>
                 </table>
             </div>
         </div>
         <div className="w-full text-center table-pagination">
-            <CustomPagination totalElements={8} currentPage={0} onPage={() => console.log}></CustomPagination>
+            <CustomPagination
+                totalElements={data?.getAllCompaniesPaged.totalElements || 1}
+                currentPage={data?.getAllCompaniesPaged.currentPage || 0}
+                pageCount={10}
+                onPage={onPage} />
         </div>
     </div>
 }
