@@ -10,7 +10,6 @@ const ME_QUERY = gql`
     getCurrentUser {
       id
       username
-      roles
     }
   }
 `;
