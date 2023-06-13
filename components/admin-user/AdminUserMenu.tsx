@@ -31,6 +31,7 @@ const styles = {
 }
 export const AdminUserMenu = () => {
     const [open, setOpen] = useState(false)
+    const { user } = useAuth() as any;
 
     return <div className="flex items-center gap-6" style={styles.actionContent}>
         <div className="relative">
@@ -42,7 +43,7 @@ export const AdminUserMenu = () => {
                     style={styles.addIcon} >
                     <AvatarIcon />
                 </div>
-                <span >Admin</span>
+                <span className="capitalize">{user.username}</span>
             </button>
             {
                 open && <div className="absolute top-0 -left-3">

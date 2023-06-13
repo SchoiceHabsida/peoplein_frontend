@@ -29,7 +29,7 @@ const AuthContext = createContext({});
 const useAuthProvider = () => {
 
   const { client, loading, error, data: userData, refetch, } =
-    useQuery<{ getCurrentUser: { id: string; username: string } }>(ME_QUERY);
+    useQuery<{ getCurrentUser: { id: string; username: string } }>(ME_QUERY, {fetchPolicy: 'no-cache'});
   const [loginMutation, { loading: mutationLoading }] = useMutation(LOGIN_MUTATION);
   const router = useRouter()
 
@@ -56,9 +56,9 @@ const useAuthProvider = () => {
 
   const logout = useCallback((is_admin?: boolean) => {
     localStorage.removeItem('token');
-    setUser(null);
     router.push(is_admin ? `${ROUTE_ADMIN}${ROUTE_LOGIN}` : ROUTE_LOGIN);
-    client.resetStore()
+    setUser(null);
+    refetch()
   }, [client, router]);
 
   return {
