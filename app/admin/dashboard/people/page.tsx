@@ -1,18 +1,20 @@
 'use client'
 
 import { DialogWrapper } from "@/common/components/dialog-wrapper/DialogWrapper";
+import { CustomPagination, IPaginationParams } from "@/components/pagination";
 import { Checkbox } from "@/common/components/inputs/checkbox";
 import { DownIcon } from "@/common/icons/DownIcon";
 import { EyeIcon } from "@/common/icons/EyeIcon";
 import { AdminFilters } from "@/components/admin-filters";
 import { Breadcrumb } from "@/components/breadcrumb/Breadcrumb";
 import { ContentHeader } from "@/components/content-header";
-import { CustomPagination, IPaginationParams } from "@/components/pagination";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
-import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
-import { gql, useQuery } from "@apollo/client";
 import './styles.css';
+import { gql, useQuery } from "@apollo/client";
+import { AdminFiltersContext, IAdminFilters } from "@/common/providers";
+import { SEARCH_BY_KEYWORD } from "@/app/applicants/[applicantPage]/results/page";
+import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
 import { IApplicant, IPageable } from "@/common/components/models/applicants.model";
 
 const APPLICANT_QUERY = gql`
@@ -41,8 +43,8 @@ const APPLICANT_QUERY = gql`
     }
   `
 
-
 export default function People() {
+    const [isSearching, setIsSearching] = useState(false);
     const { data, loading, error, refetch } =
         useQuery<Record<'getAllApplicantsPaged', IPageable<IApplicant>>>
             (APPLICANT_QUERY, { variables: { pageNumber: 0, pageCount: 10 } });
@@ -74,11 +76,39 @@ export default function People() {
             }
         }
     }
+
     const [dialogOpen, setDialogOpen] = useState(false);
     const [openedId, setOpenedId] = useState('')
 
+    const { keyword, setKeyword } = useContext(AdminFiltersContext) as IAdminFilters;
+
+    const { data: searchedApplicants, refetch: refetchApplicants, loading: isSearchingApplicants } =
+    useQuery<Record<'searchApplicantsByKeyword', IPageable<IApplicant>>, IPaginationParams & { keyword: string }>(SEARCH_BY_KEYWORD, {
+        variables: {
+            keyword: keyword,
+            pageNumber: 0,
+        },
+        skip: !keyword
+    })
+
     const onPage = (values: IPaginationParams) => {
         refetch(values)
+    }
+
+    useEffect(() => {
+        if(keyword) {
+            setIsSearching(true);
+        } else {
+            setIsSearching(false);
+        }
+    }, [keyword])
+
+    useEffect(() => {
+        return () => {setKeyword('')};
+    }, [])
+
+    const getData = (isSearching: boolean): IPageable<IApplicant> | undefined => {
+        return isSearching ? searchedApplicants?.searchApplicantsByKeyword : data?.getAllApplicantsPaged;
     }
 
     return <div className="people flex flex-col justify-between h-full">
@@ -148,9 +178,8 @@ export default function People() {
                         </tr>
                     </thead>
                     <tbody>
-                        {(data?.getAllApplicantsPaged.content && data?.getAllApplicantsPaged?.content.length) ?
-                            data.getAllApplicantsPaged?.content
-                                .map(applicant => <tr key={applicant.id} className="cursor-pointer">
+                        {(getData(isSearching)?.content && getData(isSearching)?.content.length) ?     
+                              getData(isSearching)?.content?.map(applicant => <tr key={applicant.id} className="cursor-pointer">
                                     <th>
                                         <Checkbox onChange={() => { }} />
                                     </th>
@@ -187,8 +216,8 @@ export default function People() {
         </div>
         <div className="w-full text-center table-pagination">
             <CustomPagination
-                totalElements={data?.getAllApplicantsPaged.totalElements || 1}
-                currentPage={data?.getAllApplicantsPaged.currentPage || 0}
+                totalElements={getData(isSearching)?.totalElements || 1}
+                currentPage={getData(isSearching)?.currentPage || 0}
                 pageCount={10}
                 onPage={onPage} />
         </div>

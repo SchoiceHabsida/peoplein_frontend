@@ -5,17 +5,13 @@ import { ActionButtonWrapper, AdminStatusActions } from "../admin-status-actions
 
 import './styles.css';
 import { usePathname, useRouter } from "next/navigation";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { useQuery } from "@apollo/client";
 import { IApplicant } from "@/common/components/models/applicants.model";
 import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
 
 export const ApplicantDetails: FC<{ applicantId: string }> = ({ applicantId }) => {
     const { data, loading } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID, { variables: { id: applicantId } })
-
-    useEffect(() => {
-        console.log(applicantId);
-    }, [applicantId])
 
     const path = usePathname();
     const router = useRouter();

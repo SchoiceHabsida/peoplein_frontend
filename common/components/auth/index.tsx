@@ -10,6 +10,7 @@ const ME_QUERY = gql`
     getCurrentUser {
       id
       username
+      roles
     }
   }
 `;
@@ -28,14 +29,15 @@ const AuthContext = createContext({});
 
 const useAuthProvider = () => {
 
-  const { client, loading, error, data: userData, refetch, } = useQuery<{ getCurrentUser: { id: string; username: string } }>(ME_QUERY);
+  const { client, loading, error, data: userData, refetch, } =
+    useQuery<{ getCurrentUser: { id: string; username: string } }>(ME_QUERY);
   const [loginMutation, { loading: mutationLoading }] = useMutation(LOGIN_MUTATION);
   const router = useRouter()
 
   const [user, setUser] = useState<{ id: string; username: string } | null>(null)
   const [loginError, setLoginError] = useState<any>(null)
 
-  const login = useCallback(({ username, password, is_admin }: {username: string; password: string; is_admin?: boolean}) => {
+  const login = useCallback(({ username, password, is_admin }: { username: string; password: string; is_admin?: boolean }) => {
 
     loginMutation({ variables: { username, password } })
       .then(({ data }) => {

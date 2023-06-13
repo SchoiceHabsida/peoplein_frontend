@@ -7,7 +7,7 @@ import { IPaginationParams, CustomPagination } from "@/components/pagination";
 import { gql, useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react"
 
-const SEARCH_BY_KEYWORD = gql`
+export const SEARCH_BY_KEYWORD = gql`
     query searchApplicants ($pageNumber: Int, $pageCount: Int, $keyword: String) {
         searchApplicantsByKeyword (pageNumber: $pageNumber, pageCount: $pageCount, keyword: $keyword) {
             content{
