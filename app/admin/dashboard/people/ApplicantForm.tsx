@@ -91,7 +91,7 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
 
     useEffect(() => {
         if (applicant?.getApplicantById && id) {
-                reset(applicant.getApplicantById)
+            reset(applicant.getApplicantById)
         }
     }, [applicant])
 
@@ -100,7 +100,9 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
             <div className="form-fields rounded">
                 <div className="upload-actions flex">
                     <div className="user-photo h-full flex items-center justify-center relative">
-                        <ImageUploader onChange={(file: File) => console.log(file)} />
+                        <ImageUploader
+                            onChange={(file: File) => console.log(file)}
+                            imagePath={applicant?.getApplicantById.profilePicture?.path} />
                         <UploadIcon />
                     </div>
                     <div className="user-logo h-full flex-grow"></div>

@@ -19,7 +19,7 @@ export const ApplicantDetails: FC<{ applicantId: string }> = ({ applicantId }) =
     return <div className="flex flex-col gap-6 applicant-details">
         <div className="flex">
             <div>
-                <img src={'/Avatar-Image.png'}
+                <img src={data?.getApplicantById.profilePicture ? data?.getApplicantById.profilePicture?.path : '/Avatar-Image.png'}
                     width={205}
                     height={205}
                     className='rounded' alt='person'></img>

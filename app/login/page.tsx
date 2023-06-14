@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { ROUTE_APPLICANTS, ROUTE_HOME, ROUTE_SEARCH } from '@/common/constants';
+import { ROUTE_APPLICANTS, ROUTE_SEARCH } from '@/common/constants';
 import { useAuth } from '@/common/components/auth';
 import { TextFieldController } from '@/common/components/inputs/text-filed-controller';
 import Link from 'next/link';
