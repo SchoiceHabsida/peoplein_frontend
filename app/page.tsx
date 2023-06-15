@@ -4,15 +4,22 @@ import { useAuth } from "@/common/components/auth";
 import { useRouter } from 'next/navigation';
 import './styles.css';
 import { LockIcon } from "@/common/icons/LockIcon";
-import { ROUTE_ADMIN, ROUTE_LOGIN } from "@/common/constants";
+import { ROUTE_ADMIN, ROUTE_APPLICANTS, ROUTE_LOGIN, ROUTE_SEARCH } from "@/common/constants";
+import { useEffect } from "react";
+import { ROLES } from "@/common/constants/common.constants";
 
 export default function Home() {
   const { user } = useAuth() as any;
   const router = useRouter();
-
-  // useEffect(() => {
-  // TODO IF THERE IS A USER CHECK USER ROLE AND NAVIGATE
-  // }, [user])
+  useEffect(() => {
+    if(user) {
+      if(user.roles.includes(ROLES.ADMIN)) {
+        router.push(ROUTE_ADMIN);
+      } else {
+        router.push(`${ROUTE_APPLICANTS}/${ROUTE_SEARCH}`)
+      }
+    }
+  }, [user])
   const navigate = (path: string) => {
     router.push(path);
   }

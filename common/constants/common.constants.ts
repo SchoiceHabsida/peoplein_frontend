@@ -15,3 +15,8 @@ export enum Specializations {
     FRONTEND = 'FRONTEND',
     BACKEND = 'BACKEND'
 }
+
+export enum ROLES {
+    ADMIN = "ADMIN",
+    COMPANY = "COMPANY"
+}
