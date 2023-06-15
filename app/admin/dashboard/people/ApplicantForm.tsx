@@ -1,6 +1,6 @@
 'use client'
 import { TextFieldController } from "@/common/components/inputs/text-filed-controller";
-import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import { UploadIcon } from "@/common/icons/UploadIcon";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useParams, useRouter } from "next/navigation";
@@ -8,14 +8,15 @@ import { useParams, useRouter } from "next/navigation";
 import { ROUTE_ADMIN, ROUTE_DASHBOARD, ROUTE_PEOPLE } from "@/common/constants";
 import { CustomDatePicker } from "@/common/components/inputs/date-picker/DatePicker";
 import { ImageUploader } from "@/components/image-uploader/ImageUploader";
-import { IApplicant, ILanguage, ISkills } from "@/common/components/models/applicants.model";
+import { IApplicant, ILanguage, ISkills, SkillTypesEnum } from "@/common/components/models/applicants.model";
 import { CustomSelect } from "@/common/components/inputs/custom-select";
 import { genders, specialization, visaTypes } from "@/common/constants/applicant.constants";
-import './add/styles.css'
 import { FC, useEffect } from "react";
 import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
-import { removeTypename } from "@/common/components/utils/function";
-
+import { removeTypename, replaceEmptyStringWithUndefined } from "@/common/components/utils/function";
+import './add/styles.css'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { schema, skillSchema } from "@/common/schemas/applicantschemas";
 
 const createMutationByType = (type: string, id?: string) => {
     return gql`
@@ -55,36 +56,61 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
         skip: !id
     })
 
-    const { control, handleSubmit, register, setValue, getValues, watch, reset } = useForm<IApplicant>({
+    const { control, handleSubmit, register, setValue, watch, reset, formState: { errors } } = useForm<IApplicant>({
         defaultValues: {
             firstName: '',
             lastName: '',
             country: '',
-            visa: '',
             degree: '',
             resumeGoogleDrivePath: '',
             gender: '',
-            dateOfBirth: '',
             description: '',
             email: '',
             experience: [{ company: '', startOfWork: '' }],
             certificates: [{ acquisitionDate: '', certificateName: '' }]
-        }
+        },
+        resolver: yupResolver(schema as any),
+        mode: 'onBlur'
     });
 
     const { fields, append, remove } = useFieldArray({ name: 'experience', control })
     const { fields: certificate_fields, append: append_certificate, remove: remove_certificate } =
         useFieldArray({ name: 'certificates', control })
 
+    const { control: additionalFieldsControl, setValue: setAdditionalFieldsValue, watch: watchAdditionalFields, getValues } =
+        useForm<{ additionalSkills: ISkills[], additionalLanguages: ILanguage[] }>({
+            defaultValues: {
+                additionalSkills: [], additionalLanguages: []
+            },
+            mode: 'onBlur',
+            resolver: yupResolver(skillSchema)
+        });
 
-    const onSubmit = (values: any) => {
+    const { fields: skillFields, append: appendSkill, remove: removeSkill } =
+        useFieldArray({
+            name: 'additionalSkills',
+            control: additionalFieldsControl,
+        });
+
+    const { fields: skillFLanguage, append: appendLanguage, remove: removeLanguage } =
+        useFieldArray({
+            name: 'additionalLanguages',
+            control: additionalFieldsControl
+        });
+
+        const checkArrayLength = (arr?: any) => {
+            return Array.isArray(arr) && arr.length ? arr : []
+        }
+    const onSubmit = (values: IApplicant) => {
+        const additionalValues = getValues();
         delete values.experience[0]?.endOfWOrk;
         delete values.experience[0]?.id;
         delete values.certificates[0]?.id;
         delete values.id;
         delete values.profilePicture;
-        console.log(values);
-        applicantMutation({ variables: { input: removeTypename({ ...values }), id: id } })
+        values.skills = [...checkArrayLength(values?.skills), ...additionalValues.additionalSkills];
+        values.languages = [...checkArrayLength(values?.languages), ...additionalValues.additionalLanguages]
+        applicantMutation({ variables: { input: replaceEmptyStringWithUndefined(removeTypename({ ...values })), id: id } })
             .then(res => router.push(`${ROUTE_ADMIN}${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}`))
             .catch(error => console.log(error))
     }
@@ -107,7 +133,6 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                     </div>
                     <div className="user-logo h-full flex-grow"></div>
                 </div>
-
                 <div className="flex flex-col gap-4 mt-2">
                     <div className="w-full flex items-center gap-4">
                         <div className="w-1/2 flex gap-4 items-end">
@@ -129,13 +154,13 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                         </div>
                         <div className="w-1/2"></div>
                     </div>
-
                     <div className="w-full flex items-center gap-4">
 
                         <div className="w-1/2">
                             <CustomDatePicker
                                 label={'Birthday'}
-                                onChange={(date) => setValue('dateOfBirth', date)}
+                                onChange={(date) => {console.log('date', date);
+                                 setValue('dateOfBirth', date)}}
                                 value={watch().dateOfBirth} />
                         </div>
 
@@ -148,12 +173,11 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                             ></TextFieldController>
                         </div>
                     </div>
-
                     <div className="w-full flex items-center gap-4">
                         <div className="w-1/2">
                             <CustomSelect
                                 label={'Gender'}
-                                value={genders.find(geder => geder.value === watch().gender) || ''}
+                                value={genders.find(gender => gender.value === watch().gender) || ''}
                                 options={genders}
                                 onChange={(values) =>
                                     setValue('gender', values.value)} />
@@ -168,7 +192,6 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                             ></TextFieldController>
                         </div>
                     </div>
-
                     <div className="w-full flex items-center gap-4">
                         <div className="w-1/2">
                             <CustomSelect
@@ -210,34 +233,93 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                         </div>
                     </div>
 
-                    <div className="w-full flex items-center gap-4">
-                        <div className="w-1/2">
-                            <CustomSelect
-                                label={'Skills'}
-                                multiple={true}
-                                value={watch().skills?.map(skill => ({ label: skill.skillName, value: skill.skillName })) || ''}
-                                options={skills?.getAllSkills?.map(skill => ({ label: skill.skillName, value: skill.skillName })) || []}
-                                onChange={(values) => {
-                                    setValue('skills', values.map((item: any) => ({
-                                        ...skills?.getAllSkills
-                                            .find(skill => skill.skillName === item.value), __typename: undefined
-                                    })))
-                                }} />
+                    <div className="w-full flex flex-col gap-4">
+                        <div className="flex items-end justify-between gap-2">
+                            <div className="flex-grow">
+                                <CustomSelect
+                                    label={'Skills'}
+                                    multiple={true}
+                                    value={watch().skills?.map(skill => ({ label: skill.skillName, value: skill.skillName })) || ''}
+                                    options={skills?.getAllSkills?.map(skill => ({ label: skill.skillName, value: skill.skillName })) || []}
+                                    onChange={(values) => {
+                                        setValue('skills', values.map((item: any) => ({
+                                            ...skills?.getAllSkills
+                                                .find(skill => skill.skillName === item.value), __typename: undefined
+                                        })))
+                                    }} />
+                            </div>
+                            <div>
+                                <button type="button"
+                                    onClick={() => appendSkill({ skillName: '', skillType: SkillTypesEnum.FRONTEND })}
+                                    className="add-btn p-2 padding-y-9 text-sm">Add other</button>
+                            </div>
                         </div>
+                        {skillFields?.length !== 0 && skillFields
+                            .map((field, index) => (
+                                <div key={field.id} className="flex gap-2 items-end">
+                                    <div className="grow flex gap-2">
+                                        <div className="w-1/2">
+                                            <CustomSelect
+                                                label={'Type'}
+                                                multiple={false}
+                                                value={{
+                                                    label: watchAdditionalFields().additionalSkills[index].skillType,
+                                                    value: watchAdditionalFields().additionalSkills[index].skillType,
+                                                }}
+                                                options={specialization}
+                                                onChange={(values) => {
+                                                    setAdditionalFieldsValue(`additionalSkills.${index}.skillType`, values.value)
+                                                }} />
+                                        </div>
+                                        <div className="w-1/2">
+                                            <TextFieldController
+                                                label="Name"
+                                                control={additionalFieldsControl}
+                                                name={`additionalSkills.${index}.skillName`}
+                                            />
+                                        </div>
+                                    </div>
+                                    <button type="button" className="remove-btn p-2 padding-y-9"
+                                        onClick={() => removeSkill(index)}>Delete</button>
+                                </div>))}
+                    </div>
 
-                        <div className="w-1/2">
-                            <CustomSelect
-                                label={'Languages'}
-                                multiple={true}
-                                value={watch().languages?.map(skill => ({ label: skill.languageName, value: skill.languageName })) || ''}
-                                options={languages?.getAllLanguages?.map(skill => ({ label: skill.languageName, value: skill.languageName })) || []}
-                                onChange={(values) => {
-                                    setValue('languages', values.map((item: any) => ({
-                                        ...languages?.getAllLanguages
-                                            .find(skill => skill.languageName === item.value), __typename: undefined
-                                    })))
-                                }} />
+                    <div className="w-full flex flex-col gap-4">
+                        <div className="flex items-end justify-between gap-2">
+                            <div className="flex-grow">
+                                <CustomSelect
+                                    label={'Languages'}
+                                    multiple={true}
+                                    value={watch().languages?.map(skill => ({ label: skill.languageName, value: skill.languageName })) || ''}
+                                    options={languages?.getAllLanguages?.map(skill => ({ label: skill.languageName, value: skill.languageName })) || []}
+                                    onChange={(values) => {
+                                        setValue('languages', values.map((item: any) => ({
+                                            ...languages?.getAllLanguages
+                                                .find(skill => skill.languageName === item.value), __typename: undefined
+                                        })))
+                                    }} />
+                            </div>
+                            <div>
+                                <button type="button"
+                                    onClick={() => appendLanguage({ languageName: '' })}
+                                    className="add-btn p-2 padding-y-9 text-sm">Add other</button>
+                            </div>
                         </div>
+                        {skillFLanguage?.length !== 0 &&
+                            skillFLanguage.map((field, index) => (
+                                <div key={field.id} className="flex gap-2 items-end">
+                                    <div className="grow flex gap-2">
+                                        <div className="w-full">
+                                            <TextFieldController
+                                                label="Name"
+                                                control={additionalFieldsControl}
+                                                name={`additionalLanguages.${index}.languageName`}
+                                            />
+                                        </div>
+                                    </div>
+                                    <button type="button" className="remove-btn p-2 padding-y-9"
+                                        onClick={() => removeLanguage(index)}>Delete</button>
+                                </div>))}
                     </div>
                     <div className="flex justify-between items-center">
                         <div className="font-medium">Experience</div>

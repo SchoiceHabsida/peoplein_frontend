@@ -96,6 +96,10 @@ export default function People() {
     }
 
     useEffect(() => {
+        refetch({ pageNumber: 0, pageCount: 10 });
+    }, [])
+
+    useEffect(() => {
         if(keyword) {
             setIsSearching(true);
         } else {

@@ -30,3 +30,26 @@ export function removeTypename(obj: any): any {
 
     return newObj;
 }
+
+
+export function replaceEmptyStringWithUndefined(obj: any): any {
+    if(!obj) {
+        return undefined
+    }
+    if (typeof obj === 'object') {
+      if (Array.isArray(obj)) {
+        return obj.map(replaceEmptyStringWithUndefined);
+      } else {
+        return Object.fromEntries(
+          Object.entries(obj).map(([key, value]) => [
+            key,
+            replaceEmptyStringWithUndefined(value),
+          ])
+        );
+      }
+    } else if (obj === '') {
+      return undefined;
+    } else {
+      return obj;
+    }
+  }

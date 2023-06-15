@@ -88,3 +88,10 @@ input {
     background: #F5F5F5;
     color: rgb(238, 49, 49);
 }
+
+.padding-y-9 {
+    padding-top: 11px !important;
+    padding-bottom: 11px !important;
+    width: 83px;
+    height: 42px;
+}
