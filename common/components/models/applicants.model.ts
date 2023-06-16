@@ -22,6 +22,8 @@ export interface IApplicant {
     is_scheduled_for_interview?: boolean,
     description?: string,
     email?: string,
+    status?: string,
+    createdAt?: string
 }
 
 export interface ICertificate {

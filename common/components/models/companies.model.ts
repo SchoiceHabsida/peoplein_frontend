@@ -8,5 +8,7 @@ export interface ICompany {
     phoneNumber: string,
     skills?: ISkills[],
     email?: string,
-    favoriteApplicants?: {lastName: string, firstName: string }[]
+    favoriteApplicants?: {lastName: string, firstName: string }[],
+    createdAt?: string,
+    regNumber?: string,
 }

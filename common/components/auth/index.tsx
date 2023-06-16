@@ -8,9 +8,16 @@ import { IUser } from '../models/base.models';
 
 const ME_QUERY = gql`
   query me {
-    getCurrentUser {
+    getCurrentUser{
       id
       username
+      company {
+        id
+      }
+      roles{
+        id
+        name
+      }
     }
   }
 `;
@@ -18,9 +25,7 @@ const ME_QUERY = gql`
 const LOGIN_MUTATION = gql`
   mutation ($username: String!, $password: String!) {
     login(username: $username, password: $password) {
-      id
       token
-      username
     }
   }
 `;
@@ -30,7 +35,7 @@ const AuthContext = createContext({});
 const useAuthProvider = () => {
 
   const { client, loading, error, data: userData, refetch, } =
-    useQuery<{ getCurrentUser: IUser }>(ME_QUERY, {fetchPolicy: 'no-cache'});
+    useQuery<{ getCurrentUser: IUser }>(ME_QUERY, { fetchPolicy: 'no-cache' });
   const [loginMutation, { loading: mutationLoading }] = useMutation(LOGIN_MUTATION);
   const router = useRouter()
 
@@ -52,7 +57,7 @@ const useAuthProvider = () => {
   }, [loginMutation, refetch]);
 
   useEffect(() => {
-    setUser(userData?.getCurrentUser ?  {...userData?.getCurrentUser, roles: ['ADMIN']} : null)
+    setUser(userData?.getCurrentUser ? { ...userData?.getCurrentUser, roles: ['ADMIN'] } : null)
   }, [userData])
 
   const logout = useCallback((is_admin?: boolean) => {

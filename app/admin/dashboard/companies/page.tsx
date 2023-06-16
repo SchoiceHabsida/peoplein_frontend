@@ -15,6 +15,7 @@ import { CompanyDetails } from "@/components/company-details/CompanyDetails";
 import { gql, useQuery } from "@apollo/client";
 import { IPageable } from "@/common/components/models/applicants.model";
 import { ICompany } from "@/common/components/models/companies.model";
+import { companiesMock } from "@/common/constants/mock-data";
 
 const Companies_QUERY = gql`
     query GetAllCompanies ($pageNumber: Int!, $pageCount: Int!) {
@@ -138,7 +139,8 @@ export default function Companies() {
                     </thead>
                     <tbody>
                         {
-                            data?.getAllCompaniesPaged.content.map((company, index) => {
+                            // data?.getAllCompaniesPaged.content.map((company, index) => {
+                                companiesMock.map((company, index) => {
                                 return <tr className="cursor-pointer" key={index}>
                                     <th>
                                         <Checkbox onChange={() => { }} />
@@ -151,11 +153,11 @@ export default function Companies() {
                                         </div>
                                     </td>
                                     <td>
-                                        -
+                                        {company.regNumber}
                                     </td>
                                     <td>{company.phoneNumber}</td>
                                     <td>-</td>
-                                    <td>-</td>
+                                    <td>{company.createdAt}</td>
                                     <td>
                                     <button
                                             className="btn btn-ghost btn-xs"

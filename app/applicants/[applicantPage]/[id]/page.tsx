@@ -7,6 +7,7 @@ import { calculateAge } from '@/common/components/utils/function';
 import { IApplicant } from '@/common/components/models/applicants.model';
 import { ApplicantPageTypes } from '@/common/constants/common.constants';
 import { useFavorite, useInterview } from '@/common/hooks.ts';
+import { applicantsMock } from '@/common/constants/mock-data';
 
 export const GET_APPLICANT_BY_ID = gql`
     query getApplicant ($id: ID!) {
@@ -58,8 +59,8 @@ export default function Profile({ params }: { params: { id: string } }) {
 
     const is_scheduled_for_interview = applicantPage === ApplicantPageTypes.interviews;
     const is_favorite = applicantPage === ApplicantPageTypes.favorites;
-    const { data, loading, refetch } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID, { variables: { id: params.id } })
-    
+    const { data: REPLACEDWITHMOCKDATA, loading, refetch } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID, { variables: { id: params.id } })
+    const data = {'getApplicantById': applicantsMock[0]}
     const { updateFavorite } = useFavorite(!!is_favorite, refetch, params.id);
     const { updateInterview } = useInterview(!!is_scheduled_for_interview, refetch, params.id);
 

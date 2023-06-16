@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { FC } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { ICompany } from "@/common/components/models/companies.model";
+import { companiesMock } from "@/common/constants/mock-data";
 
 const GET_COMPANY_QUERY = gql`
 query getCompany ($id: ID!) {
@@ -24,8 +25,8 @@ query getCompany ($id: ID!) {
 `
 
 export const CompanyDetails: FC<{ id: string }> = ({ id }) => {
-    const { data, loading } = useQuery<{ 'getCompanyById': ICompany }>(GET_COMPANY_QUERY, { variables: { id: id } })
-
+    const { data: CHANGEDWITHMOCK, loading } = useQuery<{ 'getCompanyById': ICompany }>(GET_COMPANY_QUERY, { variables: { id: id } })
+    const data = {'getCompanyById': companiesMock[0]}
     const path = usePathname();
     const router = useRouter();
 

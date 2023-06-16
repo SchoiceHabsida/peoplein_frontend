@@ -6,6 +6,8 @@ import { FilterContext, IFilterContext } from "@/common/providers/Filter.provide
 import { IPaginationParams, CustomPagination, defaultPageCount } from "@/components/pagination"
 import { useContext, useEffect, useState } from "react"
 import { Card } from "@/components/card/Card"
+import Applicants from "../page"
+import { applicantsMock } from "@/common/constants/mock-data"
 
 export default function SearchPage({ params }: { params: { applicantPage: ApplicantPageTypes } }) {
 
@@ -41,13 +43,21 @@ export default function SearchPage({ params }: { params: { applicantPage: Applic
   }, [input, params.applicantPage, pageNumber])
 
   return (<div className="flex flex-col">
-    <div className="mt-5 flex gap-5 flex-wrap">
+    {/* <div className="mt-5 flex gap-5 flex-wrap">
       {data?.[`${dataKey}`]?.content?.map(applicant => <Card
         is_favorite={params.applicantPage === ApplicantPageTypes.favorites}
         is_scheduled_for_interview={params.applicantPage === ApplicantPageTypes.interviews}
         key={applicant.id} {...applicant} 
         refetch={() => refetch({ ...applicantQueryType.variables })} />)}
+    </div> */}
+    <div className="mt-5 flex gap-5 flex-wrap">
+      {applicantsMock.map(applicant => <Card
+        is_favorite={params.applicantPage === ApplicantPageTypes.favorites}
+        is_scheduled_for_interview={params.applicantPage === ApplicantPageTypes.interviews}
+        key={applicant.id} {...applicant} 
+        refetch={() => refetch({ ...applicantQueryType.variables })} />)}
     </div>
+
     <div className="flex justify-center mt-4">
       {data?.[`${dataKey}`]?.content.length ? <CustomPagination
         currentPage={data?.[`${dataKey}`]?.currentPage || 0}

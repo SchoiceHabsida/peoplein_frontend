@@ -16,6 +16,7 @@ import { AdminFiltersContext, IAdminFilters } from "@/common/providers";
 import { SEARCH_BY_KEYWORD } from "@/app/applicants/[applicantPage]/results/page";
 import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
 import { IApplicant, IPageable } from "@/common/components/models/applicants.model";
+import { applicantsMock } from "@/common/constants/mock-data";
 
 const APPLICANT_QUERY = gql`
     query GetApplicants ($pageNumber: Int!, $pageCount: Int!) {
@@ -112,7 +113,8 @@ export default function People() {
     }, [])
 
     const getData = (isSearching: boolean): IPageable<IApplicant> | undefined => {
-        return isSearching ? searchedApplicants?.searchApplicantsByKeyword : data?.getAllApplicantsPaged;
+        // return isSearching ? searchedApplicants?.searchApplicantsByKeyword : data?.getAllApplicantsPaged;
+        return ({content: applicantsMock, totalPages: 2, currentPage: 0, totalElements: 15})
     }
 
     return <div className="people flex flex-col justify-between h-full">
@@ -201,10 +203,10 @@ export default function People() {
                                     <td>
                                         {applicant.visa}
                                     </td>
-                                    <td>-</td>
+                                    <td>{applicant.createdAt}</td>
                                     <td>
                                         <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
-                                            -
+                                            {applicant.status}
                                         </div>
                                     </td>
                                     <td>
