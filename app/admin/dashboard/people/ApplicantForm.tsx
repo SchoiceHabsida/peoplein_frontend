@@ -11,7 +11,7 @@ import { ImageUploader } from "@/components/image-uploader/ImageUploader";
 import { IApplicant, ILanguage, ISkills, SkillTypesEnum } from "@/common/components/models/applicants.model";
 import { CustomSelect } from "@/common/components/inputs/custom-select";
 import { genders, specialization, visaTypes } from "@/common/constants/applicant.constants";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
 import { removeTypename, replaceEmptyStringWithUndefined } from "@/common/components/utils/function";
 import './add/styles.css'
@@ -98,16 +98,17 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
             control: additionalFieldsControl
         });
 
-        const checkArrayLength = (arr?: any) => {
-            return Array.isArray(arr) && arr.length ? arr : []
-        }
+    const checkArrayLength = (arr?: any) => {
+        return Array.isArray(arr) && arr.length ? arr : []
+    }
     const onSubmit = (values: IApplicant) => {
+        console.log('values', values);
         const additionalValues = getValues();
         delete values.experience[0]?.endOfWOrk;
         delete values.experience[0]?.id;
         delete values.certificates[0]?.id;
         delete values.id;
-        delete values.profilePicture;
+        // delete values.profilePicture;
         values.skills = [...checkArrayLength(values?.skills), ...additionalValues.additionalSkills];
         values.languages = [...checkArrayLength(values?.languages), ...additionalValues.additionalLanguages]
         applicantMutation({ variables: { input: replaceEmptyStringWithUndefined(removeTypename({ ...values })), id: id } })
@@ -127,7 +128,7 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                 <div className="upload-actions flex">
                     <div className="user-photo h-full flex items-center justify-center relative">
                         <ImageUploader
-                            onChange={(file: File) => console.log(file)}
+                            onChange={(file: File) => setValue('profilePicture', file as any)}
                             imagePath={applicant?.getApplicantById.profilePicture?.path} />
                         <UploadIcon />
                     </div>
@@ -159,8 +160,10 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                         <div className="w-1/2">
                             <CustomDatePicker
                                 label={'Birthday'}
-                                onChange={(date) => {console.log('date', date);
-                                 setValue('dateOfBirth', date)}}
+                                onChange={(date: Date) => {
+                                    console.log('date', date.toLocaleString());
+                                    setValue('dateOfBirth', date.toLocaleString())
+                                }}
                                 value={watch().dateOfBirth} />
                         </div>
 
@@ -416,7 +419,24 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                         <textarea {...register("description")} rows={5} name="description" className="textarea-input rounded w-full bordered p-4"></textarea>
                     </div>
 
-                    {/* <div className="upload-resume">Upload Resume</div> */}
+                    <div className="upload-resume relative">
+                        <div>
+                            <input
+                                className="w-full absolute opacity-0 cursor-pointer"
+                                type="file" 
+                                onChange={(e) => setValue('resume', e.target.files?.[0] || null)}></input>
+                        </div>
+                        <div className="flex gap-4">
+                            {watch().resume ?
+                                <div className="max-w-lg overflow-hidden h-6">
+                                    {watch().resume.name}
+                                </div> :
+                                <span>
+                                    Upload Resume
+                                </span>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="form-actions w-full flex items-center mt-8 gap-4 justify-center">

@@ -16,11 +16,10 @@ import { AdminFiltersContext, IAdminFilters } from "@/common/providers";
 import { SEARCH_BY_KEYWORD } from "@/app/applicants/[applicantPage]/results/page";
 import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
 import { IApplicant, IPageable } from "@/common/components/models/applicants.model";
-import { applicantsMock } from "@/common/constants/mock-data";
 
 const APPLICANT_QUERY = gql`
-    query GetApplicants ($pageNumber: Int!, $pageCount: Int!) {
-        getAllApplicantsPaged (pageNumber: $pageNumber, pageCount: $pageCount) {
+    query GetApplicants ($pageNumber: Int!, $pageCount: Int!, $companyId: ID!) {
+        getAllApplicantsPaged (pageNumber: $pageNumber, pageCount: $pageCount, companyId: $companyId) {
             content{
                 id
                 firstName
@@ -48,7 +47,7 @@ export default function People() {
     const [isSearching, setIsSearching] = useState(false);
     const { data, loading, error, refetch } =
         useQuery<Record<'getAllApplicantsPaged', IPageable<IApplicant>>>
-            (APPLICANT_QUERY, { variables: { pageNumber: 0, pageCount: 10 } });
+            (APPLICANT_QUERY, { variables: { pageNumber: 0, pageCount: 10, companyId: "" } });
     const styles = {
         tableStyles: {
             header: {
@@ -84,13 +83,14 @@ export default function People() {
     const { keyword, setKeyword } = useContext(AdminFiltersContext) as IAdminFilters;
 
     const { data: searchedApplicants, refetch: refetchApplicants, loading: isSearchingApplicants } =
-    useQuery<Record<'searchApplicantsByKeyword', IPageable<IApplicant>>, IPaginationParams & { keyword: string }>(SEARCH_BY_KEYWORD, {
-        variables: {
-            keyword: keyword,
-            pageNumber: 0,
-        },
-        skip: !keyword
-    })
+        useQuery<Record<'searchApplicantsByKeyword', IPageable<IApplicant>>, IPaginationParams & { keyword: string }>
+            (SEARCH_BY_KEYWORD, {
+                variables: {
+                    keyword: keyword,
+                    pageNumber: 0,
+                },
+                skip: !keyword
+            })
 
     const onPage = (values: IPaginationParams) => {
         refetch(values)
@@ -101,7 +101,7 @@ export default function People() {
     }, [])
 
     useEffect(() => {
-        if(keyword) {
+        if (keyword) {
             setIsSearching(true);
         } else {
             setIsSearching(false);
@@ -109,12 +109,13 @@ export default function People() {
     }, [keyword])
 
     useEffect(() => {
-        return () => {setKeyword('')};
+        return () => { setKeyword('') };
     }, [])
 
     const getData = (isSearching: boolean): IPageable<IApplicant> | undefined => {
-        // return isSearching ? searchedApplicants?.searchApplicantsByKeyword : data?.getAllApplicantsPaged;
-        return ({content: applicantsMock, totalPages: 2, currentPage: 0, totalElements: 15})
+        return isSearching
+            ? searchedApplicants?.searchApplicantsByKeyword :
+            data?.getAllApplicantsPaged;
     }
 
     return <div className="people flex flex-col justify-between h-full">

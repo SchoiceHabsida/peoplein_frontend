@@ -105,7 +105,7 @@ export const companiesMock: ICompany[] = [
         regNumber: '1231564654'
     },
     {
-        address: 'Main stret 120',
+        address: 'Main stret 120', 
         hrManager: 'Anna',
         name: "Company 4",
         phoneNumber: '+82 10256-56-56',

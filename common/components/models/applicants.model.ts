@@ -23,7 +23,8 @@ export interface IApplicant {
     description?: string,
     email?: string,
     status?: string,
-    createdAt?: string
+    createdAt?: string,
+    resume?: any
 }
 
 export interface ICertificate {
