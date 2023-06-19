@@ -39,7 +39,7 @@ export const AdminFilters = () => {
             </div>
             <div className="flex items-center justify-between gap-3">
                 <DropdownWrapper label="Filter" options={ADMIN_FILTERS} dropDownWidth="340px"></DropdownWrapper>
-                <DropdownWrapper label="Choose action" options={STATUS_FILTERS} dropDownWidth="240px"></DropdownWrapper>
+                {/* <DropdownWrapper label="Choose action" options={STATUS_FILTERS} dropDownWidth="240px"></DropdownWrapper> */}
             </div>
         </div>
         <div>

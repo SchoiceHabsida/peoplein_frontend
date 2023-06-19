@@ -7,7 +7,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { FC } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { ICompany } from "@/common/components/models/companies.model";
-import { companiesMock } from "@/common/constants/mock-data";
 
 const GET_COMPANY_QUERY = gql`
 query getCompany ($id: ID!) {
@@ -25,17 +24,28 @@ query getCompany ($id: ID!) {
 `
 
 export const CompanyDetails: FC<{ id: string }> = ({ id }) => {
-    const { data: CHANGEDWITHMOCK, loading } = useQuery<{ 'getCompanyById': ICompany }>(GET_COMPANY_QUERY, { variables: { id: id } })
-    const data = {'getCompanyById': companiesMock[0]}
+    const { data, loading } = useQuery<{ 'getCompanyById': ICompany }>(GET_COMPANY_QUERY, { variables: { id: id } })
     const path = usePathname();
     const router = useRouter();
 
     return <div className="flex flex-col gap-6 applicant-details">
         <div className="flex">
-            <div className="flex items-center justify-center company-logo">
-                logo
-            </div>
-            <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6">
+            {
+                data?.getCompanyById.logo ?
+                    <img src={data?.getCompanyById.logo?.path}
+                        width={205}
+                        height={205}
+                        className='rounded' alt='person'></img> : <div
+                            className="flex items-center justify-center company-logo">
+                        logo
+                    </div>
+            }
+
+            <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6" 
+            style={{
+                backgroundPosition: 'center', 
+                backgroundRepeat: 'no-repeat',
+                backgroundImage: `url(${data?.getCompanyById.banner?.path})`}}>
 
                 <ActionButtonWrapper
                     onCLick={() => router.push(`${path}/${id}`)}
