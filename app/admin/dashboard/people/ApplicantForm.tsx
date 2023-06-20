@@ -14,9 +14,9 @@ import { genders, specialization, visaTypes } from "@/common/constants/applicant
 import { FC, useEffect, useState } from "react";
 import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
 import { removeTypename, replaceEmptyStringWithUndefined } from "@/common/components/utils/function";
-import './add/styles.css'
 import { yupResolver } from "@hookform/resolvers/yup"
 import { schema, skillSchema } from "@/common/schemas/applicantschemas";
+import './add/styles.css'
 
 const createMutationByType = (type: string, id?: string) => {
     return gql`
@@ -48,6 +48,8 @@ const SKILLS_QUERY = gql`
 export const ApplicantForm: FC<{ id?: string }> = () => {
     const { id } = useParams();
     const router = useRouter();
+    const [profilePicture, setProfilePicture] = useState<any>();
+    const [resume, setResume] = useState<any>();
     const [applicantMutation, { loading: mutationLoading }] = useMutation(createMutationByType(id ? 'updateApplicantById' : 'createApplicant', id));
     const { data: languages } = useQuery<Record<'getAllLanguages', ILanguage[]>>(LANGUAGES_QUERY)
     const { data: skills } = useQuery<Record<'getAllSkills', ISkills[]>>(SKILLS_QUERY)
@@ -108,10 +110,19 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
         delete values.experience[0]?.id;
         delete values.certificates[0]?.id;
         delete values.id;
-        // delete values.profilePicture;
+        delete values.profilePicture;
         values.skills = [...checkArrayLength(values?.skills), ...additionalValues.additionalSkills];
         values.languages = [...checkArrayLength(values?.languages), ...additionalValues.additionalLanguages]
-        applicantMutation({ variables: { input: replaceEmptyStringWithUndefined(removeTypename({ ...values })), id: id } })
+        applicantMutation({
+            variables:
+            {
+                input: {
+                    ...replaceEmptyStringWithUndefined(removeTypename({ ...values })),
+                    profilePicture: profilePicture || undefined,
+                    resume: resume || undefined
+                }, id: id
+            }
+        })
             .then(res => router.push(`${ROUTE_ADMIN}${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}`))
             .catch(error => console.log(error))
     }
@@ -128,7 +139,7 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                 <div className="upload-actions flex">
                     <div className="user-photo h-full flex items-center justify-center relative">
                         <ImageUploader
-                            onChange={(file: File) => setValue('profilePicture', file as any)}
+                            onChange={(file: File) => setProfilePicture(file)}
                             imagePath={applicant?.getApplicantById.profilePicture?.path} />
                         <UploadIcon />
                     </div>
@@ -423,13 +434,13 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                         <div>
                             <input
                                 className="w-full absolute opacity-0 cursor-pointer"
-                                type="file" 
-                                onChange={(e) => setValue('resume', e.target.files?.[0] || null)}></input>
+                                type="file"
+                                onChange={(e) => setResume(e.target.files?.[0] || null)}></input>
                         </div>
                         <div className="flex gap-4">
-                            {watch().resume ?
+                            {resume ?
                                 <div className="max-w-lg overflow-hidden h-6">
-                                    {watch().resume.name}
+                                    {resume.name}
                                 </div> :
                                 <span>
                                     Upload Resume

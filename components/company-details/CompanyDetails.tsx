@@ -34,7 +34,7 @@ export const CompanyDetails: FC<{ id: string }> = ({ id }) => {
                 data?.getCompanyById.logo ?
                     <img src={data?.getCompanyById.logo?.path}
                         width={205}
-                        height={205}
+                        style={{height: '205px'}}
                         className='rounded' alt='person'></img> : <div
                             className="flex items-center justify-center company-logo">
                         logo

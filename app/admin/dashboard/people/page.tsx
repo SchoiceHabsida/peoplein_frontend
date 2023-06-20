@@ -16,6 +16,7 @@ import { AdminFiltersContext, IAdminFilters } from "@/common/providers";
 import { SEARCH_BY_KEYWORD } from "@/app/applicants/[applicantPage]/results/page";
 import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
 import { IApplicant, IPageable } from "@/common/components/models/applicants.model";
+import { formatDate } from "@/common/components/utils/function";
 
 const APPLICANT_QUERY = gql`
     query GetApplicants ($pageNumber: Int!, $pageCount: Int!, $companyId: ID!) {
@@ -34,7 +35,8 @@ const APPLICANT_QUERY = gql`
                     path
                     type
                 }
-                specialization
+                specialization 
+                createdAt,
             }
         currentPage
         totalElements
@@ -204,7 +206,7 @@ export default function People() {
                                     <td>
                                         {applicant.visa}
                                     </td>
-                                    <td>{applicant.createdAt}</td>
+                                    <td>{applicant.createdAt ? formatDate(new Date(applicant.createdAt)): null}</td>
                                     <td>
                                         <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
                                             {applicant.status}
