@@ -13,6 +13,7 @@ const ME_QUERY = gql`
       username
       company {
         id
+        name
       }
       roles{
         id
@@ -57,7 +58,7 @@ const useAuthProvider = () => {
   }, [loginMutation, refetch]);
 
   useEffect(() => {
-    setUser(userData?.getCurrentUser ? { ...userData?.getCurrentUser, roles: ['ADMIN'] } : null)
+    setUser(userData?.getCurrentUser ? { ...userData?.getCurrentUser} : null)
   }, [userData])
 
   const logout = useCallback((is_admin?: boolean) => {

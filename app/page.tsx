@@ -13,7 +13,7 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     if(user) {
-      if(user.roles.includes(ROLES.ADMIN)) {
+      if(user.roles.some((role: {name: string}) => role.name === ROLES.ADMIN)) {
         router.push(ROUTE_ADMIN);
       } else {
         router.push(`${ROUTE_APPLICANTS}/${ROUTE_SEARCH}`)

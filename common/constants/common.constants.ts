@@ -17,6 +17,6 @@ export enum Specializations {
 }
 
 export enum ROLES {
-    ADMIN = "ADMIN",
-    COMPANY = "COMPANY"
+    ADMIN = "ROLE_ADMIN",
+    COMPANY = "ROLE_COMPANY"
 }

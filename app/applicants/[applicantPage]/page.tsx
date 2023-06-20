@@ -6,10 +6,10 @@ import { FilterContext, IFilterContext } from "@/common/providers/Filter.provide
 import { IPaginationParams, CustomPagination, defaultPageCount } from "@/components/pagination"
 import { useContext, useEffect, useState } from "react"
 import { Card } from "@/components/card/Card"
-import Applicants from "../page"
+import { useAuth } from "@/common/components/auth"
 
 export default function SearchPage({ params }: { params: { applicantPage: ApplicantPageTypes } }) {
-
+ 
   const [pageNumber, setPageNumber] = useState(0);
   const [dataKey, setDataKey] = useState(ApplicantQueryTypes.search);
   const { data, applicantQueryType, setApplicantQueryType, refetch } = useApplicants() as IApplicantProviderType;

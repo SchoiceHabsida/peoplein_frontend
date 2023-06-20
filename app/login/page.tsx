@@ -19,6 +19,8 @@ export default function Login() {
 
     useEffect(() => {
         if (user) {
+            console.log('check company');
+            
             router.push(`${ROUTE_APPLICANTS}${ROUTE_SEARCH}`)
         }
     }, [user, router]);

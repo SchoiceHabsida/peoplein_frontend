@@ -17,6 +17,8 @@ export default function AdminLogin() {
     
     useEffect(() => {
         if (user) {
+            console.log('first check');
+            
             router.push(`${ROUTE_ADMIN}/${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}`)
         }
     }, [user, router]);
