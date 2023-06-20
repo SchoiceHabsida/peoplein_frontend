@@ -25,6 +25,11 @@ const Companies_QUERY = gql`
                 hrManager
                 name
                 phoneNumber
+                registrationNumber
+                requiredSkills{
+                    skillName
+                }
+                foundedAt
             }
         currentPage
         totalElements
@@ -102,7 +107,7 @@ export default function Companies() {
                             <th>
                                 <div className="flex gap-1 cursor-pointer">
                                     <span>
-                                        Reg number
+                                        Registration number
                                     </span>
                                     <DownIcon />
                                 </div>
@@ -138,8 +143,8 @@ export default function Companies() {
                     </thead>
                     <tbody>
                         {
-                            data?.getAllCompaniesPaged.content.map((company, index) => {
-                                return <tr className="cursor-pointer" key={index}>
+                            data?.getAllCompaniesPaged.content.map((company) => {
+                                return <tr className="cursor-pointer" key={company.id}>
                                     <th>
                                         <Checkbox onChange={() => { }} />
                                     </th>
@@ -151,11 +156,13 @@ export default function Companies() {
                                         </div>
                                     </td>
                                     <td>
-                                        {company.regNumber}
+                                        {company.registrationNumber}
                                     </td>
                                     <td>{company.phoneNumber}</td>
-                                    <td>-</td>
-                                    <td>{company.createdAt}</td>
+                                    <td>
+                                        {company.requiredSkills?.map(skill => <div key={skill.skillName}>{skill.skillName}</div>)}
+                                    </td>
+                                    <td>{company.foundedAt}</td>
                                     <td>
                                     <button
                                             className="btn btn-ghost btn-xs"

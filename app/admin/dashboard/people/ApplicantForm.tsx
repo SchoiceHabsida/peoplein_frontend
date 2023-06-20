@@ -10,7 +10,7 @@ import { CustomDatePicker } from "@/common/components/inputs/date-picker/DatePic
 import { ImageUploader } from "@/components/image-uploader/ImageUploader";
 import { IApplicant, ILanguage, ISkills, SkillTypesEnum } from "@/common/components/models/applicants.model";
 import { CustomSelect } from "@/common/components/inputs/custom-select";
-import { genders, specialization, visaTypes } from "@/common/constants/applicant.constants";
+import { genders, specialization } from "@/common/constants/applicant.constants";
 import { FC, useEffect, useState } from "react";
 import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
 import { removeTypename, replaceEmptyStringWithUndefined } from "@/common/components/utils/function";
@@ -28,7 +28,7 @@ const createMutationByType = (type: string, id?: string) => {
   `;
 }
 
-const LANGUAGES_QUERY = gql`
+export const LANGUAGES_QUERY = gql`
     query languages {
         getAllLanguages {
             languageName
@@ -36,12 +36,18 @@ const LANGUAGES_QUERY = gql`
     } 
 `
 
-const SKILLS_QUERY = gql`
+export const SKILLS_QUERY = gql`
     query skills {
         getAllSkills {
             skillName
             skillType
         }
+    }
+`
+
+export const VISAS_QUERY = gql`
+    query visas {
+        getAllVisas
     }
 `
 
@@ -53,9 +59,11 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
     const [applicantMutation, { loading: mutationLoading }] = useMutation(createMutationByType(id ? 'updateApplicantById' : 'createApplicant', id));
     const { data: languages } = useQuery<Record<'getAllLanguages', ILanguage[]>>(LANGUAGES_QUERY)
     const { data: skills } = useQuery<Record<'getAllSkills', ISkills[]>>(SKILLS_QUERY)
+    const { data: visas } = useQuery<Record<'getAllVisas', string[]>>(VISAS_QUERY)
     const { data: applicant } = useQuery<Record<'getApplicantById', IApplicant>>(GET_APPLICANT_BY_ID, {
         variables: { id: id },
-        skip: !id
+        skip: !id,
+        fetchPolicy: 'no-cache'
     })
 
     const { control, handleSubmit, register, setValue, watch, reset, formState: { errors } } = useForm<IApplicant>({
@@ -221,8 +229,8 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                         <div className="w-1/2">
                             <CustomSelect
                                 label={'Visa'}
-                                value={visaTypes.find(visa => visa.value === watch().visa) || ''}
-                                options={visaTypes}
+                                value={visas?.getAllVisas.map(visa => ({value: visa, label: visa})) .find(visa => visa.value === watch().visa) || ''}
+                                options={visas?.getAllVisas.map(visa => ({value: visa, label: visa})) || []}
                                 onChange={(values) =>
                                     setValue('visa', values.value)} />
                         </div>

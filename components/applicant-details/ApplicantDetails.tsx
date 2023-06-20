@@ -11,7 +11,8 @@ import { IApplicant } from "@/common/components/models/applicants.model";
 import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
 
 export const ApplicantDetails: FC<{ applicantId: string }> = ({ applicantId }) => {
-    const { data, loading } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID, { variables: { id: applicantId } })
+    const { data, loading } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID,
+        { variables: { id: applicantId }, fetchPolicy: 'no-cache' })
 
     const path = usePathname();
     const router = useRouter();
@@ -21,7 +22,7 @@ export const ApplicantDetails: FC<{ applicantId: string }> = ({ applicantId }) =
             <div>
                 <img src={data?.getApplicantById.profilePicture ? data?.getApplicantById.profilePicture?.path : '/Avatar-Image.png'}
                     width={205}
-                    style={{height: '205px'}}
+                    style={{ height: '205px' }}
                     className='rounded' alt='person'></img>
             </div>
             <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6">

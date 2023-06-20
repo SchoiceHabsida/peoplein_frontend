@@ -37,6 +37,7 @@ const APPLICANT_QUERY = gql`
                 }
                 specialization 
                 createdAt,
+                status
             }
         currentPage
         totalElements

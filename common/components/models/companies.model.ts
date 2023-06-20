@@ -4,15 +4,18 @@ export interface ICompany {
     id?: string,
     name: string,
     address: string,
-    hrManager: string
     phoneNumber: string,
-    skills?: ISkills[],
+    hrManager: string,
+    registrationNumber?: string,
     email?: string,
+    website?: string,
+    foundedAt?: string,
+    preferredVisas?: any[],
+    requiredSkills?: ISkills[],
+    logo?: ILogo,
+    banner?: ILogo, 
     favoriteApplicants?: {lastName: string, firstName: string }[],
     createdAt?: string,
-    regNumber?: string,
-    logo?: ILogo;
-    banner?: ILogo 
 }
 
 export interface ILogo {
