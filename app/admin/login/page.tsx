@@ -2,12 +2,13 @@
 
 import { useAuth } from "@/common/components/auth";
 import { TextFieldController } from "@/common/components/inputs/text-filed-controller";
-import { ROUTE_ADMIN, ROUTE_DASHBOARD, ROUTE_PEOPLE } from "@/common/constants";
+import { ROUTE_ADMIN, ROUTE_APPLICANTS, ROUTE_DASHBOARD, ROUTE_PEOPLE, ROUTE_SEARCH } from "@/common/constants";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import './styles.css';
+import { ROLES } from "@/common/constants/common.constants";
 
 export default function AdminLogin() {
     const { control, handleSubmit } = useForm({ defaultValues: { username: '', password: '' } })
@@ -17,9 +18,11 @@ export default function AdminLogin() {
     
     useEffect(() => {
         if (user) {
-            console.log('first check');
-            
-            router.push(`${ROUTE_ADMIN}/${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}`)
+            if(user.roles.some((role: {name: ROLES}) => role.name === ROLES.ADMIN)) {
+                router.push(`${ROUTE_ADMIN}/${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}`)
+            } else {
+                router.push(`${ROUTE_APPLICANTS}/${ROUTE_SEARCH}`)
+            }
         }
     }, [user, router]);
     return (<div className="admin__login w-full flex justify-center items-center">

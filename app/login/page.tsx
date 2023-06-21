@@ -5,10 +5,11 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { ROUTE_APPLICANTS, ROUTE_SEARCH } from '@/common/constants';
+import { ROUTE_ADMIN, ROUTE_APPLICANTS, ROUTE_SEARCH } from '@/common/constants';
 import { useAuth } from '@/common/components/auth';
 import { TextFieldController } from '@/common/components/inputs/text-filed-controller';
 import Link from 'next/link';
+import { ROLES } from '@/common/constants/common.constants';
 
 export default function Login() {
 
@@ -19,9 +20,11 @@ export default function Login() {
 
     useEffect(() => {
         if (user) {
-            console.log('check company');
-            
-            router.push(`${ROUTE_APPLICANTS}${ROUTE_SEARCH}`)
+            if(user.roles.some((role: {name: ROLES}) => role.name === ROLES.ADMIN)) {
+                router.push(`${ROUTE_ADMIN}`)
+            } else {
+                router.push(`${ROUTE_APPLICANTS}/${ROUTE_SEARCH}`)
+            }
         }
     }, [user, router]);
 
