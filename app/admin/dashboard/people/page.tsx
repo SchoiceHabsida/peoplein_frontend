@@ -188,40 +188,46 @@ export default function People() {
                         </tr>
                     </thead>
                     <tbody>
-                        {(getData(isSearching)?.content && getData(isSearching)?.content.length) ?     
-                              getData(isSearching)?.content?.map(applicant => <tr key={applicant.id} className="cursor-pointer">
-                                    <th>
-                                        <Checkbox onChange={() => { }} />
-                                    </th>
-                                    <td>
-                                        <div className="flex items-center space-x-3">
-                                            <div>
-                                                <div className="font-bold">{applicant.firstName} {applicant.lastName}</div>
-                                            </div>
+                        {(getData(isSearching)?.content) ?
+                            getData(isSearching)?.content?.map(applicant => <tr key={applicant.id} className="cursor-pointer">
+                                <th>
+                                    <Checkbox onChange={() => { }} />
+                                </th>
+                                <td>
+                                    <div className="flex items-center space-x-3">
+                                        <div>
+                                            <div className="font-bold">{applicant.firstName} {applicant.lastName}</div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        {applicant.specialization?.map((item, idx) => <span key={idx}> {item}</span>)}
-                                    </td>
-                                    <td>{applicant.country}</td>
-                                    <td>
-                                        {applicant.visa}
-                                    </td>
-                                    <td>{applicant.createdAt ? formatDate(new Date(applicant.createdAt)): null}</td>
-                                    <td>
-                                        <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
-                                            {applicant.status}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button
-                                            className="btn btn-ghost btn-xs"
-                                            onClick={() => { setOpenedId(applicant.id); setDialogOpen(true) }}><EyeIcon /></button>
-                                    </td>
-                                </tr>) :
-                            <tr className="w-full px-2 text-gray-400 text-center flex"><td className="w-full">No data found</td></tr>}
+                                    </div>
+                                </td>
+                                <td>
+                                    {applicant.specialization?.map((item, idx) => <span key={idx}> {item}</span>)}
+                                </td>
+                                <td>{applicant.country}</td>
+                                <td>
+                                    {applicant.visa}
+                                </td>
+                                <td>{applicant.createdAt ? formatDate(new Date(applicant.createdAt)) : null}</td>
+                                <td>
+                                    <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
+                                        {applicant.status}
+                                    </div>
+                                </td>
+                                <td>
+                                    <button
+                                        className="btn btn-ghost btn-xs"
+                                        onClick={() => { setOpenedId(applicant.id); setDialogOpen(true) }}><EyeIcon /></button>
+                                </td>
+                            </tr>) : null
+                        }
                     </tbody>
                 </table>
+                <div className="w-full text-center mt-4">
+                    {loading || isSearchingApplicants ?
+                        <span className="loading loading-spinner loading-md"></span> :
+                        getData(isSearching)?.content.length === 0
+                        && <div className="mx-auto uppercase text-slate-400 text-sm">No data found</div>}
+                </div>
             </div>
         </div>
         <div className="w-full text-center table-pagination">

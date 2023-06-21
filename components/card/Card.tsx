@@ -31,7 +31,7 @@ export const Card: FC<IApplicant & { refetch: () => void }> = ({
             <div>
                 <img src={profilePicture ? profilePicture?.path : '/Avatar-Image.png'}
                     width={205}
-                    height={205}
+                    style={{ height: "205px" }}
                     className='rounded' alt='person'></img>
             </div>
             <div className='mt-9'>

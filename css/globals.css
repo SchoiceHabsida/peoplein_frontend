@@ -69,3 +69,17 @@ body {
 .content-x-space {
   margin: 0 165px;
 }
+
+.scroll-content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scroll-content::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: #ffffff;
+}
+
+.scroll-content::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #ffefef;
+}

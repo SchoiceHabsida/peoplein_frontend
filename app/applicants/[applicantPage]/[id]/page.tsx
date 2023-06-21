@@ -65,7 +65,8 @@ export default function Profile({ params }: { params: { id: string } }) {
 
     const is_scheduled_for_interview = applicantPage === ApplicantPageTypes.interviews;
     const is_favorite = applicantPage === ApplicantPageTypes.favorites;
-    const { data, loading, refetch } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID, { variables: { id: params.id } })
+    const { data, loading, refetch } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID, 
+        { variables: { id: params.id }, fetchPolicy: 'no-cache' })
     const { updateFavorite } = useFavorite(!!is_favorite, refetch, params.id);
     const { updateInterview } = useInterview(!!is_scheduled_for_interview, refetch, params.id);
 
@@ -74,7 +75,7 @@ export default function Profile({ params }: { params: { id: string } }) {
             <div className='profile-header'>
                 <img src={data?.getApplicantById.profilePicture ? data?.getApplicantById.profilePicture?.path : '/Avatar-Image.png'}
                     width={205}
-                    height={205}
+                    style={{height: "205px"}}
                     className='rounded' alt='person'></img>
             </div>
             <div>

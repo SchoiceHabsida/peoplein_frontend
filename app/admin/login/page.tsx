@@ -14,11 +14,11 @@ export default function AdminLogin() {
     const { control, handleSubmit } = useForm({ defaultValues: { username: '', password: '' } })
     const { user, login, loading, loginError } = useAuth() as any;
     const router = useRouter();
-    const onSubmit = (data: any) => login({...data, is_admin: true});
-    
+    const onSubmit = (data: any) => { login({ ...data, is_admin: true }) };
+
     useEffect(() => {
         if (user) {
-            if(user.roles.some((role: {name: ROLES}) => role.name === ROLES.ADMIN)) {
+            if (user.roles.some((role: { name: ROLES }) => role.name === ROLES.ADMIN)) {
                 router.push(`${ROUTE_ADMIN}/${ROUTE_DASHBOARD}/${ROUTE_PEOPLE}`)
             } else {
                 router.push(`${ROUTE_APPLICANTS}/${ROUTE_SEARCH}`)
@@ -26,7 +26,7 @@ export default function AdminLogin() {
         }
     }, [user, router]);
     return (<div className="admin__login w-full flex justify-center items-center">
-        <div className='login__content w-full flex items-center justify-center'>
+        <div className='admin__login__content w-full flex items-center justify-center'>
             <div className='login__form'>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className='login__label text-center text-4xl tracking-tight mb-16'>Login</div>
@@ -59,5 +59,4 @@ export default function AdminLogin() {
             </div>
         </div>
     </div>)
-  }
-  
+}

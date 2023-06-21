@@ -20,7 +20,7 @@ export default function Login() {
 
     useEffect(() => {
         if (user) {
-            if(user.roles.some((role: {name: ROLES}) => role.name === ROLES.ADMIN)) {
+            if (user.roles.some((role: { name: ROLES }) => role.name === ROLES.ADMIN)) {
                 router.push(`${ROUTE_ADMIN}`)
             } else {
                 router.push(`${ROUTE_APPLICANTS}/${ROUTE_SEARCH}`)
@@ -63,7 +63,12 @@ export default function Login() {
                     <div className='mb-8 text-center'>
                         <button
                             className='text-white px-11 py-2.5 bg-color-purple-primary rounded font-semibold'
-                            disabled={loading}>Sign In</button>
+                            disabled={loading}>
+                            {loading ? <span className="loading loading-spinner text-primary"></span> : "Sign In"}
+                        </button>
+                        <div>
+
+                        </div>
                     </div>
                     <div className='flex justify-center'>
                         <div className='flex justify-between w-2/3'>

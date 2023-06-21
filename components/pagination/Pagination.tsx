@@ -16,7 +16,7 @@ export interface IPaginationParams {
     pageCount?: number,
 }
 
-export const defaultPageCount = 2;
+export const defaultPageCount = 6;
 
 export const CustomPagination: FC<IPaginationProps> = ({ currentPage,
     totalElements,

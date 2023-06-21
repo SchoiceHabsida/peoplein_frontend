@@ -38,7 +38,6 @@ const Companies_QUERY = gql`
     }
   `
 
-
 export default function Companies() {
     const [openedId, setOpenedId] = useState('')
     const { data, loading, error, refetch } =
@@ -174,6 +173,12 @@ export default function Companies() {
 
                     </tbody>
                 </table>
+                <div className="w-full text-center mt-4">
+                    {loading ?
+                        <span className="loading loading-spinner loading-md"></span> :
+                        data?.getAllCompaniesPaged.content.length === 0
+                        && <div className="mx-auto uppercase text-slate-400 text-sm">No data found</div>}
+                </div>
             </div>
         </div>
         <div className="w-full text-center table-pagination">

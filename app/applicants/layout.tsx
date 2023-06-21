@@ -24,20 +24,22 @@ export default function ApplicantsLayout({
     }
   }, [user])
   return (
-    <div className="">
+    <div className="h-screen">
       <Header />
       <SearchProvider>
         <FilterProvider>
-          <div className="content-x-space flex gap-9">
+          <div className="content-x-space flex gap-9" style={{ height: 'calc(100vh - 306px)' }}>
             <div className="w-1/3">
               <Sidebar />
             </div>
-            <div className="w-2/3">
+            <div className="w-2/3 flex flex-col">
               <div><Breadcrumb /></div>
               <div><Searchbar /></div>
-              <ApplicantsProvider>
-                {children}
-              </ApplicantsProvider>
+              <div className="flex-grow overflow-y-auto h-full scroll-content">
+                <ApplicantsProvider>
+                  {children}
+                </ApplicantsProvider>
+              </div>
             </div>
           </div>
         </FilterProvider>
