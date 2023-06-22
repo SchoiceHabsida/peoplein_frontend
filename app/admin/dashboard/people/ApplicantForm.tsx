@@ -17,6 +17,8 @@ import { removeTypename, replaceEmptyStringWithUndefined } from "@/common/compon
 import { yupResolver } from "@hookform/resolvers/yup"
 import { schema, skillSchema } from "@/common/schemas/applicantschemas";
 import './add/styles.css'
+import { DeleteIcon } from "@/common/icons/DeleteIcon";
+import { AddIcon } from "@/common/icons/AddIcon";
 
 const createMutationByType = (type: string, id?: string) => {
     return gql`
@@ -227,8 +229,8 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                         <div className="w-1/2">
                             <CustomSelect
                                 label={'Visa'}
-                                value={visas?.getAllVisas.map(visa => ({value: visa, label: visa})) .find(visa => visa.value === watch().visa) || ''}
-                                options={visas?.getAllVisas.map(visa => ({value: visa, label: visa})) || []}
+                                value={visas?.getAllVisas.map(visa => ({ value: visa, label: visa })).find(visa => visa.value === watch().visa) || ''}
+                                options={visas?.getAllVisas.map(visa => ({ value: visa, label: visa })) || []}
                                 onChange={(values) =>
                                     setValue('visa', values.value)} />
                         </div>
@@ -271,7 +273,7 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                             <div>
                                 <button type="button"
                                     onClick={() => appendSkill({ skillName: '', skillType: SkillTypesEnum.FRONTEND })}
-                                    className="add-btn p-2 padding-y-9 text-sm">Add other</button>
+                                    className="add-btn p-2  text-sm"><AddIcon /></button>
                             </div>
                         </div>
                         {skillFields?.length !== 0 && skillFields
@@ -299,8 +301,8 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                                             />
                                         </div>
                                     </div>
-                                    <button type="button" className="remove-btn p-2 padding-y-9"
-                                        onClick={() => removeSkill(index)}>Delete</button>
+                                    <button type="button" className="remove-btn p-2 "
+                                        onClick={() => removeSkill(index)}><DeleteIcon /></button>
                                 </div>))}
                     </div>
 
@@ -322,7 +324,7 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                             <div>
                                 <button type="button"
                                     onClick={() => appendLanguage({ languageName: '' })}
-                                    className="add-btn p-2 padding-y-9 text-sm">Add other</button>
+                                    className="add-btn p-2 text-sm"><AddIcon /></button>
                             </div>
                         </div>
                         {skillFLanguage?.length !== 0 &&
@@ -337,15 +339,15 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                                             />
                                         </div>
                                     </div>
-                                    <button type="button" className="remove-btn p-2 padding-y-9"
-                                        onClick={() => removeLanguage(index)}>Delete</button>
+                                    <button type="button" className="remove-btn p-2"
+                                        onClick={() => removeLanguage(index)}><DeleteIcon /></button>
                                 </div>))}
                     </div>
-                    <div className="flex justify-between items-center">
+                    <div className="flex gap-4 items-center">
                         <div className="font-medium">Experience</div>
                         <div><button type="button"
                             onClick={() => append({ company: '', startOfWork: '' })}
-                            className="add-btn p-2">Add</button></div>
+                            className="add-btn p-2"><AddIcon /></button></div>
                     </div>
                     <div className="w-full flex flex-col items-center gap-4">
                         {fields.map((field, index) => {
@@ -385,17 +387,19 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                                                 name={`experience.${index}.details`} />
                                         </div>
 
-                                        <button type="button" className="remove-btn p-2" onClick={() => remove(index)}>Delete</button>
+                                        <button type="button" className="remove-btn p-2" onClick={() => remove(index)}><DeleteIcon /></button>
                                     </div>
                                 </div>
                             </div>
                         })}
                     </div>
-                    <div className="flex justify-between items-center">
+                    <div className="flex gap-4 items-center">
                         <div className="font-medium">Certificates</div>
-                        <div><button type="button"
-                            onClick={() => append_certificate({ certificateName: '' })}
-                            className="add-btn p-2">Add</button></div>
+                        <div>
+                            <button type="button"
+                                onClick={() => append_certificate({ certificateName: '' })}
+                                className="add-btn p-2"><AddIcon /></button>
+                        </div>
                     </div>
                     <div className="w-full flex flex-col items-center gap-4">
                         {certificate_fields.map((field, index) => {
@@ -423,7 +427,7 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                                     </div>
 
                                     <button className="remove-btn p-2" type="button"
-                                        onClick={() => remove_certificate(index)}>Delete</button>
+                                        onClick={() => remove_certificate(index)}><DeleteIcon /></button>
                                 </div>
 
 

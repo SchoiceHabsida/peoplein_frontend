@@ -47,20 +47,9 @@ export const ImageCropper: FC<IImageCropperProps> = ({ file, onCropped, aspect =
     const [scale, setScale] = useState(1)
     const [rotate, setRotate] = useState(0)
 
-    function onSelectFile(image: File) {
-        setCrop(undefined) // Makes crop preview update between images.
-        const reader = new FileReader()
-        reader.addEventListener('load', () =>
-            setImgSrc(reader.result?.toString() || ''),
-        )
-        reader.readAsDataURL(image)
-    }
-
     useEffect(() => {
         if (file) {
-            console.log(file);
-            
-            onSelectFile(file)
+            setImgSrc(URL.createObjectURL(file) || '')
         }
     }, [file])
 
