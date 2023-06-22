@@ -8,7 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { FC } from "react";
 import { useQuery } from "@apollo/client";
 import { IApplicant } from "@/common/components/models/applicants.model";
-import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
+import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/query";
 
 export const ApplicantDetails: FC<{ applicantId: string }> = ({ applicantId }) => {
     const { data, loading } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID,

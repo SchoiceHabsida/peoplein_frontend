@@ -7,57 +7,7 @@ import { calculateAge } from '@/common/components/utils/function';
 import { IApplicant } from '@/common/components/models/applicants.model';
 import { ApplicantPageTypes } from '@/common/constants/common.constants';
 import { useFavorite, useInterview } from '@/common/hooks.ts';
-
-export const GET_APPLICANT_BY_ID = gql`
-    query getApplicant ($id: ID!) {
-        getApplicantById (id: $id) {
-            id
-            profilePicture {
-                id
-                path
-                type
-            }
-            resume {
-                id
-                path
-                type
-            }
-            firstName
-            lastName
-            country
-            gender
-            visa
-            specialization
-            dateOfBirth
-            degree
-            yearsOfExperience
-            resumeGoogleDrivePath
-            languages {
-                languageName
-            }
-            skills {
-                skillName
-                skillType
-            }
-            experience {
-                id
-                company
-                startOfWork
-                endOfWork
-                details
-                yearsWorked
-            }
-            certificates {
-                id
-                certificateName
-                acquisitionDate
-                expiryDate
-            },
-            email
-            description
-        }
-    }
-`
+import { GET_APPLICANT_BY_ID } from './query';
 
 export default function Profile({ params }: { params: { id: string } }) {
 

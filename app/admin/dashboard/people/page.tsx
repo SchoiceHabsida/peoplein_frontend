@@ -13,10 +13,10 @@ import { useContext, useEffect, useState } from "react";
 import './styles.css';
 import { gql, useQuery } from "@apollo/client";
 import { AdminFiltersContext, IAdminFilters } from "@/common/providers";
-import { SEARCH_BY_KEYWORD } from "@/app/applicants/[applicantPage]/results/page";
 import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
 import { IApplicant, IPageable } from "@/common/components/models/applicants.model";
 import { formatDate } from "@/common/components/utils/function";
+import { SEARCH_BY_KEYWORD } from "@/app/applicants/[applicantPage]/results/query";
 
 const APPLICANT_QUERY = gql`
     query GetApplicants ($pageNumber: Int!, $pageCount: Int!, $companyId: ID!) {

@@ -12,13 +12,13 @@ import { IApplicant, ILanguage, ISkills, SkillTypesEnum } from "@/common/compone
 import { CustomSelect } from "@/common/components/inputs/custom-select";
 import { genders, specialization } from "@/common/constants/applicant.constants";
 import { FC, useEffect, useState } from "react";
-import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
 import { removeTypename, replaceEmptyStringWithUndefined } from "@/common/components/utils/function";
 import { yupResolver } from "@hookform/resolvers/yup"
 import { schema, skillSchema } from "@/common/schemas/applicantschemas";
 import './add/styles.css'
 import { DeleteIcon } from "@/common/icons/DeleteIcon";
 import { AddIcon } from "@/common/icons/AddIcon";
+import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/query";
 
 const createMutationByType = (type: string, id?: string) => {
     return gql`
@@ -95,7 +95,7 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                 additionalSkills: [], additionalLanguages: []
             },
             mode: 'onBlur',
-            resolver: yupResolver(skillSchema)
+            resolver: yupResolver(skillSchema) as any
         });
 
     const { fields: skillFields, append: appendSkill, remove: removeSkill } =
