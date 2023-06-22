@@ -145,11 +145,10 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper mb-2">
             <div className="form-fields rounded">
                 <div className="upload-actions flex">
-                    <div className="user-photo h-full flex items-center justify-center relative">
+                    <div className="user-photo h-full">
                         <ImageUploader
                             onChange={(file: File) => setProfilePicture(file)}
                             imagePath={applicant?.getApplicantById.profilePicture?.path} />
-                        <UploadIcon />
                     </div>
                     <div className="user-logo h-full flex-grow"></div>
                 </div>
@@ -180,7 +179,6 @@ export const ApplicantForm: FC<{ id?: string }> = () => {
                             <CustomDatePicker
                                 label={'Birthday'}
                                 onChange={(date: Date) => {
-                                    console.log('date', date.toLocaleString());
                                     setValue('dateOfBirth', date.toLocaleString())
                                 }}
                                 value={watch().dateOfBirth} />

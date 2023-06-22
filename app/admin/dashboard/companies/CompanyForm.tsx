@@ -1,7 +1,6 @@
 'use client'
 import { TextFieldController } from "@/common/components/inputs/text-filed-controller";
 import { useForm } from "react-hook-form";
-import { UploadIcon } from "@/common/icons/UploadIcon";
 
 import './add/styles.css'
 import { ICompany } from "@/common/components/models/companies.model";
@@ -94,17 +93,16 @@ export const CompanyForm = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper mb-2">
             <div className="form-fields rounded">
                 <div className="upload-actions flex">
-                    <div className="user-photo h-full flex items-center justify-center cursor-pointer relative">
+                    <div className="user-photo h-full cursor-pointer">
                         <ImageUploader
                             onChange={(file: File) => setLogo(file)}
                             imagePath={company?.getCompanyById.logo?.path} />
-                        <UploadIcon />
                     </div>
-                    <div className="user-logo h-full flex items-center justify-center cursor-pointer flex-grow relative">
+                    <div className="user-logo h-full cursor-pointer flex-grow">
                         <ImageUploader
+                            aspect={523 / 205}
                             onChange={(file: File) => setBanner(file)}
                             imagePath={company?.getCompanyById.banner?.path} />
-                        <UploadIcon />
                     </div>
                 </div>
 
