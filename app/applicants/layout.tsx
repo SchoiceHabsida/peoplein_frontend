@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 import { ApplicantsProvider } from "@/common/components/applicants"
 import { Breadcrumb } from "../../components/breadcrumb/Breadcrumb"
 import { Searchbar } from "../../components/searchbar/Searchbar"
@@ -16,13 +16,13 @@ export default function ApplicantsLayout({
 }: {
   children: React.ReactNode
 }) {
-  // const { user } = useAuth() as any;
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (!user) {
-  //     router.push(`${ROUTE_LOGIN}`);
-  //   }
-  // }, [user])
+  const { user } = useAuth() as any;
+  const router = useRouter();
+  useEffect(() => {
+    if (!user) {
+      router.push(`${ROUTE_LOGIN}`);
+    }
+  }, [user])
   return (
     <div className="h-screen">
       <Header />

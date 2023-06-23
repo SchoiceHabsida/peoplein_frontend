@@ -48,7 +48,9 @@ export default function AdminLogin() {
                     <div className='mb-8 text-center'>
                         <button
                             className='text-white px-11 py-2.5 rounded font-semibold w-full'
-                            disabled={loading}>Login</button>
+                            disabled={loading}>
+                                {loading ? <span className="loading loading-spinner text-primary"></span> : "Login"}
+                                </button>
                     </div>
                     <div className='flex justify-center'>
                         <div className='flex justify-between forgot-link'>

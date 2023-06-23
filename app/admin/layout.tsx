@@ -1,4 +1,4 @@
-// 'use client'
+'use client'
 
 import { useAuth } from "@/common/components/auth";
 import { ROUTE_ADMIN, ROUTE_LOGIN} from "@/common/constants";
@@ -12,13 +12,13 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  // const { user, loading } = useAuth() as any;
-  // const router = useRouter();
-  // useEffect(() => {    
-  //   if (!user && !loading) {
-  //     router.push(`${ROUTE_ADMIN}/${ROUTE_LOGIN}`);
-  //   }
-  // })
+  const { user, loading } = useAuth() as any;
+  const router = useRouter();
+  useEffect(() => {    
+    if (!user && !loading) {
+      router.push(`${ROUTE_ADMIN}/${ROUTE_LOGIN}`);
+    }
+  })
 
   
   return (
