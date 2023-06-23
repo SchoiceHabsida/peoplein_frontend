@@ -8,7 +8,7 @@ export const AdminSidebar: FC = () => {
     const styles = {
         sidebarBottom: {
             height: '157px',
-            borderTop: '1px solid #A2A2A2'
+            borderTop: '1px solid #DEE2E6'
         },
     }
     return <div className="admin-sidebar flex flex-col justify-between h-full">

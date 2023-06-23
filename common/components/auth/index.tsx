@@ -4,12 +4,21 @@ import { createContext, useContext, useCallback, useState, useEffect } from 'rea
 import { useQuery, useMutation, gql } from '@apollo/client';
 import { ROUTE_ADMIN, ROUTE_DASHBOARD, ROUTE_HOME, ROUTE_LOGIN, ROUTE_PEOPLE } from "@/common/constants";
 import { useRouter } from 'next/navigation';
+import { IUser } from '../models/base.models';
 
 const ME_QUERY = gql`
   query me {
-    getCurrentUser {
+    getCurrentUser{
       id
       username
+      company {
+        id
+        name
+      }
+      roles{
+        id
+        name
+      }
     }
   }
 `;
@@ -17,9 +26,7 @@ const ME_QUERY = gql`
 const LOGIN_MUTATION = gql`
   mutation ($username: String!, $password: String!) {
     login(username: $username, password: $password) {
-      id
       token
-      username
     }
   }
 `;
@@ -29,11 +36,11 @@ const AuthContext = createContext({});
 const useAuthProvider = () => {
 
   const { client, loading, error, data: userData, refetch, } =
-    useQuery<{ getCurrentUser: { id: string; username: string } }>(ME_QUERY, {fetchPolicy: 'no-cache'});
+    useQuery<{ getCurrentUser: IUser }>(ME_QUERY, { fetchPolicy: 'no-cache' });
   const [loginMutation, { loading: mutationLoading }] = useMutation(LOGIN_MUTATION);
   const router = useRouter()
 
-  const [user, setUser] = useState<{ id: string; username: string } | null>(null)
+  const [user, setUser] = useState<IUser | null>(null)
   const [loginError, setLoginError] = useState<any>(null)
 
   const login = useCallback(({ username, password, is_admin }: { username: string; password: string; is_admin?: boolean }) => {
@@ -51,7 +58,7 @@ const useAuthProvider = () => {
   }, [loginMutation, refetch]);
 
   useEffect(() => {
-    setUser(userData?.getCurrentUser || null)
+    setUser(userData?.getCurrentUser ? { ...userData?.getCurrentUser} : null)
   }, [userData])
 
   const logout = useCallback((is_admin?: boolean) => {

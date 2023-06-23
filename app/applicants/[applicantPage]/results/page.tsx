@@ -4,34 +4,9 @@ import { IApplicant, IPageable } from "@/common/components/models/applicants.mod
 import { ISearchProvider, SearchContext } from "@/common/providers"
 import { Card } from "@/components/card/Card";
 import { IPaginationParams, CustomPagination } from "@/components/pagination";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react"
-
-export const SEARCH_BY_KEYWORD = gql`
-    query searchApplicants ($pageNumber: Int, $pageCount: Int, $keyword: String) {
-        searchApplicantsByKeyword (pageNumber: $pageNumber, pageCount: $pageCount, keyword: $keyword) {
-            content{
-                id
-                firstName
-                lastName
-                country
-                gender
-                visa
-                dateOfBirth
-                yearsOfExperience,
-                profilePicture {
-                    id
-                    path
-                    type
-                }
-                specialization
-            }
-        currentPage
-        totalElements
-        totalPages
-        }
-    }
-`
+import { SEARCH_BY_KEYWORD } from "./query";
 
 export default function Results() {
     const [pageNumber, setPageNumber] = useState(0);

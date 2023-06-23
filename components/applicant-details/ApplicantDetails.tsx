@@ -8,10 +8,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { FC } from "react";
 import { useQuery } from "@apollo/client";
 import { IApplicant } from "@/common/components/models/applicants.model";
-import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/page";
+import { GET_APPLICANT_BY_ID } from "@/app/applicants/[applicantPage]/[id]/query";
 
 export const ApplicantDetails: FC<{ applicantId: string }> = ({ applicantId }) => {
-    const { data, loading } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID, { variables: { id: applicantId } })
+    const { data, loading } = useQuery<{ 'getApplicantById': IApplicant }>(GET_APPLICANT_BY_ID,
+        { variables: { id: applicantId }, fetchPolicy: 'no-cache' })
 
     const path = usePathname();
     const router = useRouter();
@@ -19,9 +20,9 @@ export const ApplicantDetails: FC<{ applicantId: string }> = ({ applicantId }) =
     return <div className="flex flex-col gap-6 applicant-details">
         <div className="flex">
             <div>
-                <img src={'/Avatar-Image.png'}
+                <img src={data?.getApplicantById.profilePicture ? data?.getApplicantById.profilePicture?.path : '/Avatar-Image.png'}
                     width={205}
-                    height={205}
+                    style={{ height: '205px' }}
                     className='rounded' alt='person'></img>
             </div>
             <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6">

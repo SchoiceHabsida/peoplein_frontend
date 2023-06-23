@@ -16,7 +16,7 @@ export const DropdownWrapper: FC<IDropdownWrapper> = ({ label, options, dropDown
 
     const [open, setOpen] = useState(false);
 
-    return <div onClick={() => setOpen(!open)} className="filter-input w-1/2 rounded h-10 flex items-center justify-between px-2 cursor-pointer relative">
+    return <div onClick={() => setOpen(!open)} className="filter-input w-full rounded h-10 flex items-center justify-between px-2 cursor-pointer relative">
         <div className="flex items-center justify-between w-full">
             <div>
                 {label}

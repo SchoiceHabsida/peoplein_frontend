@@ -3,6 +3,7 @@
 import { FC } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { formatDate } from "../../utils/function";
 
 interface IDatePickerProps {
     label?: string,
@@ -15,9 +16,9 @@ export const CustomDatePicker: FC<IDatePickerProps> = ({
     onChange,
     label
 }) => {
-
+      
     const handleDateSelect = (values: any) => {
-        onChange(values)
+        onChange(formatDate(values))
     }
 
     const handleDateChange = (values: any, event: any) => {
@@ -28,7 +29,7 @@ export const CustomDatePicker: FC<IDatePickerProps> = ({
         const date = new Date(event.target.value);
 
         if (!isNaN(date.getTime()) && event.target.value?.length > 6) {
-            onChange(date)
+            onChange(formatDate(date))
         }
 
     }

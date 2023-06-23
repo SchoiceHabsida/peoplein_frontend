@@ -30,3 +30,40 @@ export function removeTypename(obj: any): any {
 
     return newObj;
 }
+
+
+export function replaceEmptyStringWithUndefined(obj: any): any {
+    if(!obj) {
+        return undefined
+    }
+    if (typeof obj === 'object') {
+      if (Array.isArray(obj)) {
+        return obj.map(replaceEmptyStringWithUndefined);
+      } else {
+        return Object.fromEntries(
+          Object.entries(obj).map(([key, value]) => [
+            key,
+            replaceEmptyStringWithUndefined(value),
+          ])
+        );
+      }
+    } else if (obj === '') {
+      return undefined;
+    } else {
+      return obj;
+    }
+  }
+
+  export function formatDate(date: Date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}

@@ -13,13 +13,14 @@ import { useContext, useEffect, useState } from "react";
 import './styles.css';
 import { gql, useQuery } from "@apollo/client";
 import { AdminFiltersContext, IAdminFilters } from "@/common/providers";
-import { SEARCH_BY_KEYWORD } from "@/app/applicants/[applicantPage]/results/page";
 import { ApplicantDetails } from "@/components/applicant-details/ApplicantDetails";
 import { IApplicant, IPageable } from "@/common/components/models/applicants.model";
+import { formatDate } from "@/common/components/utils/function";
+import { SEARCH_BY_KEYWORD } from "@/app/applicants/[applicantPage]/results/query";
 
 const APPLICANT_QUERY = gql`
-    query GetApplicants ($pageNumber: Int!, $pageCount: Int!) {
-        getAllApplicantsPaged (pageNumber: $pageNumber, pageCount: $pageCount) {
+    query GetApplicants ($pageNumber: Int!, $pageCount: Int!, $companyId: ID!) {
+        getAllApplicantsPaged (pageNumber: $pageNumber, pageCount: $pageCount, companyId: $companyId) {
             content{
                 id
                 firstName
@@ -34,7 +35,9 @@ const APPLICANT_QUERY = gql`
                     path
                     type
                 }
-                specialization
+                specialization 
+                createdAt,
+                status
             }
         currentPage
         totalElements
@@ -47,7 +50,7 @@ export default function People() {
     const [isSearching, setIsSearching] = useState(false);
     const { data, loading, error, refetch } =
         useQuery<Record<'getAllApplicantsPaged', IPageable<IApplicant>>>
-            (APPLICANT_QUERY, { variables: { pageNumber: 0, pageCount: 10 } });
+            (APPLICANT_QUERY, { variables: { pageNumber: 0, pageCount: 10, companyId: "" } });
     const styles = {
         tableStyles: {
             header: {
@@ -83,20 +86,25 @@ export default function People() {
     const { keyword, setKeyword } = useContext(AdminFiltersContext) as IAdminFilters;
 
     const { data: searchedApplicants, refetch: refetchApplicants, loading: isSearchingApplicants } =
-    useQuery<Record<'searchApplicantsByKeyword', IPageable<IApplicant>>, IPaginationParams & { keyword: string }>(SEARCH_BY_KEYWORD, {
-        variables: {
-            keyword: keyword,
-            pageNumber: 0,
-        },
-        skip: !keyword
-    })
+        useQuery<Record<'searchApplicantsByKeyword', IPageable<IApplicant>>, IPaginationParams & { keyword: string }>
+            (SEARCH_BY_KEYWORD, {
+                variables: {
+                    keyword: keyword,
+                    pageNumber: 0,
+                },
+                skip: !keyword
+            })
 
     const onPage = (values: IPaginationParams) => {
         refetch(values)
     }
 
     useEffect(() => {
-        if(keyword) {
+        refetch({ pageNumber: 0, pageCount: 10 });
+    }, [])
+
+    useEffect(() => {
+        if (keyword) {
             setIsSearching(true);
         } else {
             setIsSearching(false);
@@ -104,11 +112,13 @@ export default function People() {
     }, [keyword])
 
     useEffect(() => {
-        return () => {setKeyword('')};
+        return () => { setKeyword('') };
     }, [])
 
     const getData = (isSearching: boolean): IPageable<IApplicant> | undefined => {
-        return isSearching ? searchedApplicants?.searchApplicantsByKeyword : data?.getAllApplicantsPaged;
+        return isSearching
+            ? searchedApplicants?.searchApplicantsByKeyword :
+            data?.getAllApplicantsPaged;
     }
 
     return <div className="people flex flex-col justify-between h-full">
@@ -178,40 +188,46 @@ export default function People() {
                         </tr>
                     </thead>
                     <tbody>
-                        {(getData(isSearching)?.content && getData(isSearching)?.content.length) ?     
-                              getData(isSearching)?.content?.map(applicant => <tr key={applicant.id} className="cursor-pointer">
-                                    <th>
-                                        <Checkbox onChange={() => { }} />
-                                    </th>
-                                    <td>
-                                        <div className="flex items-center space-x-3">
-                                            <div>
-                                                <div className="font-bold">{applicant.firstName} {applicant.lastName}</div>
-                                            </div>
+                        {(getData(isSearching)?.content) ?
+                            getData(isSearching)?.content?.map(applicant => <tr key={applicant.id} className="cursor-pointer">
+                                <th>
+                                    <Checkbox onChange={() => { }} />
+                                </th>
+                                <td>
+                                    <div className="flex items-center space-x-3">
+                                        <div>
+                                            <div className="font-bold">{applicant.firstName} {applicant.lastName}</div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        {applicant.specialization?.map((item, idx) => <span key={idx}> {item}</span>)}
-                                    </td>
-                                    <td>{applicant.country}</td>
-                                    <td>
-                                        {applicant.visa}
-                                    </td>
-                                    <td>-</td>
-                                    <td>
-                                        <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
-                                            -
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button
-                                            className="btn btn-ghost btn-xs"
-                                            onClick={() => { setOpenedId(applicant.id); setDialogOpen(true) }}><EyeIcon /></button>
-                                    </td>
-                                </tr>) :
-                            <tr className="w-full px-2 text-gray-400 text-center flex"><td className="w-full">No data found</td></tr>}
+                                    </div>
+                                </td>
+                                <td>
+                                    {applicant.specialization?.map((item, idx) => <span key={idx}> {item}</span>)}
+                                </td>
+                                <td>{applicant.country}</td>
+                                <td>
+                                    {applicant.visa}
+                                </td>
+                                <td>{applicant.createdAt ? formatDate(new Date(applicant.createdAt)) : null}</td>
+                                <td>
+                                    <div style={{ ...styles.tableStyles.statusBadge, ...styles.tableStyles.statusBadgeContent }}>
+                                        {applicant.status}
+                                    </div>
+                                </td>
+                                <td>
+                                    <button
+                                        className="btn btn-ghost btn-xs"
+                                        onClick={() => { setOpenedId(applicant.id); setDialogOpen(true) }}><EyeIcon /></button>
+                                </td>
+                            </tr>) : null
+                        }
                     </tbody>
                 </table>
+                <div className="w-full text-center mt-4">
+                    {loading || isSearchingApplicants ?
+                        <span className="loading loading-spinner loading-md"></span> :
+                        getData(isSearching)?.content.length === 0
+                        && <div className="mx-auto uppercase text-slate-400 text-sm">No data found</div>}
+                </div>
             </div>
         </div>
         <div className="w-full text-center table-pagination">

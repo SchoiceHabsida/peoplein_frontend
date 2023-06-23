@@ -1,7 +1,7 @@
 .search-input-wrapper {
     max-width: 475px;
     height: 40px;
-    border: 1px solid #98A2B3;
+    border: 1px solid #DEE2E6;
 }
 
 .search-input-wrapper input {
@@ -11,7 +11,7 @@
 
 .filter-input {
     background: #FFFFFF;
-    border: 1px solid #98A2B3;
+    border: 1px solid #DEE2E6;
 }
 
 .apply-button {

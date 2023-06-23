@@ -4,14 +4,14 @@ import { IApplicantProviderType, useApplicants } from "@/common/components/appli
 import { ApplicantQueryTypes, ApplicantPageTypes } from "@/common/constants/common.constants"
 import { FilterContext, IFilterContext } from "@/common/providers/Filter.provider"
 import { IPaginationParams, CustomPagination, defaultPageCount } from "@/components/pagination"
+import { Fragment, useContext, useEffect, useState } from "react"
 import { Card } from "@/components/card/Card"
-import { useContext, useEffect, useState } from "react"
 
 export default function SearchPage({ params }: { params: { applicantPage: ApplicantPageTypes } }) {
 
   const [pageNumber, setPageNumber] = useState(0);
   const [dataKey, setDataKey] = useState(ApplicantQueryTypes.search);
-  const { data, applicantQueryType, setApplicantQueryType, refetch } = useApplicants() as IApplicantProviderType;
+  const { data, applicantQueryType, setApplicantQueryType, refetch, loading } = useApplicants() as IApplicantProviderType;
   const { input } = useContext(FilterContext) as IFilterContext;
 
   const filterData = () => {
@@ -41,19 +41,25 @@ export default function SearchPage({ params }: { params: { applicantPage: Applic
   }, [input, params.applicantPage, pageNumber])
 
   return (<div className="flex flex-col">
-    <div className="mt-5 flex gap-5 flex-wrap">
-      {data?.[`${dataKey}`]?.content?.map(applicant => <Card
-        key={applicant.id} {...applicant} refetch={() => refetch({ ...applicantQueryType.variables })} />)}
-    </div>
-    <div className="flex justify-center mt-4">
-      {data?.[`${dataKey}`]?.content.length ? <CustomPagination
-        currentPage={data?.[`${dataKey}`]?.currentPage || 0}
-        totalElements={data?.[`${dataKey}`]?.totalElements || 0}
-        onPage={(value: IPaginationParams) => {
-          setPageNumber(value.pageNumber)
-        }
-        } /> : null}
-    </div>
+    {loading ? <span className="mt-4 mx-auto loading loading-spinner text-primary"></span> : <Fragment>
+      {data?.[`${dataKey}`]?.content.length ? <div>
+        <div className="mt-5 flex gap-5 flex-wrap">
+          {data?.[`${dataKey}`]?.content?.map(applicant => <Card
+            is_favorite={params.applicantPage === ApplicantPageTypes.favorites}
+            is_scheduled_for_interview={params.applicantPage === ApplicantPageTypes.interviews}
+            key={applicant.id} {...applicant}
+            refetch={() => refetch({ ...applicantQueryType.variables })} />)}
+        </div>
+        <div className="flex justify-center mt-4">
+          <CustomPagination
+            currentPage={data?.[`${dataKey}`]?.currentPage || 0}
+            totalElements={data?.[`${dataKey}`]?.totalElements || 0}
+            onPage={(value: IPaginationParams) => {
+              setPageNumber(value.pageNumber)
+            }} />
+        </div>
+      </div> : <div className="mx-auto mt-4 uppercase text-slate-400 text-sm">No data found</div>}
+    </Fragment>}
   </div>
   )
 }

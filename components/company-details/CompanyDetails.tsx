@@ -3,38 +3,69 @@ import { ArrowRight } from "@/common/icons/ArrowRight"
 import { ActionButtonWrapper } from "../admin-status-actions/AdminStatusActions"
 
 import './styles.css';
-import { usePathname, useRouter } from "next/navigation";
 import { FC } from "react";
 import { gql, useQuery } from "@apollo/client";
+import { usePathname, useRouter } from "next/navigation";
 import { ICompany } from "@/common/components/models/companies.model";
 
-const GET_COMPANY_QUERY = gql`
+export const GET_COMPANY_QUERY = gql`
 query getCompany ($id: ID!) {
     getCompanyById (id: $id) {
         id
         name
         address 
         hrManager
+        email
+        phoneNumber
+        website
+        foundedAt
+        registrationNumber
         favoriteApplicants {
             firstName
             lastName
+        }
+        requiredSkills {
+            skillName,
+            skillType
+        }
+        preferredVisas,
+        logo {
+            id
+            type
+            path
+        }
+        banner {
+            id
+            type
+            path
         }
     }
 }
 `
 
 export const CompanyDetails: FC<{ id: string }> = ({ id }) => {
-    const { data, loading } = useQuery<{ 'getCompanyById': ICompany }>(GET_COMPANY_QUERY, { variables: { id: id } })
-
+    const { data, loading } = useQuery<{ 'getCompanyById': ICompany }>(GET_COMPANY_QUERY, { variables: { id: id }, fetchPolicy: 'no-cache' })
     const path = usePathname();
     const router = useRouter();
 
     return <div className="flex flex-col gap-6 applicant-details">
         <div className="flex">
-            <div className="flex items-center justify-center company-logo">
-                logo
-            </div>
-            <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6">
+            {
+                data?.getCompanyById.logo ?
+                    <img src={data?.getCompanyById.logo?.path}
+                        width={205}
+                        style={{height: '205px'}}
+                        className='rounded' alt='person'></img> : <div
+                            className="flex items-center justify-center company-logo">
+                        logo
+                    </div>
+            }
+
+            <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6" 
+            style={{
+                backgroundPosition: 'center', 
+                backgroundRepeat: 'no-repeat',
+                backgroundImage: `url(${data?.getCompanyById.banner?.path})`}}>
 
                 <ActionButtonWrapper
                     onCLick={() => router.push(`${path}/${id}`)}
@@ -54,7 +85,7 @@ export const CompanyDetails: FC<{ id: string }> = ({ id }) => {
                     Skills:
                 </div>
                 {
-                    data?.getCompanyById.skills?.map((skill, index) => <div key={index}> {skill.skillName} , </div>)
+                    data?.getCompanyById.requiredSkills?.map((skill, index) => <div key={index}> {skill.skillName} , </div>)
                 }
                 <div className="mb-6">
                 </div>

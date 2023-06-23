@@ -1,21 +1,27 @@
 import { IAdminFilter } from "./admin-filters.constants";
 
+export enum applicantStatusEnum {
+    IN_PROJECT = "IN_PROJECT",
+    SEARCHING = "SEARCHING",
+    EMPLOYED = "EMPLOYED"
+}
+
 export const STATUS_ACTIONS: IAdminFilter[] = [
     {
         label: '',
         value: 'STATUS',
         children: [
             {
-                label: 'Active',
-                value: 'active'
+                label: 'Searching',
+                value: applicantStatusEnum.SEARCHING
             },
             {
-                label: 'InActive',
-                value: 'inactive'
+                label: 'Employed',
+                value: applicantStatusEnum.EMPLOYED
             },
             {
-                label: 'Delete',
-                value: 'delete'
+                label: 'In project',
+                value: applicantStatusEnum.IN_PROJECT
             }
         ]
     }

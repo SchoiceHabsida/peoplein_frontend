@@ -17,7 +17,7 @@ export default function DashboardLayout({
     },
     sidebarWrapper: {
       width: '320px',
-      borderRight: '1px solid #A2A2A2'
+      borderRight: '1px solid #DEE2E6'
     },
   }
 

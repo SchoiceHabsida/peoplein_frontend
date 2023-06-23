@@ -8,7 +8,8 @@ export const AdminCvActions = () => {
     const [open, setOpen] = useState(false);
     return <div className="relative"> 
         <ActionButtonWrapper label={'CV'} icon={<SettingsIcon />}
-            onCLick={() => setOpen(true)}></ActionButtonWrapper>
+        // Don't need to open cv actions
+            onCLick={() => setOpen(!true)}></ActionButtonWrapper> 
         {open &&
             <div className="absolute top-0 left-0">
                 <InputDropdown

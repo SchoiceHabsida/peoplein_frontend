@@ -25,6 +25,11 @@ const Companies_QUERY = gql`
                 hrManager
                 name
                 phoneNumber
+                registrationNumber
+                requiredSkills{
+                    skillName
+                }
+                foundedAt
             }
         currentPage
         totalElements
@@ -32,7 +37,6 @@ const Companies_QUERY = gql`
       }
     }
   `
-
 
 export default function Companies() {
     const [openedId, setOpenedId] = useState('')
@@ -102,7 +106,7 @@ export default function Companies() {
                             <th>
                                 <div className="flex gap-1 cursor-pointer">
                                     <span>
-                                        Reg number
+                                        Registration number
                                     </span>
                                     <DownIcon />
                                 </div>
@@ -138,8 +142,8 @@ export default function Companies() {
                     </thead>
                     <tbody>
                         {
-                            data?.getAllCompaniesPaged.content.map((company, index) => {
-                                return <tr className="cursor-pointer" key={index}>
+                            data?.getAllCompaniesPaged.content.map((company) => {
+                                return <tr className="cursor-pointer" key={company.id}>
                                     <th>
                                         <Checkbox onChange={() => { }} />
                                     </th>
@@ -151,11 +155,13 @@ export default function Companies() {
                                         </div>
                                     </td>
                                     <td>
-                                        -
+                                        {company.registrationNumber}
                                     </td>
                                     <td>{company.phoneNumber}</td>
-                                    <td>-</td>
-                                    <td>-</td>
+                                    <td>
+                                        {company.requiredSkills?.map(skill => <div key={skill.skillName}>{skill.skillName}</div>)}
+                                    </td>
+                                    <td>{company.foundedAt}</td>
                                     <td>
                                     <button
                                             className="btn btn-ghost btn-xs"
@@ -167,6 +173,12 @@ export default function Companies() {
 
                     </tbody>
                 </table>
+                <div className="w-full text-center mt-4">
+                    {loading ?
+                        <span className="loading loading-spinner loading-md"></span> :
+                        data?.getAllCompaniesPaged.content.length === 0
+                        && <div className="mx-auto uppercase text-slate-400 text-sm">No data found</div>}
+                </div>
             </div>
         </div>
         <div className="w-full text-center table-pagination">

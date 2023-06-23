@@ -1,3 +1,5 @@
+import { applicantStatusEnum } from "./user-actions.constants";
+
 export const ADMIN_FILTERS: IAdminFilter[] = [
     {
         label: "Visa",
@@ -30,12 +32,16 @@ export const ADMIN_FILTERS: IAdminFilter[] = [
         value: 'status',
         children: [
             {
-                label: 'Active',
-                value: 'active'
+                label: 'Employed',
+                value: applicantStatusEnum.EMPLOYED
             },
             {
-                label: 'InActive',
-                value: 'inactive'
+                label: 'Searching',
+                value: applicantStatusEnum.SEARCHING
+            },
+            {
+                label: 'In project',
+                value: applicantStatusEnum.IN_PROJECT
             }
         ]
     }

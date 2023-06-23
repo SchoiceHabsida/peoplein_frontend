@@ -5,7 +5,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import './styles.css';
 import { SearchIcon } from "@/common/icons/SearchIcon";
 import { DropdownWrapper } from "../dropdown-wrapper/DropdownWrapper";
-import { STATUS_FILTERS, ADMIN_FILTERS } from "@/common/constants/admin-filters.constants";
+import { ADMIN_FILTERS } from "@/common/constants/admin-filters.constants";
 import { AdminFiltersContext, IAdminFilters } from "@/common/providers";
 
 export const AdminFilters = () => {
@@ -39,7 +39,7 @@ export const AdminFilters = () => {
             </div>
             <div className="flex items-center justify-between gap-3">
                 <DropdownWrapper label="Filter" options={ADMIN_FILTERS} dropDownWidth="340px"></DropdownWrapper>
-                <DropdownWrapper label="Choose action" options={STATUS_FILTERS} dropDownWidth="240px"></DropdownWrapper>
+                {/* <DropdownWrapper label="Choose action" options={STATUS_FILTERS} dropDownWidth="240px"></DropdownWrapper> */}
             </div>
         </div>
         <div>
