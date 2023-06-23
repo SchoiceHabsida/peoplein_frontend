@@ -1,0 +1,13 @@
+.filter {
+    margin-top: 71px;
+    width: 255px;
+}
+.filter-title {
+    color: #212529;
+}
+.filter-select {
+    border: 1px solid #CED4DA;
+    border-radius: 4px;
+    padding: 4px 8px;
+    background: #FFFFFF;
+}

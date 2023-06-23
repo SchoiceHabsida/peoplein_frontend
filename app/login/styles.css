@@ -1,0 +1,44 @@
+.login__header {
+    background-image: url('../../img/regBg.jpg');
+}
+
+.login__content {
+    height: calc(100vh - 80px);
+    background-image: url('../../img/registrationBg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login input{
+    border: 1px solid #CED4DA;
+    padding: 8px 16px;
+    border-radius: 4px;
+    width: 100%;
+    outline: none;
+  }
+
+.login input::placeholder {
+    color: #ABB5BE;
+    font-size: 16px;
+  }
+
+.login__label {
+    font-family: 'Inter';
+    font-weight: 700;
+}
+
+.w-420 {
+    width: 420px;
+}
+
+.login-link {
+    color: #ABB5BE;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.login-error-text {
+    color: #DC3545;
+}

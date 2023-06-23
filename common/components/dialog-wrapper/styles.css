@@ -1,0 +1,25 @@
+.dialog-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.78);
+}
+
+.dialog-container {
+    width: 860px;
+    margin: 257px auto;
+    margin-bottom: 50px;
+    border: 1px solid #DEE2E6;
+    border-radius: 12px;
+    position: relative;
+    padding: 53px 65px;
+    padding-bottom: 116px;
+}
+
+.dialog-header button {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+}

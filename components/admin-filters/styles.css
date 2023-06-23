@@ -1,0 +1,19 @@
+.search-input-wrapper {
+    max-width: 475px;
+    height: 40px;
+    border: 1px solid #DEE2E6;
+}
+
+.search-input-wrapper input {
+    border: none;
+    outline: none;
+}
+
+.filter-input {
+    background: #FFFFFF;
+    border: 1px solid #DEE2E6;
+}
+
+.apply-button {
+    background-color: #414141;
+}

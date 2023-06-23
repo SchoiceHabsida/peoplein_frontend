@@ -1,0 +1,40 @@
+.admin__login {
+    height: calc(100vh - 100px);
+}
+
+.admin__login input::placeholder {
+    color: #ABB5BE;
+    font-size: 16px;
+  }
+
+.admin__login input {
+    background: #FFFFFF;
+    border: 1px solid #EAEAEA;
+    border-radius: 10px;
+    height: 60px;
+    font-size: 18px;
+    padding: 8px 16px;
+    width: 100%;
+    outline: none;
+}
+
+.w-395 {
+    width: 395px;
+}
+
+.login__label {
+    font-family: 'Inter';
+    font-weight: 700;
+}
+
+.admin__login button {
+    height: 64px;
+    font-size: 18px;
+    border-radius: 10px;
+    background: #171717;
+}
+
+.forgot-link a {
+    color: #6A6A6A;
+    font-size: 18px;
+}

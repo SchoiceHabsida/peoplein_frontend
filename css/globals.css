@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities; 
+
+@layer base {
+  html {
+    font-family: 'Inter';
+  }
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-Regular.woff") format("opentype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-Medium.woff") format("opentype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-Bold.woff") format("opentype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter-SemiBold.woff") format("opentype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Regular.ttf") format("opentype");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../fonts/Montserrat-Bold.ttf") format("opentype");
+  font-weight: 600;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+.bg-color-purple-primary {
+  background-color: #7749F8;
+}
+
+.text-purple-primary {
+  color: #7749F8;
+}
+
+.content-x-space {
+  margin: 0 165px;
+}
+
+.scroll-content::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scroll-content::-webkit-scrollbar-track {
+  border-radius: 3px;
+  background-color: #ffffff;
+}
+
+.scroll-content::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #ffefef;
+}

@@ -1,0 +1,23 @@
+.profile {
+    border: 1px solid #DEE2E6;
+    color: #68717A;
+}
+
+.profile-header {
+    background: #E9E9E9;
+}
+
+.colored {
+    color: #7749F8;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.bordered-top {
+    border-top: 1px solid #DEE2E6;
+}
+
+.bottom-actions {
+    border: 1px solid #DEE2E6;
+}

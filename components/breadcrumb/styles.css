@@ -1,0 +1,15 @@
+.breadcrumb {
+    height: 48px;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    color: #68717A;
+}
+.breadcrumb .active-route {
+    color: #7749F8;
+}
+.route:hover {
+    cursor: pointer;
+}
+.breadcrumb-bg {
+    background-color: #F8F9FA;
+}

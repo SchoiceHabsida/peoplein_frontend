@@ -1,0 +1,16 @@
+.header-top {
+    background-color: #212529;
+}
+.language-btn {
+    color: #ABABAB;
+}
+
+.header__banner {
+    height: 226px;
+    background-image: url('../../public/headerBg.png');
+    background-size: cover;
+}
+.text-40 {
+    font-size: 40px;
+    line-height: 56px;
+}

@@ -1,0 +1,20 @@
+.admin-header {
+    height: 100px;
+}
+
+.admin-logo {
+    width: 320px;
+    border-right: 1px solid #DEE2E6;
+    border-bottom: 1px solid #DEE2E6;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 37px;
+    line-height: 74px;
+    letter-spacing: -0.035em;
+    color: #06B7BF;
+}
+
+.admin-banner {
+    background: #06B7BF;
+}

@@ -1,0 +1,35 @@
+.card {
+    color: #68717A;
+    border: 1px solid #DEE2E6;
+    width: 345px;
+
+}
+
+.info-container {
+    gap: 18px;
+}
+
+.info-title {
+    color: #68717A;
+}
+
+.person-name {
+    color: #152536;
+    margin-top: 25px;
+    margin-bottom: 11px;
+}
+
+.bordered-top {
+    border-top: 1px solid #DEE2E6;
+}
+
+.colored {
+    color: #7749F8;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.interview-status {
+    background: #EBE5FC
+}
