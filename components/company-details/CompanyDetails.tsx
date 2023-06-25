@@ -63,6 +63,7 @@ export const CompanyDetails: FC<{ id: string }> = ({ id }) => {
 
             <div className="right-actions flex flex-col flex-grow items-end justify-center gap-2 pr-6" 
             style={{
+                backgroundSize: 'cover',
                 backgroundPosition: 'center', 
                 backgroundRepeat: 'no-repeat',
                 backgroundImage: `url(${data?.getCompanyById.banner?.path})`}}>
