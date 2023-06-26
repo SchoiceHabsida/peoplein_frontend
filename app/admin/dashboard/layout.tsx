@@ -13,7 +13,7 @@ export default function DashboardLayout({
 
   const styles = {
     content: {
-      height: 'calc(100vh - 100px)'
+      height: 'calc(100vh - 70px)'
     },
     sidebarWrapper: {
       width: '320px',
@@ -27,7 +27,7 @@ export default function DashboardLayout({
             <div style={styles.sidebarWrapper}>
               <AdminSidebar/>
             </div>
-            <div className="grow h-full overflow-y-auto">
+            <div className="grow h-full">
               {children}
             </div>
           </div>

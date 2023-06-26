@@ -121,18 +121,15 @@ export default function People() {
             data?.getAllApplicantsPaged;
     }
 
-    return <div className="people flex flex-col justify-between h-full">
-        {dialogOpen && <div className="absolute">
-            <DialogWrapper onClose={() => setDialogOpen(false)}>
-                <ApplicantDetails applicantId={openedId} />
-            </DialogWrapper>
-        </div>}
-        <div>
-            <ContentHeader label="People list">
-                <Breadcrumb with_bg={false} />
-                <AdminFilters />
-            </ContentHeader>
-            <div className="overflow-x-auto">
+    return <div className="list h-full pt-14 mb-24">
+        <div className="flex flex-col h-full">
+            <div>
+                <ContentHeader label="People list">
+                    <Breadcrumb with_bg={false} />
+                    <AdminFilters />
+                </ContentHeader>
+            </div>
+            <div className="overflow-x-auto scroll-content">
                 <table className="table w-full">
                     <thead>
                         <tr>
@@ -230,12 +227,18 @@ export default function People() {
                 </div>
             </div>
         </div>
-        <div className="w-full text-center table-pagination">
+
+        <div className="table-pagination">
             <CustomPagination
                 totalElements={getData(isSearching)?.totalElements || 1}
                 currentPage={getData(isSearching)?.currentPage || 0}
                 pageCount={10}
                 onPage={onPage} />
         </div>
+        {dialogOpen && <div className="absolute">
+            <DialogWrapper onClose={() => setDialogOpen(false)}>
+                <ApplicantDetails applicantId={openedId} />
+            </DialogWrapper>
+        </div>}
     </div>
 }
