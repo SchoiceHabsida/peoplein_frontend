@@ -26,7 +26,7 @@ export const CustomPagination: FC<IPaginationProps> = ({ currentPage,
         onPage({ pageNumber: page - 1, pageCount: pageCount })
     }
 
-    return <div>
+    return <div className="-ml-36">
         <Pagination
             defaultCurrent={currentPage + 1}
             total={totalElements || 1}

@@ -77,18 +77,16 @@ export default function Companies() {
         refetch(values)
     }
 
-    return <div className="people flex flex-col justify-between h-full">
-        {dialogOpen && <div className="absolute">
-            <DialogWrapper onClose={() => setDialogOpen(false)}>
-                <CompanyDetails id={openedId}/>
-            </DialogWrapper>
-        </div>}
-        <div>
-            <ContentHeader label="Company list">
-                <Breadcrumb with_bg={false} />
-                <AdminFilters />
-            </ContentHeader>
-            <div className="overflow-x-auto">
+    return <div className="list h-full pt-14 mb-24">
+        <div className="flex flex-col h-full">
+            <div>
+
+                <ContentHeader label="Company list">
+                    <Breadcrumb with_bg={false} />
+                    <AdminFilters />
+                </ContentHeader>
+            </div>
+            <div className="overflow-x-auto scroll-content">
                 <table className="table w-full">
                     <thead>
                         <tr>
@@ -163,7 +161,7 @@ export default function Companies() {
                                     </td>
                                     <td>{company.foundedAt}</td>
                                     <td>
-                                    <button
+                                        <button
                                             className="btn btn-ghost btn-xs"
                                             onClick={() => { setOpenedId(company.id as any); setDialogOpen(true) }}><EyeIcon /></button>
                                     </td>
@@ -181,12 +179,17 @@ export default function Companies() {
                 </div>
             </div>
         </div>
-        <div className="w-full text-center table-pagination">
+        <div className="table-pagination">
             <CustomPagination
                 totalElements={data?.getAllCompaniesPaged.totalElements || 1}
                 currentPage={data?.getAllCompaniesPaged.currentPage || 0}
                 pageCount={10}
                 onPage={onPage} />
         </div>
+        {dialogOpen && <div className="absolute">
+            <DialogWrapper onClose={() => setDialogOpen(false)}>
+                <CompanyDetails id={openedId} />
+            </DialogWrapper>
+        </div>}
     </div>
 }
