@@ -3,11 +3,12 @@ import { ROUTE_ADD, ROUTE_ADMIN, ROUTE_COMPANIES, ROUTE_DASHBOARD, ROUTE_PEOPLE 
 import { AvatarPlusIcon } from "@/common/icons/AvatarPlusIcon"
 import { SettingsIcon } from "@/common/icons/SettingsIcon"
 import { useRouter } from "next/navigation"
-import { FC, useState } from "react"
+import { FC, useEffect, useRef, useState } from "react"
 
 const styles = {
     actionContent: {
         marginTop: '22px',
+        marginBottom: '22px',
         marginRight: '30px',
         marginLeft: '30px',
     },
@@ -31,10 +32,26 @@ const styles = {
     }
 }
 export const SidebarActions = () => {
+
+    const divRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (divRef.current && !divRef.current.contains(event.target as Node)) {
+                setOpen(false)
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, []);
+
     const [open, setOpen] = useState(false)
 
     return <div className="flex items-center gap-6" style={styles.actionContent}>
-        <div className="relative">
+        <div className="relative" ref={divRef}>
             <button
                 onClick={() => setOpen(!open)}
                 className="flex text-white gap-4 items-center justify-center"
@@ -46,7 +63,7 @@ export const SidebarActions = () => {
                 <span>Add</span>
             </button>
             {
-                open && <div className="absolute top-0 ">
+                open && <div className="absolute -top-20 ">
                     <AddEntity onClose={() => setOpen(false)} />
                 </div>
             }

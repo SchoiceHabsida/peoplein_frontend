@@ -7,7 +7,6 @@ import { SidebarActions } from "../sidebar-actions"
 export const AdminSidebar: FC = () => {
     const styles = {
         sidebarBottom: {
-            height: '157px',
             borderTop: '1px solid #DEE2E6'
         },
     }
