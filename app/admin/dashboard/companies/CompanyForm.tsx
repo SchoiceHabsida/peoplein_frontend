@@ -172,15 +172,6 @@ export const CompanyForm = () => {
                     </div>
 
                     <div className="w-1/2">
-                        <TextFieldController
-                            name="address"
-                            control={control}
-                            placeholder="Address"
-                            label="Address"
-                        ></TextFieldController>
-                    </div>
-
-                    <div className="w-1/2">
                         <CustomDatePicker
                             label={'Founded date'}
                             onChange={(date: Date) => {

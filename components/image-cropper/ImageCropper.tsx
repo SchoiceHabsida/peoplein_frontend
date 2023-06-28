@@ -35,17 +35,19 @@ function centerAspectCrop(
 interface IImageCropperProps {
     file: File
     onCropped: (file: File) => void,
-    aspect?: number
+    aspect?: number,
+    max_size?: number
 }
 
-export const ImageCropper: FC<IImageCropperProps> = ({ file, onCropped, aspect = 4 / 4 }) => {
+export const ImageCropper: FC<IImageCropperProps> = ({ file, onCropped, aspect = 4 / 4, max_size }) => {
     const [imgSrc, setImgSrc] = useState('')
     const previewCanvasRef = useRef<HTMLCanvasElement>(null)
     const imgRef = useRef<HTMLImageElement>(null)
     const [crop, setCrop] = useState<Crop>()
     const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
-    const [scale, setScale] = useState(1)
-    const [rotate, setRotate] = useState(0)
+    const [scale, setScale] = useState(1);
+    const [rotate, setRotate] = useState(0);
+    const [hasMaxSizeError, setHasMaxSizeError] = useState(false)
 
     useEffect(() => {
         if (file) {
@@ -69,7 +71,13 @@ export const ImageCropper: FC<IImageCropperProps> = ({ file, onCropped, aspect =
             if (!blob) {
                 throw new Error('Failed to create blob')
             }
-            onCropped(new File([blob], file.name))
+            if (max_size && (blob.size > max_size)) {
+                setHasMaxSizeError(true);
+            } else {
+                setHasMaxSizeError(false);
+                onCropped(new File([blob], file.name))
+            }
+
         })
     }
 
@@ -109,7 +117,7 @@ export const ImageCropper: FC<IImageCropperProps> = ({ file, onCropped, aspect =
                             ref={imgRef}
                             alt="Crop me"
                             src={imgSrc}
-                            style={{ transform: `scale(${scale}) rotate(${rotate}deg)` , maxHeight: '450px', maxWidth: '480px'}}
+                            style={{ transform: `scale(${scale}) rotate(${rotate}deg)`, maxHeight: '450px', maxWidth: '480px' }}
                             onLoad={onImageLoad}
                         />
                     </ReactCrop>
@@ -130,8 +138,11 @@ export const ImageCropper: FC<IImageCropperProps> = ({ file, onCropped, aspect =
                         </div>
                     </>
                 )}
+
                 <div className="Crop-Controls">
-                    <div>
+                    {hasMaxSizeError && max_size &&
+                        <span className='text-red-400 text-sm'>Selected image is larger than {max_size / (1024 * 1024 * 8)} MB</span>}
+                    <div className='text-center'>
                         <button type='button' onClick={onDownloadCropClick}>Crop Image</button>
                     </div>
                 </div>
