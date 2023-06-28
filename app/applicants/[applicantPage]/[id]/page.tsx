@@ -68,7 +68,7 @@ export default function Profile({ params }: { params: { id: string } }) {
                 <div>About</div>
                 <div>Degree: {data?.getApplicantById?.degree}</div>
             </div>
-            {data?.getApplicantById?.experience?.map((item, index) => <div className='mt-6 mb-5 mx-5'>
+            {data?.getApplicantById?.experience?.map((item, index) => <div key={index} className='mt-6 mb-5 mx-5'>
                 <div>{item.company}</div>
                 <div>{item.details}</div>
             </div>)}

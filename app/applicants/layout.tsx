@@ -24,26 +24,30 @@ export default function ApplicantsLayout({
     }
   }, [user])
   return (
-    <div className="h-screen">
-      <Header />
-      <SearchProvider>
-        <FilterProvider>
-          <div className="content-x-space flex gap-9 scroll-content" style={{ height: 'calc(100vh - 306px)' }}>
-            <div className="w-1/3">
-              <Sidebar />
-            </div>
-            <div className="w-2/3 flex flex-col">
-              <div><Breadcrumb /></div>
-              <div><Searchbar /></div>
-              <div className="flex-grow h-full">
-                <ApplicantsProvider>
-                  {children}
-                </ApplicantsProvider>
+    <div className="h-screen flex flex-col">
+      <div style={{ height: '306px' }}>
+        <Header />
+      </div>
+      <div className="grow">
+        <SearchProvider>
+          <FilterProvider>
+            <div className="content-x-space flex gap-9" style={{ height: 'calc(100vh - 306px)'}}>
+              <div className="w-1/3 overflow-y-auto scroll-content" >
+                <Sidebar />
+              </div>
+              <div className="w-2/3 flex flex-col">
+                <div><Breadcrumb /></div>
+                <div><Searchbar /></div>
+                <div className="flex-grow h-full overflow-y-auto scroll-content">
+                  <ApplicantsProvider>
+                    {children}
+                  </ApplicantsProvider>
+                </div>
               </div>
             </div>
-          </div>
-        </FilterProvider>
-      </SearchProvider>
+          </FilterProvider>
+        </SearchProvider>
+      </div>
     </div>
   )
 }

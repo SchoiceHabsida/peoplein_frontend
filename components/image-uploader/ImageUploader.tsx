@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, Fragment } from 'react';
 import { ImageCropper } from '../image-cropper/ImageCropper';
 import { UploadIcon } from '@/common/icons/UploadIcon';
+import { MAX_FILE_SIZE } from '@/common/constants';
 
 export const ImageUploader: React.FC<{ onChange: (file: File) => void, imagePath?: string, aspect?: number }> = ({
   onChange, imagePath, aspect }) => {
@@ -21,7 +22,7 @@ export const ImageUploader: React.FC<{ onChange: (file: File) => void, imagePath
 
   return (<Fragment>
     {
-      selectedFile && <ImageCropper file={selectedFile} onCropped={onCropped} aspect={aspect} />
+      selectedFile && <ImageCropper max_size={MAX_FILE_SIZE} file={selectedFile} onCropped={onCropped} aspect={aspect} />
     }
     <div className='w-full h-full relative  flex items-center justify-center'>
       <UploadIcon />
