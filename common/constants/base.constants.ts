@@ -1,1 +1,1 @@
-export const BASE_API = 'http://peoplein-production-alb-1653641254.ap-northeast-2.elb.amazonaws.com/graphql'
+export const BASE_API = 'https://peoplein-api.habsida.com/graphql'
