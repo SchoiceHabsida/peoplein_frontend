@@ -20,7 +20,7 @@ jobs:
       - name: Use node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install deps
         run: npm install
@@ -31,7 +31,7 @@ jobs:
       - name: Deploy to s3 and invalidate cache
         uses: reggionick/s3-deploy@v3
         with:
-          folder: build
+          folder: out
           bucket: ${{ secrets.S3_BUCKET }}
           bucket-region: ${{ secrets.AWS_REGION }}
           dist-id: ${{ secrets.CF_DISTRIBUTION_ID }}
