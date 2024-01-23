@@ -38,4 +38,4 @@ jobs:
           no-cache: true
           delete-removed: true
           invalidation: /
-          files-to-include: '{!*.txt}'
+          files-to-include: '{*/**/*.html,*/**/*.js,*/**/*.css,*/**/*.png,*/**/*.jpg,*/**/*.jpeg,*/**/*.svg,*/**/*.gif,*/**/*.ico}'
